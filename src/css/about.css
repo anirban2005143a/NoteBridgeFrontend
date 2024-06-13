@@ -1,0 +1,28 @@
+/* AboutPage.css */
+.wave-background {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #4e7dff, #6a11cb);
+}
+
+.wave {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  bottom: 0;
+  left: 0;
+  background: url('https://cdn.jsdelivr.net/gh/vivinantony/gradient-waves/svg/01.svg') repeat-x;
+  animation: wave-animation 15s infinite linear;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1)
+  }
+  50% {
+    transform: translateX(-50%) translateZ(0) scaleY(0.55)
+  }
+  100% {
+    transform: translateX(-100%) translateZ(0) scaleY(1)
+  }
+}

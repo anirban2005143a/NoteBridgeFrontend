@@ -1,0 +1,90 @@
+.animate-from-top {
+    background-color: rgb(136 202 255);
+    transform: translate(50%,30%);
+    position: absolute;
+    top: -200px; /* Initial position above the viewport */
+    animation: slideFromTop 1s ease forwards; /* Animation properties */
+  }
+  
+  @keyframes slideFromTop {
+    from {
+      opacity: 0;
+      top: -200px; 
+    }
+    to {
+      top: 0; 
+      opacity: 1;
+    }
+  }
+.animate-from-center{
+  background-color: rgb(136 202 255);
+  transform: translate(50%,30%);
+  position: absolute;
+  /* top: -200px; Initial position above the viewport */
+  animation: slideFromCenter 1s ease forwards; /* Animation properties */
+}
+
+@keyframes slideFromCenter {
+  from {
+    opacity: 1;
+    top: 0;
+  }
+  to {
+     top: -200px; 
+    opacity: 0;
+    display: none;
+  }
+}
+
+.background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/background.avif");
+  background-size: cover;
+}  
+.background::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.616);
+  z-index: 1;
+}
+
+.cardSize{
+  width: 170px;
+}
+.cardName{
+  height: 60px;
+}
+.cradImg{
+  height: 150px;
+}
+.sideNavbar{
+  width: 34%;
+}
+
+@media only screen and (max-width:450px){
+  .cradImg{
+    height: 120px;
+  }
+}
+
+@media only screen and (max-width:576px){
+  .sideNavbar{
+    width: 13%;
+    padding: 0;
+  }
+  .cardSize{
+    width: 40%;
+  }
+  .cardName{
+    height: 45px;
+  }
+  
+}

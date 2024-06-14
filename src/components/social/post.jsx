@@ -688,9 +688,11 @@ const post = () => {
   }, [comments])
 
   useEffect(() => {
-    fetchFile();
-    fetchAllComment();
-    aboutLikefunc()
+    if(about.length!=0){
+      fetchFile();
+      fetchAllComment();
+      aboutLikefunc()
+    }
     about.length === 0 ? setmessage("Make Your First Post") : ""
   }, [about]);
 
@@ -707,10 +709,14 @@ const post = () => {
     }
   }, [about, notes])
 
+  useEffect(() => {
+    if( value.islogout === false){
+      isLiked(allLikes)
+     } 
+  }, [allLikes])
+  
 
   useEffect(() => {
-    filterPost()
-
     if (about.length !== 0) {
       if (document.getElementsByClassName("singlePost")) {
         if (value.urlPath === "/" || location.pathname === "/") {

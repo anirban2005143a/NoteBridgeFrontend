@@ -20,7 +20,7 @@ const post = () => {
 
   const location = useLocation();
   const { id } = useParams();
-console.log(id)
+// console.log(id)
   const value = useContext(NoteContext);
   const socket = io(`${value.host}`);
 

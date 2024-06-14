@@ -54,6 +54,7 @@ const home = () => {
     if(unseen === true && value.unReadNotificationLength > 0 ){
       document.querySelector("audio").play()
     }
+    
   }, [unseen , value.unReadNotificationLength])
   
 
@@ -73,7 +74,8 @@ const home = () => {
                 value.seturlPath("/")
               }}
             >
-              <i className="fa-solid fa-house-user"></i>
+              <i className={`fa-solid fa-house-user  ${location.pathname == "/" ? "fw-bold active" : ""
+                  }`}></i>
               <span
                 className={`ms-1 d-none d-sm-inline ${location.pathname == "/" ? "fw-bold active" : ""
                   }`}
@@ -88,7 +90,8 @@ const home = () => {
               className=" text-white nav-link px-0 align-middle"
               style={{ cursor: "pointer" }}
             >
-              <i className="fa-solid fa-circle-info"></i>
+              <i className={`fa-solid fa-circle-info ${location.pathname == "/about" ? "fw-bold active" : ""
+                  }`}></i>
               <span
                 className={`ms-1 d-none d-sm-inline text-decoration-none ${location.pathname == "/about" ? "fw-bold active" : ""
                   }`}
@@ -106,7 +109,7 @@ const home = () => {
               className=" text-white nav-link px-0 align-middle"
               style={{ cursor: "pointer" }}
             >
-              <i className="fa-solid fa-file"></i>
+              <i className={`fa-solid fa-file ${location.pathname == "/your/files" ? "fw-bold active" : ""}`}></i>
               <span
                 className={`ms-1 d-none d-sm-inline ${location.pathname == "/your/files" ? "fw-bold active" : ""
                   }`}
@@ -125,7 +128,7 @@ const home = () => {
 
             ><audio src={AlertSound}></audio>
               <i
-                className="fa-solid fa-bell position-relative"
+                className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : "" }`}
               // style={{ color: "#0020ff", cursor: "pointer" }}
               > <div className={`${location.pathname === "/social/notifications" ? "d-none" : ""} ${unseen === true && value.unReadNotificationLength > 0 ? "" : "d-none" }`} ><NotificationBadge /></div>
               </i>
@@ -161,9 +164,9 @@ const home = () => {
               </Link>
             </li>
             <li style={{ cursor: "pointer" }} className={`${value.islogout === true ? "d-none" : ""}`}>
-              <Link
+              <a
                 className="dropdown-item "
-                to={profilePath}
+                href={profilePath}
                 onClick={() => {
                   value.islogout === true ? value.setisOK(false) : "";
                   value.islogout === true
@@ -174,7 +177,7 @@ const home = () => {
                 }}
               >
                 Profile
-              </Link>
+              </a>
             </li>
             <li style={{ cursor: "pointer" }}>
               <hr className="dropdown-divider" />

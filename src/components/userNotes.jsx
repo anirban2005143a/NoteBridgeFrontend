@@ -11,9 +11,11 @@ import { v4 as uuid } from "uuid";
 import UploadModal from "./modals/uploadModal"
 import CreateFolder from "./inputForms/createFolder";
 import ShareModal from "./modals/shareModal";
+import io from "socket.io-client";
 
 const UserNotes = () => {
   const value = useContext(NoteContext);
+  const socket = io(`${value.host}`);
   const [notes, setnotes] = useState([]); //state to save all notes in a array
   const [notesId, setnotesId] = useState([]); //state to save all selected note id in an array , by default all notes are selected
   const [folderId, setfolderId] = useState([]);
@@ -32,6 +34,48 @@ const UserNotes = () => {
   const [isDelete, setisDelete] = useState(null);
   const [deleteMessage, setdeleteMessage] = useState("");
   const [shareurl, setshareurl] = useState(null)
+
+  const [like, setlike] = useState(false)
+  const [view, setview] = useState(false)
+  const [follow, setfollow] = useState(false)
+  const [comments, setcomments] = useState([])
+
+
+  useEffect(() => {
+    socket.emit("userConnected", `${value.userId}`); //connect to io
+
+    //get accept req status
+    socket.on("acceptReq", (data) => {
+        setfollow(!follow);
+    });
+    //socket reply of followReqStatus
+    socket.on("postComment", (data) => {
+        setcomments(data)
+    });
+    //get accept req status
+    socket.on("denyReq", (data) => {
+        setfollow(!follow);
+    });
+    //socket reply for likes
+    socket.on("postLike", (data) => {
+        setlike(!like)
+    });
+
+    //socket reply of view request status
+    socket.on("viewReq", (data) => {
+        setview(!view);
+    });
+
+    //socket reply of followReqStatus
+    socket.on("followReqStatus", (data) => {
+        setfollow(!follow);
+    });
+}, [])
+
+useEffect(() => {
+    value.fetchNotificationToRead()
+}, [follow, comments, like, view])
+
 
   //function for telling user to login to perform any features..
   const checklogin = () => {
@@ -358,10 +402,14 @@ const UserNotes = () => {
 
   useEffect(() => {
     fetchFolders();
-    fetchNotes();
+    // fetchNotes();
     value.fetchNotificationToRead()
   }, [isCreated, newFolderSwitch, isDelete]);
 
+  useEffect(() => {
+    fetchNotes();
+  }, [newFolderSwitch,isDelete])
+  
 
   useEffect(() => {
     if (value.islogout === true) {
@@ -491,7 +539,7 @@ const UserNotes = () => {
                 }
               }}
             >
-              Upload <i className="fa-solid fa-cloud-arrow-up"></i>
+              Post <i className="fa-solid fa-cloud-arrow-up"></i>
             </button>
 
             {/* select button  */}

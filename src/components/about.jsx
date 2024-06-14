@@ -1,4 +1,4 @@
-import React, { useEffect , useContext , useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import io from "socket.io-client";
 import NoteContext from "../context/notes/noteContext";
@@ -19,29 +19,36 @@ const about = () => {
     useEffect(() => {
         socket.emit("userConnected", `${value.userId}`); //connect to io
 
+        //get accept req status
+        socket.on("acceptReq", (data) => {
+            setfollow(!follow);
+        });
         //socket reply of followReqStatus
         socket.on("postComment", (data) => {
-             setcomments(data)
+            setcomments(data)
         });
-
+        //get accept req status
+        socket.on("denyReq", (data) => {
+            setfollow(!follow);
+        });
         //socket reply for likes
         socket.on("postLike", (data) => {
-             setlike(!like)
+            setlike(!like)
         });
 
         //socket reply of view request status
         socket.on("viewReq", (data) => {
-             setview(!view);
+            setview(!view);
         });
 
         //socket reply of followReqStatus
         socket.on("followReqStatus", (data) => {
-             setfollow(!follow);
+            setfollow(!follow);
         });
     }, [])
 
     useEffect(() => {
-      value.fetchNotificationToRead()
+        value.fetchNotificationToRead()
     }, [follow, comments, like, view])
 
 
@@ -61,8 +68,8 @@ const about = () => {
                         </div>
                     </div>
                     <div className="card mb-4 shadow">
-                        <div className="card-body bg-light rounded p-4">
-                            <h2 className="text-primary mb-3">Key Features:</h2>
+                        <div className="card-body bg-light rounded p-1 p-sm-4">
+                            <h2 className="text-primary mb-3 ms-2 ms-sm-0 mt-2 mt-sm-0">Key Features:</h2>
                             <ul className="list-group">
                                 <li className="list-group-item"><span className=' ms-1 me-2 fw-bold fs-5'>User Management:</span> Seamlessly create, login, and logout of your account. Update your profile information, set or change your profile image, and keep track of important dates such as account creation, last login, and last update.</li>
                                 <li className="list-group-item"><span className=' ms-1 me-2 fw-bold fs-5'>Social Interaction:</span> Engage with other users through a range of social features. Send follow requests, request to view posts, like and comment on posts, and explore user profiles by clicking on their profile images. Stay updated with notifications for new followers, comments, likes, and view requests, allowing you to promptly respond and engage with your community.</li>
@@ -72,8 +79,8 @@ const about = () => {
                         </div>
                     </div>
                     <div className="card mb-4 shadow">
-                        <div className="card-body bg-light rounded p-4">
-                            <h2 className="text-primary mb-3">Additional Features:</h2>
+                        <div className="card-body bg-light rounded p-1 p-sm-4">
+                            <h2 className="text-primary mb-3 ms-2 ms-sm-0 mt-2 mt-sm-0">Additional Features:</h2>
                             <ul className="list-group">
                                 <li className="list-group-item"><span className=' fw-bold fs-5'>Social Interaction Enhancements:</span>
                                     <ul className="list-group my-2" style={{ listStyleType: "disc" }}>
@@ -95,8 +102,8 @@ const about = () => {
                         </div>
                     </div>
                     <div className="card mb-4 shadow">
-                        <div className="card-body bg-light rounded p-4">
-                            <h2 className="text-primary mb-3">Tech Stack:</h2>
+                        <div className="card-body bg-light rounded  p-1 p-sm-4">
+                            <h2 className="text-primary mb-3 ms-2 ms-sm-0 mt-2 mt-sm-0">Tech Stack:</h2>
                             <ul className="list-group">
                                 <li className="list-group-item"><span className=' me-2 fw-bold fs-5'>Frontend:</span> Built with React and enhanced with Bootstrap for a sleek and responsive user interface.</li>
                                 <li className="list-group-item"><span className=' me-2 fw-bold fs-5'>Real-time Communication:</span> Implemented with Socket.IO for instant notifications and seamless interaction.</li>

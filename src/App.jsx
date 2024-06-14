@@ -54,10 +54,12 @@ function App() {
         let seen = 0
         if (localStorage.getItem("seen")) {
           seen = localStorage.getItem("seen")
-           localStorage.setItem("seen", total)
-        } else { localStorage.setItem("seen", total) }
+          if(location.pathname === "/social/notifications"){
+            localStorage.setItem("seen" , total)
+          }
+        } else { localStorage.setItem("seen", 0) }
         const unseen = total - seen
-   
+        // console.log(total , seen , unseen)
         setunReadNotificationLength(unseen)
         if (unseen > 0) {
            localStorage.setItem("unseen", true)

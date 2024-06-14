@@ -41,32 +41,37 @@ const post = () => {
     })
     //socket reply of followReqStatus
     socket.on("postComment", (data) => {
-       setcomments(data)
+      setcomments(data)
     });
 
     //get accept req status
     socket.on("acceptReq", (data) => {
-       setreqStatus([...reqStatus, data]);
+      setreqStatus([...reqStatus, data]);
+      setfollow(!follow);
     });
 
     //get accept req status
     socket.on("denyReq", (data) => {
-       setreqStatus([...reqStatus, data]);
+      setreqStatus([...reqStatus, data]);
+      setfollow(!follow);
     });
 
     //socket reply for likes
     socket.on("postLike", (data) => {
-       setlike(!like)
+      setlike(!like)
     });
-
+    //for like
+    socket.on("deleteLike", (data) => {
+      setlike(!like)
+    });
     //socket reply of view request status
     socket.on("viewReq", (data) => {
-       setview(!view);
+      setview(!view);
     });
 
     //socket reply of followReqStatus
     socket.on("followReqStatus", (data) => {
-       setfollow(!follow);
+      setfollow(!follow);
     });
   }, [])
 
@@ -101,7 +106,7 @@ const post = () => {
   const [isLoaded, setisLoaded] = useState(false)
   const [aboutLike, setaboutLike] = useState([])
   const [shareUrl, setshareUrl] = useState(null)
-   //fetch all users info those have posted
+  //fetch all users info those have posted
   const fetchUser = async (userid) => {
     const res = await fetch(`${value.host}/api/social/post/user/fetch`, {
       method: "PUT",
@@ -182,8 +187,7 @@ const post = () => {
     if (data.error) {
 
     } else {
-       setallFollow(data.allFollow);
-
+      setallFollow(data.allFollow);
     }
   };
 
@@ -201,7 +205,7 @@ const post = () => {
       }),
     });
     const data = await res.json();
-     if (data.error) {
+    if (data.error) {
 
     } else {
       setoriginalUser(data.user);
@@ -222,7 +226,7 @@ const post = () => {
       }),
     });
     const data = await res.json();
-     if (data.error) {
+    if (data.error) {
 
     } else {
       let userid = [];
@@ -306,7 +310,7 @@ const post = () => {
         }),
       });
       const data = await res.json();
-       if (data.error) {
+      if (data.error) {
 
       } else {
         //send req to socket
@@ -357,7 +361,7 @@ const post = () => {
         }),
       });
       const data = await res.json();
- 
+
       if (data.error) {
       } else {//socket to send likes
         socket.emit("postLike", {
@@ -389,7 +393,7 @@ const post = () => {
         }),
       });
       const data = await res.json();
- 
+
       if (data.error) {
       } else {//socket to send likes
         socket.emit("deleteLike", {
@@ -425,7 +429,7 @@ const post = () => {
 
   //function to submit comments
   const submitCom = async (aboutId, inputValue, userAboutId) => {
-     const res = await fetch(`${value.host}/api/social/post/comment/post`, {
+    const res = await fetch(`${value.host}/api/social/post/comment/post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -439,7 +443,7 @@ const post = () => {
       }),
     });
     const data = await res.json();
- 
+
     //socket to comments using socket
     socket.emit("postComment", {
       newComment: data.newComment,
@@ -461,7 +465,7 @@ const post = () => {
 
     if (reqArr[1].classList.contains("d-none")) {
       reqArr[0].classList.add("d-none");
-      reqArr[1].classList.remove("d-none");
+      reqArr[2].classList.remove("d-none")
 
       //api calling to save request status
       const res = await fetch(`${value.host}/api/social/post/view/req/post`, {
@@ -478,15 +482,24 @@ const post = () => {
         }),
       });
       const data = await res.json();
-       //socket to send request
-      socket.emit("viewReq", {
-        req: data.newReq,
-        userId: value.userId,
-        userAboutId: userId,
-      });
+      if (data.error) {
+        reqArr[0].classList.remove("d-none");
+        reqArr[2].classList.add("d-none")
+      } else {
+        reqArr[1].classList.remove("d-none");
+        reqArr[2].classList.add("d-none");
+
+        //socket to send request
+        socket.emit("viewReq", {
+          req: data.newReq,
+          userId: value.userId,
+          userAboutId: userId,
+        });
+      }
+
     } else {
       reqArr[1].classList.add("d-none");
-      reqArr[0].classList.remove("d-none");
+      reqArr[2].classList.remove("d-none");
 
       //api calling to save request status
       const res = await fetch(`${value.host}/api/social/post/view/req/post`, {
@@ -502,12 +515,21 @@ const post = () => {
         }),
       });
       const data = await res.json();
-       //socket to send request
-      socket.emit("deleteviewReq", {
-        userAboutId: userId,
-        userId: value.userId,
-        id: data.id,
-      });
+      if (data.error) {
+        reqArr[2].classList.add("d-none");
+        reqArr[1].classList.remove("d-none");
+      } else {
+        reqArr[2].classList.add("d-none");
+        reqArr[0].classList.remove("d-none");
+
+        //socket to send request
+        socket.emit("deleteviewReq", {
+          userAboutId: userId,
+          userId: value.userId,
+          id: data.id,
+        });
+      }
+
     }
     await fetchView()
   };
@@ -525,7 +547,7 @@ const post = () => {
       }),
     })
     const data = await res.json()
-     if (data.error) {
+    if (data.error) {
 
     } else {
       setallViewReq(data.allViewReq)
@@ -546,12 +568,13 @@ const post = () => {
     });
     const data = await res.json();
     setallLikes(data.allLikes);
+    isLiked(data.allLikes)
   };
 
   //function to show likes
-  const isLiked = async () => {
-    if (allLikes.length !== 0) {
-      allLikes.map((like) => {
+  const isLiked = async (allLikesparams) => {
+    if (allLikesparams.length !== 0) {
+      allLikesparams.map((like) => {
         if (document.getElementsByClassName("fa-heart")) {
           Array.from(document.getElementsByClassName("fa-heart")).map(
             (heart, index) => {
@@ -582,7 +605,7 @@ const post = () => {
           about[index].about.includes(tag) ? searchAbout.push(about[index]._id) : ""
         }
       }
-       for (let index = 0; index < elemArr.length; index++) {
+      for (let index = 0; index < elemArr.length; index++) {
         const id = elemArr[index].getAttribute("name")
         if (!(searchAbout.includes(id))) {
           document.getElementsByClassName("singlePost")[index].classList.add("d-none")
@@ -613,14 +636,14 @@ const post = () => {
         }),
       })
       const data = await res.json()
-       setaboutLike(data.allLikes)
+      setaboutLike(data.allLikes)
     }
   }
 
   //function to show a particular post 
   const filterPost = async () => {
     if (value.urlPath.includes("post") || location.pathname.includes("post")) {
-       if (about.length !== 0) {
+      if (about.length !== 0) {
         const arr = Array.from(document.getElementsByClassName("singlePost"))
         arr.forEach((elem, index) => {
           if (elem.getAttribute("name") !== id) {
@@ -631,23 +654,21 @@ const post = () => {
     }
   }
 
-  value.islogout === false ? isLiked() : ""
-
   const postControl = async () => {
     await fetchAbout()
   };
 
   useEffect(() => {
-    if(isConnected===true){
+    if (isConnected === true) {
       filterPost()
-    fetchLikes()
-    postControl();
-    if (value.islogout === false) {
-      getOriUser();
-      fetchAllFollow();
-      fetchView()
-    }
-    value.fetchNotificationToRead()
+      fetchLikes()
+      postControl();
+      if (value.islogout === false) {
+        getOriUser();
+        fetchAllFollow();
+        fetchView()
+      }
+      value.fetchNotificationToRead()
     }
   }, [isConnected]);
 
@@ -675,6 +696,7 @@ const post = () => {
 
   useEffect(() => {
     if (about.length !== 0) {
+      fetchLikes()
       about.forEach((aboutElem, index) => {
         if (notes[index]) {
           setisDisplay(false)
@@ -688,10 +710,10 @@ const post = () => {
 
   useEffect(() => {
     filterPost()
-    
+
     if (about.length !== 0) {
       if (document.getElementsByClassName("singlePost")) {
-        if (value.urlPath === "/" || location.pathname==="/") {
+        if (value.urlPath === "/" || location.pathname === "/") {
           const arr = Array.from(document.getElementsByClassName("singlePost"))
           arr.forEach((elem, index) => {
             document.getElementsByClassName("singlePost")[index].classList.remove("d-none")
@@ -699,13 +721,12 @@ const post = () => {
         }
       }
     }
-  }, [value.urlPath , about])
-
+  }, [value.urlPath, about])
 
 
   return (
     <div>
-      <ShareModal url={shareUrl} seturl= {setshareUrl}/>
+      <ShareModal url={shareUrl} seturl={setshareUrl} />
       <Navbar search={search} />
       <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder`} >
         <RotatingBorder message={message} />
@@ -776,11 +797,15 @@ const post = () => {
                   <div
                     data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
                     data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
-                    className={`normalState ${user[index]._id === value.userId ? "d-none" : ""} ${allFollow.length !== 0 ? allFollow.some(obj => obj.followingId === user[index]._id) ? "d-none" : "" : "d-block"} px-2  d-flex justify-content-center align-items-center fw-bold fs-5 text-primary`}
+                    className={`normalState ${user[index]._id === value.userId ? "d-none" : ""} ${allFollow.length !== 0 ? allFollow.some(obj => obj.followingId === user[index]._id) ? "d-none" : "" : ""} px-2  d-flex justify-content-center align-items-center fw-bold fs-5 text-primary`}
                     onClick={async (e) => {
                       e.preventDefault();
+                      const currentTarget = e.currentTarget
                       if (value.islogout === false) {
-                        e.currentTarget.style.display = "none"
+                        // e.currentTarget.style.display = "none"
+                        e.currentTarget.getElementsByClassName("follow")[0].querySelector(".text").classList.add("d-none")
+                        e.currentTarget.getElementsByClassName("follow")[0].querySelector(".fa-plus").classList.add("d-none")
+                        e.currentTarget.getElementsByClassName("follow")[0].querySelector(".fa-spinner").classList.remove("d-none")
                         //api calling to save follow request
                         const res = await fetch(`${value.host}/api/social/post/follow/req`, {
                           method: "POST",
@@ -796,12 +821,38 @@ const post = () => {
                           }),
                         });
                         const data = await res.json()
-                         socket.emit("followReq", {
-                          followingId: data.newReq.followingId,
-                          id: data.newReq._id,
-                          userId: value.userId,
-                        });
-                        await fetchAllFollow()
+                        // console.log(data)
+                        if (data.error) {
+                          currentTarget.getElementsByClassName("follow")[0].querySelector(".text").classList.remove("d-none")
+                          currentTarget.getElementsByClassName("follow")[0].querySelector(".fa-plus").classList.remove("d-none")
+                          currentTarget.getElementsByClassName("follow")[0].querySelector(".fa-spinner").classList.add("d-none")
+                        } else {
+                          socket.emit("followReq", {
+                            followingId: data.newReq.followingId,
+                            id: data.newReq._id,
+                            userId: value.userId,
+                          });
+                          const resfetch = await fetch(`${value.host}/api/social/post/follow/get`, {
+                            method: "PUT",
+                            headers: {
+                              "Content-Type": "application/json",
+                              authToken: `${value.authtoken}`,
+                            },
+                            body: JSON.stringify({
+                              user: `${value.userId}`,
+                            }),
+                          });
+                          const datafetch = await resfetch.json();
+                          // console.log(datafetch)
+                          if (datafetch.error) {
+
+                          } else {
+                            setallFollow(datafetch.allFollow);
+                          }
+                          currentTarget.getElementsByClassName("follow")[0].querySelector(".text").classList.remove("d-none")
+                          currentTarget.getElementsByClassName("follow")[0].querySelector(".fa-plus").classList.remove("d-none")
+                          currentTarget.getElementsByClassName("follow")[0].querySelector(".fa-spinner").classList.add("d-none")
+                        }
                       }
 
                     }}
@@ -809,7 +860,7 @@ const post = () => {
                     style={{ cursor: "pointer" }}
                   >
                     <span className={`followText follow `}>
-                      Follow<i className="fa-solid fa-plus mx-2"></i>
+                      <span className="text">Follow</span><i className="fa-solid fa-plus mx-2"></i><i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
                     </span>
                     <span
                       className={`followText request d-none text-success `}
@@ -828,13 +879,20 @@ const post = () => {
                       return (
                         <div
                           className={`${value.islogout === true ? "d-none" : ""} exitedState follow followsection px-2 d-flex justify-content-center align-items-center fw-bold fs-5 text-primary`}
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.preventDefault();
-                            handelFollow(
+                            const currentTarget = e.currentTarget
+                            e.currentTarget.getElementsByClassName("followText")[1].querySelector(".text").classList.add("d-none")
+                            e.currentTarget.getElementsByClassName("followText")[1].querySelector(".fa-circle-check").classList.add("d-none")
+                            e.currentTarget.getElementsByClassName("followText")[1].querySelector(".fa-spinner").classList.remove("d-none")
+                            await handelFollow(
                               about._id,
                               user[index]._id,
                               e.currentTarget, false
                             );
+                            currentTarget.getElementsByClassName("followText")[1].querySelector(".text").classList.remove("d-none")
+                            currentTarget.getElementsByClassName("followText")[1].querySelector(".fa-circle-check").classList.remove("d-none")
+                            currentTarget.getElementsByClassName("followText")[1].querySelector(".fa-spinner").classList.add("d-none")
                           }}
                           style={{ cursor: "pointer" }}
                         >
@@ -850,8 +908,9 @@ const post = () => {
                               } `}
                             style={{ color: "orange" }}
                           >
-                            Request
+                            <span className="text">Request</span>
                             <i className="fa-solid fa-circle-check mx-2"></i>
+                            <i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
                           </span>
                           <span
                             className={`fs-6 followed text-success user-select-none ${follow.isreq === true && follow.isaccept === true && follow.isRejected === false
@@ -900,7 +959,10 @@ const post = () => {
                         className="glowbtn position-relative fw-semibold fs-5 "
                         onClick={async (e) => {
                           e.preventDefault();
+                          const currentTarget = e.currentTarget
+                          e.currentTarget.disabled = true
                           if (value.islogout === false) {
+                            e.currentTarget.getElementsByClassName("req")[0].innerHTML = "Please Wait"
                             const res = await fetch(`${value.host}/api/social/post/view/req/post`, {
                               method: "POST",
                               headers: {
@@ -915,22 +977,23 @@ const post = () => {
                               }),
                             });
                             const data = await res.json();
-                             //socket to send request
+                            //socket to send request
                             socket.emit("viewReq", {
                               req: data.newReq,
                               userId: value.userId,
                               userAboutId: user[index]._id,
                             });
                             await fetchView()
-
+                            currentTarget.disabled = false
+                            currentTarget.getElementsByClassName("req")[0].innerHTML = `Request ${user.length !== 0 ? ` ${user[index].firstName} ` : ""} to see notes`
                           }
                         }}
                       >
                         <span className="req" >
-                          Request{" "}
+                          Request
                           {user.length !== 0
-                            ? `${user[index].firstName}`
-                            : ""}{" "}
+                            ? ` ${user[index].firstName} `
+                            : ""}
                           to see notes
                         </span>
                         <span className="req d-none" >
@@ -943,7 +1006,7 @@ const post = () => {
                   {/* accessnotes in excites stae  */}
                   {allViewReq.map((req) => {
                     if (req.aboutId === about._id && value.islogout === false) {
-                       return <div
+                      return <div
                         name={about._id}
                         className={`${user[index]._id === value.userId ? "d-none" : ""
                           } ${req.isaccept === true ? "d-none" : ""} accessNotesExcite position-absolute top-0 start-0 w-100 h-100 z-1`}
@@ -952,9 +1015,12 @@ const post = () => {
                         <div className="glow position-relative w-100 h-100 d-flex align-items-center justify-content-center">
                           <button
                             className="glowbtn position-relative fw-semibold fs-5 "
-                            onClick={(e) => {
-                               e.preventDefault();
-                              handelViewReq(about._id, user[index]._id);
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              const currentTarget = e.currentTarget
+                              e.currentTarget.disabled = true
+                              await handelViewReq(about._id, user[index]._id);
+                              currentTarget.disabled = false
                             }}
                           >
                             <span className={`req ${req.isaccept === false && req.isreq === true && req.isRejected === true ? "" : "d-none"}`} name={about._id}>
@@ -966,6 +1032,9 @@ const post = () => {
                             </span>
                             <span className={`req  ${req.isaccept === false && req.isreq === true && req.isRejected === false ? "" : "d-none"}`} name={about._id}>
                               Request Sent
+                            </span>
+                            <span name={about._id} className="req d-none">
+                              Please Wait
                             </span>
                           </button>
                         </div>
@@ -1094,17 +1163,17 @@ const post = () => {
                     <i className=" fa-regular fa-comment text-primary"></i>
                     <span className=" d-inline-block position-absolute ms-2" style={{ top: "11px", fontSize: "15px", width: "100px" }}>{`${allComment.length !== 0 ? allComment[index].length + " comments" : ""}`}</span>
                   </div>
-                    {/* share btn  */}
+                  {/* share btn  */}
                   <div
-                    
+
                     data-bs-toggle={`${value.islogout === true ? "modal" : "modal"}`}
-                    data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : "#exampleModalshare" }`}
+                    data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : "#exampleModalshare"}`}
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Share"
                     className="sharePost mx-3"
                     style={{ cursor: "pointer" }}
-                    onClick={(e)=>{
+                    onClick={(e) => {
                       e.preventDefault()
                       setshareUrl(`${value.host}/post/${about._id}`)
                     }}

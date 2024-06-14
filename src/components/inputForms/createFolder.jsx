@@ -1,10 +1,11 @@
-import React , {useContext , useEffect} from 'react'
+import React , {useContext , useEffect , useState} from 'react'
 import folderIcon from "../../assets/folderIcon.png"
 import NoteContext from "../../context/notes/noteContext";
 
 const CreateFolder = (props) => {
 
   const value = useContext(NoteContext);
+  const [creating, setcreating] = useState(false)
 
     
   //api calling when a new folder is created
@@ -39,9 +40,10 @@ const CreateFolder = (props) => {
     }
     
     const data = await res.json()
+    setcreating(false)
     if(data.error){
         value.setisOK(false);
-        value.setmessage(`${data.message}`);
+        value.setmessage(data.message);
         props.settempFolderName("")
     }else{
       value.setisOK(true);
@@ -64,9 +66,10 @@ const CreateFolder = (props) => {
                 e.preventDefault()
                 value.setisOK(true);
                 value.setmessage("Folder Creating");
+                setcreating(true)
                 createFolder()
-            }}>
-                <input placeholder='enter name '  className={`folderNameInput ${props.firstCreate === true ?  "d-block": "d-none"} w-100 fs-6`} value={props.tempFolderName} onChange={(e)=>{
+            }}> <div className={`${creating === false ? "d-none" : ""} loading w-100  d-flex justify-content-center`}><i className="fa-solid fa-spinner fa-spin fs"></i></div>
+                <input placeholder='enter name '  className={`${creating===true ? "d-none" : ""} folderNameInput ${props.firstCreate === true ?  "d-block": "d-none"} w-100 fs-6`} value={props.tempFolderName} onChange={(e)=>{
                     e.preventDefault()
                     props.settempFolderName(e.target.value)
                 }}

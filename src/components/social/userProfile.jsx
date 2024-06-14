@@ -15,7 +15,7 @@ const userProfile = () => {
 
   const { id } = useParams();
    const value = useContext(NoteContext);
-  const userId = id
+  const [userId, setuserId] = useState(id)
   const socket = io(`${value.host}`);
 
   const [like, setlike] = useState(false)
@@ -41,11 +41,13 @@ const userProfile = () => {
     //get accept req status
     socket.on("acceptReq", (data) => {
        setreqStatus([...reqStatus, data]);
+       setfollow(!follow);
     });
 
     //get accept req status
     socket.on("denyReq", (data) => {
        setreqStatus([...reqStatus, data]);
+       setfollow(!follow);
     });
 
     //socket reply for likes
@@ -64,9 +66,9 @@ const userProfile = () => {
     });
   }, []);
 
-    useEffect(() => {
-      value.fetchNotificationToRead()
-    }, [follow, comments, like, view])
+  useEffect(() => {
+    value.fetchNotificationToRead()
+  }, [follow, comments, like, view])
     
 
   const [user, setuser] = useState([])//state to save user information
@@ -354,15 +356,15 @@ const userProfile = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchUserDetails(userId)
-      fetchView()
-      value.fetchNotificationToRead()
-      return async () => {
-        const oriUser = await fetchUserDetails(value.userId)
-        setoriginalUser(oriUser)
-      }
-    }, 2000);
-
-  }, [])
+    fetchView()
+    value.fetchNotificationToRead()
+    return async () => {
+      const oriUser = await fetchUserDetails(value.userId)
+      setoriginalUser(oriUser)
+    }
+    }, 1000);
+    
+  }, [userId])
 
   useEffect(() => {
     fetchView()

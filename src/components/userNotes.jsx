@@ -583,7 +583,7 @@ useEffect(() => {
                 }}
                 onClick={(e)=>{
                   e.preventDefault()
-                  setshareurl(`${value.host}/your/files`)
+                  setshareurl(`${location.pathname}`)
                 }}
               >
                 <i

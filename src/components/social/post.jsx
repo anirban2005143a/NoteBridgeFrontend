@@ -234,6 +234,7 @@ const post = () => {
       const aboutArr = data.about;
       aboutArr.reverse();
       setabout(aboutArr);
+      setisLoaded(true)
     }
 
   };
@@ -684,15 +685,6 @@ const post = () => {
     }
   }, [about, notes])
 
-  useEffect(() => {
-    if (about.length !== 0) {
-      about.forEach((_, index) => {
-        document.getElementsByClassName("singlePost")[index] ? setisLoaded(true) : setisLoaded(false)
-      })
-    }else{
-      setisLoaded(true)
-    }
-  }, [about])
 
   useEffect(() => {
     filterPost()

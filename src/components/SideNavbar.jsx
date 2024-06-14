@@ -11,6 +11,7 @@ const home = () => {
   const value = useContext(NoteContext);
   const [originalUser, setoriginalUser] = useState(null); //state for original user details
   const [unseen, setunseen] = useState(false)
+  const [profilePath, setprofilePath] = useState(`/social/profile/${value.userId}`)
 
   //function to save original user details
   const getOriUser = async () => {
@@ -160,9 +161,9 @@ const home = () => {
               </Link>
             </li>
             <li style={{ cursor: "pointer" }} className={`${value.islogout === true ? "d-none" : ""}`}>
-              <a
+              <Link
                 className="dropdown-item "
-                href={`/social/profile/${value.userId}`}
+                to={profilePath}
                 onClick={() => {
                   value.islogout === true ? value.setisOK(false) : "";
                   value.islogout === true
@@ -173,7 +174,7 @@ const home = () => {
                 }}
               >
                 Profile
-              </a>
+              </Link>
             </li>
             <li style={{ cursor: "pointer" }}>
               <hr className="dropdown-divider" />

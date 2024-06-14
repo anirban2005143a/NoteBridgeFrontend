@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDXsY7E7L9ax2DRxg0VMbLwRem9kFE3BWA",
-  authDomain: "enotebook-b18cd.firebaseapp.com",
-  projectId: "enotebook-b18cd",
-  storageBucket: "enotebook-b18cd.appspot.com",
-  messagingSenderId: "1012814641456",
-  appId: "1:1012814641456:web:3590f5337d4172a7c7f0f5",
-  measurementId: "G-KBENG4HQLZ"
+  apiKey: import.meta.env.VITE_REACT_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_REACT_FIREBASE_AUTHDOMAIN,
+  projectId:import.meta.env.VITE_REACT_FIREBASE_PROJECTID,
+  storageBucket: import.meta.env.VITE_REACT_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_REACT_FIREBASE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_REACT_FIREBASE_APIID,
+  measurementId: import.meta.env.VITE_REACT_FIREBASE_MEASUREMENTID
 };
 
 // Initialize Firebase

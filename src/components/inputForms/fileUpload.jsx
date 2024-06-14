@@ -206,7 +206,7 @@ const fileUpload = () => {
         <div className="form position-relative overflow-auto w-100 h-100">
           {/* input forms for adding files */}
           <form
-            className=" w-50 p-3 z-2 animate-from-top position-relative"
+            className=" p-3 z-2 animate-from-top position-relative width-adjust"
             onSubmit={(e) => {
               e.preventDefault();
               let totalSize = 0;

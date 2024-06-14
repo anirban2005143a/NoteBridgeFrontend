@@ -568,11 +568,12 @@ const post = () => {
     });
     const data = await res.json();
     setallLikes(data.allLikes);
-    isLiked(data.allLikes)
+    data.allLikes ? isLiked(data.allLikes) : ""
   };
 
   //function to show likes
   const isLiked = async (allLikesparams) => {
+    // console.log(allLikesparams)
     if (allLikesparams.length !== 0) {
       allLikesparams.map((like) => {
         if (document.getElementsByClassName("fa-heart")) {

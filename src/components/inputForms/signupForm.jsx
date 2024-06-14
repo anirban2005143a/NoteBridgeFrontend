@@ -111,8 +111,8 @@ const SignupForm = () => {
       {/* alert for any change */}
       <Alert isdisplay={value.isOK == null ? false : true} mode = {`${value.isOK===true ? "success" : "danger"}`} message = {value.message} />
       <div className="form position-relative overflow-auto w-100 h-100"><form
-        className=" w-50 p-3 z-2 animate-from-top"
-        style={{transform: "translate(50% , 10%)"}}
+        className=" p-3 z-2 animate-from-top width-adjust"
+        
         onSubmit={(e)=>{
             e.preventDefault()
             creatUser()

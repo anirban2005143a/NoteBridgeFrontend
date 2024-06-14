@@ -72,7 +72,7 @@ const LoginForm = () => {
         />
         <div className="form position-relative overflow-auto w-100 h-100">
           <form
-            className=" w-50 p-3 z-2 animate-from-top"
+            className=" p-3 z-2 animate-from-top width-adjust"
             onSubmit={(e) => {
               e.preventDefault();
               loginUser();

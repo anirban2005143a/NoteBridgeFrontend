@@ -82,7 +82,7 @@ const addNotes = (props) => {
         <div className="form overflow-auto w-100 h-100">
           {/* input forms for adding text notes  */}
           <form
-            className=" w-50 p-3 z-2 position-relative animate-from-top"
+            className=" p-3 z-2 position-relative animate-from-top width-adjust"
             onSubmit={(e) => {
               e.preventDefault();
               addNotes();

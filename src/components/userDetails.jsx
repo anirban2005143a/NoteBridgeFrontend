@@ -316,7 +316,7 @@ const userDetails = () => {
       <div className=" d-flex flex-column justify-content-center">
       {/* alert for any change */}
       <Alert isdisplay={value.isOK == true ?true  :false } mode = {`${value.isOK===true ? "success" : "danger"}`} message = {value.message} />
-      <div className={` bg-primary-subtle ${isSave === false ? "z-2 animate-from-top" : "z-1"}   w-50 mx-auto  p-2`} style= {isSave === false ? {transform: "translate(50% , 5%)"}:{transform: "translateY(5%)"}}  >
+      <div className={` bg-primary-subtle ${isSave === false ? "z-2 animate-from-top width-adjust" : "z-1"} mx-auto  p-2`} style= {isSave === false ? {transform: ""}:{transform: "translateY(5%)"}}  >
             {/* close button to go to previous page  */}
             <div className="close position-relative" style={{height:'20px'}}>
               <button
@@ -367,7 +367,7 @@ const userDetails = () => {
             setTimeout(() => {
               saveEdit()
             }, 1000);
-            }} className={`${isSave === true ? "animate-from-top": "d-none"} ${isClose === true ? "animate-from-center": ""} w-50 ${isSave === true ? "z-3" : "z-1"} rounded-3`}>
+            }} className={`${isSave === true ? "animate-from-top width-adjust": "d-none"} ${isClose === true ? "animate-from-center": ""} w-50 ${isSave === true ? "z-3" : "z-1"} rounded-3`}>
             <div className="form-group ">
               <label htmlFor="exampleInputPassword1" className=" fw-bold fs-4 ms-4 my-2 ">Enter Password</label>
               <p className={`${working === false?"d-none" : ""} text-center fs-5 fw-semibold`} id="errormessage">{message}</p>

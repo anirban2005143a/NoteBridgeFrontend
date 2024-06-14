@@ -3,7 +3,7 @@ import "../css/rotatingBorder.css"
 
 const rotatingBorder = (props) => {
   return (
-    <div className="emptyPost text-center mx-auto w-50 mt-4 " >
+    <div className="emptyPost text-center mx-auto mt-4 w-sm" >
     <h2>{props.message}</h2>
   </div>
   )

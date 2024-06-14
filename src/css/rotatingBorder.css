@@ -1,5 +1,7 @@
 .emptyPost {
-    height: 150px;
+    height: auto;
+    min-height: 150px;
+    padding: 15px;
     background: black;
     position: relative;
     display: flex;

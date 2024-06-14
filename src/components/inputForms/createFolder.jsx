@@ -54,14 +54,14 @@ const CreateFolder = (props) => {
   }
 
   return (
-    <div className={`cardSize ${props.firstCreate===true ? "d-block" : "d-none"} m-md-3`}  style={{cursor:'pointer'}} >
+    <div className={`cardSize ${props.firstCreate===true ? "d-block" : "d-none"} m-md-3 m-2`}  style={{cursor:'pointer'}} >
     <div className=" position-relative" style={{ cursor: "pointer" }}>
       <div className="card h-auto w-100" >
         <div className=" cradImg card-img-top mx-auto pt-2 w-100 d-flex justify-content-center" >
             <img src={folderIcon} className=" w-75 mx-auto "/>
         </div>
       
-        <div className="card-body cardName" >
+        <div className="cardName p-2 p-sm-3" >
             <form onSubmit={(e)=>{
                 e.preventDefault()
                 value.setisOK(true);

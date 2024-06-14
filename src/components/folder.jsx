@@ -41,7 +41,7 @@ const folder = (props) => {
   }
 
   return (
-    <div  className={`position-relative m-md-3  m- cardSize ${props.isItem === "true" ? "d-block" : "d-none"} `}  >
+    <div  className={`position-relative m-md-3  m-2 cardSize ${props.isItem === "true" ? "d-block" : "d-none"} `}  >
      <div className={`overlayer position-absolute w-100 h-100 top-0 start-0 z-1 rounded-2 ${value.isSelect === false ? "d-none" : "d-block"}`} style={{backgroundColor:"rgb(85 85 85 / 40%)"}}>
         <div className=" p-2">
           <input
@@ -57,7 +57,7 @@ const folder = (props) => {
             <img src={folderIcon} className=" w-75 mx-auto "/>
         </div>
       
-        <div className="card-body p-2 overflow-auto cardName" >
+        <div className="overflow-auto cardName p-2 p-sm-3" >
             
             <p className={`${props.isItem === "true" ? "d-block" : "d-none"} text-center fw-semibold fs-5 folderName mb-0 `} >{props.name}</p>
         </div>

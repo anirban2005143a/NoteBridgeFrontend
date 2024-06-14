@@ -106,7 +106,6 @@ function App() {
           <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
             <SideNavbar />
             <div className=" w-100 overflow-auto">
-
               <Post />
             </div>
           </div>
@@ -114,7 +113,7 @@ function App() {
       ),
     },
     {
-      path: "/your/files",
+      path: "/your/files/:id",
       element: (
         <>
           <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>

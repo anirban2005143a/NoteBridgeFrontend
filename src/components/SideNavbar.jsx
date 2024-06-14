@@ -101,7 +101,7 @@ const home = () => {
             </li>
           </Link>
 
-          <Link to={`${value.islogout === false ? "/your/files" : ""}`}>
+          <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`}>
             <li
 
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}

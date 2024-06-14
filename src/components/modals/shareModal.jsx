@@ -20,22 +20,22 @@ const share = (props) => {
           </div>
           <div className="modal-body h1 d-flex justify-content-around align-items-center">
             <div className='facebook rounded-circle bg-body-secondary d-flex justify-content-center' style={{cursor:"pointer",width:"70px" , height:"70px"}}>
-              <FacebookShareButton url="https://mail.google.com/mail/u/0/#inbox" quote="dfrefr">
+              <FacebookShareButton url={props.url} quote="dfrefr">
               <i className="fa-brands fa-facebook" style={{color:"#316FF6"}}></i>
               </FacebookShareButton>
             </div>
             <div className='twiter rounded-circle bg-body-secondary d-flex justify-content-center' style={{cursor:"pointer",width:"70px" , height:"70px"}}>
-              <TwitterShareButton url="https://mail.google.com/mail/u/0/#inbox" title="dfrefr">
+              <TwitterShareButton url={props.url} title="dfrefr">
               <i className="fa-brands fa-twitter" style={{color:"#1DA1F2"}}></i>
               </TwitterShareButton>
             </div>
             <div className='whatsapp rounded-circle bg-body-secondary d-flex justify-content-center' style={{cursor:"pointer",width:"70px" , height:"70px"}}>
-              <WhatsappShareButton url="https://mail.google.com/mail/u/0/#inbox">
+              <WhatsappShareButton url={props.url}>
               <i className="fa-brands fa-whatsapp" style={{color:"#075E54"}}></i>
               </WhatsappShareButton>
             </div>
             <div className='email rounded-circle bg-body-secondary d-flex justify-content-center' style={{cursor:"pointer",width:"70px" , height:"70px"}}>
-              <EmailShareButton url="https://mail.google.com/mail/u/0/#inbox" subject="dfrefr" body="Check out this link:">
+              <EmailShareButton url={props.url} subject="dfrefr" body="Check out this link:">
               <i className="fa-solid fa-envelope" style={{color:"#c71610"}}></i>
               </EmailShareButton>
             </div>

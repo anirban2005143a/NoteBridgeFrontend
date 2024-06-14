@@ -18,9 +18,9 @@ import ShareModal from "../modals/shareModal";
 
 const post = () => {
 
-  const { id } = useParams();
   const location = useLocation();
-
+  const { id } = useParams();
+console.log(id)
   const value = useContext(NoteContext);
   const socket = io(`${value.host}`);
 
@@ -718,6 +718,7 @@ const post = () => {
   
 
   useEffect(() => {
+    filterPost()
     if (about.length !== 0) {
       if (document.getElementsByClassName("singlePost")) {
         if (value.urlPath === "/" || location.pathname === "/") {
@@ -1182,7 +1183,7 @@ const post = () => {
                     style={{ cursor: "pointer" }}
                     onClick={(e) => {
                       e.preventDefault()
-                      setshareUrl(`${value.host}/post/${about._id}`)
+                      setshareUrl(`https://notebridge2005.netlify.app/post/${about._id}`)
                     }}
                   >
                     <i className=" fa-regular fa-share-from-square text-primary-emphasis"></i>

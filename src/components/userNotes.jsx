@@ -583,7 +583,7 @@ useEffect(() => {
                 }}
                 onClick={(e)=>{
                   e.preventDefault()
-                  setshareurl(`${location.pathname}`)
+                  setshareurl(`https://notebridge2005.netlify.app/your/files/${value.userId}`)
                 }}
               >
                 <i

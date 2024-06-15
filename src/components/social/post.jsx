@@ -781,7 +781,7 @@ const post = () => {
                       <img
                         className=" rounded-circle"
                         src={
-                          user.length !== 0 && user[index].profileimg
+                          user.length !== 0 && user[index].profileimg !== "undefined"
                             ? user[index].profileimg
                             : defaultUserImg
                         }

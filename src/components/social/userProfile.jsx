@@ -410,7 +410,7 @@ const userProfile = () => {
                 >
                   <div className="z-2 ms-4 mt-5 d-flex flex-column" style={{ width: "150px", maxHeight: "160px" }}>
                     <img
-                      src={`${user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}`}
+                      src={user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}
                       alt="Generic placeholder image"
                       className=" img-fluid img-thumbnail mt-4 mb-2 h-100"
                       style={{ width: "150px", backgroundColor: "#cccafa78" }}
@@ -501,7 +501,7 @@ const userProfile = () => {
                             <div className="profileImg mx-2">
                               <img
                                 className=" rounded-circle"
-                                src={user.user.profileimg}
+                                src={user.user.profileimg === "undefined" ? defaultUserImg :user.user.profileimg }
                                 style={{
                                   width: "40px",
                                   height: "40px",

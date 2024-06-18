@@ -114,7 +114,7 @@ useEffect(() => {
     Array.from(document.getElementsByClassName("folderDiv")).forEach((item) => {
       item.classList.remove("d-none");
     });
-    document.getElementById("loader").classList.add("d-none");
+    document.getElementById("loader") ? document.getElementById("loader").classList.add("d-none") : "";
     if (data.error) {
       //if any error occured
       value.setisOK(false);

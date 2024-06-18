@@ -109,9 +109,9 @@ const home = () => {
               className=" text-white nav-link px-0 align-middle"
               style={{ cursor: "pointer" }}
             >
-              <i className={`fa-solid fa-file ${location.pathname.includes("/your/files") ? "fw-bold active" : ""}`}></i>
+              <i className={`fa-solid fa-file ${location.pathname.includes("your/files") ? "fw-bold active" : ""}`}></i>
               <span
-                className={`ms-1 d-none d-sm-inline ${location.pathname == "/your/files" ? "fw-bold active" : ""
+                className={`ms-1 d-none d-sm-inline ${location.pathname.includes("your/files") ? "fw-bold active" : ""
                   }`}
               >
                 &nbsp;Your Files

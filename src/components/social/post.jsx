@@ -740,7 +740,7 @@ const post = () => {
         <RotatingBorder message={message} />
       </div>}
       {/* sckeleton loader  */}
-      {isConnected===null && <div className={`contentLoader d-flex justify-content-center mt-3 ${isLoaded === true ? "d-none" : ""}`}>
+      {isConnected!==false && <div className={`contentLoader d-flex justify-content-center mt-3 ${isLoaded === true ? "d-none" : ""}`}>
         <ContentLoader
           speed={2}
           width={400}

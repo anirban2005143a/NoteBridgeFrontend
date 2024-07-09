@@ -101,7 +101,7 @@ const home = () => {
             </li>
           </Link>
 
-          <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`}>
+         {!value.islogout && <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`}>
             <li
 
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -117,9 +117,9 @@ const home = () => {
                 &nbsp;Your Files
               </span>
             </li>
-          </Link>
+          </Link>}
 
-          <Link to={`${value.islogout === false ? "/social/notifications" : ""}`}>
+          {!value.islogout && <Link to={`${value.islogout === false ? "/social/notifications" : ""}`}>
             <li
               className=" position-relative text-white nav-link px-0 align-middle"
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -136,7 +136,7 @@ const home = () => {
                 &nbsp;Notification
               </span>
             </li>
-          </Link>
+          </Link>}
         </ul>
         <hr />
         <div className="dropdown pb-4">

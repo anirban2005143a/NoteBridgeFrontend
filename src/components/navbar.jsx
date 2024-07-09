@@ -1,11 +1,20 @@
-import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { logout } from "../functions/logout";
+import React, { useContext, useState ,useEffect} from "react";
+import { useLocation } from "react-router-dom";
 import NoteContext from "../context/notes/noteContext";
 
 const navbar = (props) => {
   const location = useLocation();
   const value = useContext(NoteContext);
+
+  const [searchInput, setsearchInput] = useState('')
+
+  useEffect(() => {
+   
+      console.log(searchInput)
+      props.search(searchInput)
+
+  }, [searchInput])
+
 
   return (
     <nav className="d-sm-flex justify-content-between w-auto my-2 mx-2">
@@ -14,15 +23,16 @@ const navbar = (props) => {
           className="fa fa-search p-2 ms-1"
           style={{ borderRight: "1px solid black" }}
         ></i>
-        <form className=" d-flex justify-content-center" onSubmit={(e)=>{
+        <form className=" d-flex justify-content-center" onSubmit={(e) => {
           e.preventDefault()
           props.search(e.currentTarget.querySelector('input').value)
         }}>
           <input
-            onChange={(e)=>{
+            onChange={(e) => {
               e.preventDefault()
-              props.search(e.currentTarget.value)
+              setsearchInput(e.target.value)
             }}
+            value={searchInput}
             type="text"
             className="form-control"
             placeholder="Search Here"
@@ -30,12 +40,13 @@ const navbar = (props) => {
               backgroundColor: "transparent",
               outline: "none",
               border: "none",
+              boxShadow:"none"
             }}
           />
           <button className="btn btn-primary">Search</button>
         </form>
       </div>
-      
+
     </nav>
   );
 };

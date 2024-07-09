@@ -20,7 +20,7 @@ const post = () => {
 
   const location = useLocation();
   const { id } = useParams();
-// console.log(id)
+  // console.log(id)
   const value = useContext(NoteContext);
   const socket = io(`${value.host}`);
 
@@ -535,7 +535,7 @@ const post = () => {
   };
 
   //function to fetch all view req
-  const fetchView = async (aboutId, userId, btnArr) => {
+  const fetchView = async () => {
     const res = await fetch(`${value.host}/api/social/post/view/get`, {
       method: "PUT",
       headers: {
@@ -603,13 +603,15 @@ const post = () => {
     if (tag) {
       if (about.length !== 0) {
         for (let index = 0; index < about.length; index++) {
-          about[index].about.includes(tag) ? searchAbout.push(about[index]._id) : ""
+          about[index].about.toLowerCase().includes(tag.toLowerCase()) ? searchAbout.push(about[index]._id) : ""
         }
       }
       for (let index = 0; index < elemArr.length; index++) {
         const id = elemArr[index].getAttribute("name")
         if (!(searchAbout.includes(id))) {
           document.getElementsByClassName("singlePost")[index].classList.add("d-none")
+        } else {
+          document.getElementsByClassName("singlePost")[index].classList.remove("d-none")
         }
       }
     } else {
@@ -689,7 +691,7 @@ const post = () => {
   }, [comments])
 
   useEffect(() => {
-    if(about.length!=0){
+    if (about.length != 0) {
       fetchFile();
       fetchAllComment();
       aboutLikefunc()
@@ -711,11 +713,11 @@ const post = () => {
   }, [about, notes])
 
   useEffect(() => {
-    if( value.islogout === false){
+    if (value.islogout === false) {
       isLiked(allLikes)
-     } 
+    }
   }, [allLikes])
-  
+
 
   useEffect(() => {
     filterPost()
@@ -959,7 +961,7 @@ const post = () => {
                       } ${allViewReq.length !== 0 ? allViewReq.some(obj => obj.aboutId === about._id) ? "d-none" : "" : ""} ${allViewReq.length !== 0 ? allViewReq.some(obj => obj.aboutId === about._id && obj.isaccept === true) ? "d-none" : "" : ""}  accessNotesNormal position-absolute top-0 start-0 w-100 h-100 z-1`}
                     style={{ backgroundColor: "#4d4d4d9c" }}
                   >
-                    <div className="glow position-relative w-100 h-100 d-flex align-items-center justify-content-center">
+                    <div className="glow normal position-relative w-100 h-100 d-flex align-items-center justify-content-center">
                       <button
 
                         data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -968,7 +970,7 @@ const post = () => {
                         onClick={async (e) => {
                           e.preventDefault();
                           const currentTarget = e.currentTarget
-                          e.currentTarget.disabled = true
+                          console.log( e.currentTarget.disabled)
                           if (value.islogout === false) {
                             e.currentTarget.getElementsByClassName("req")[0].innerHTML = "Please Wait"
                             const res = await fetch(`${value.host}/api/social/post/view/req/post`, {
@@ -994,6 +996,8 @@ const post = () => {
                             await fetchView()
                             currentTarget.disabled = false
                             currentTarget.getElementsByClassName("req")[0].innerHTML = `Request ${user.length !== 0 ? ` ${user[index].firstName} ` : ""} to see notes`
+                          }else{
+                            currentTarget.disabled = false
                           }
                         }}
                       >
@@ -1011,7 +1015,7 @@ const post = () => {
                     </div>
                   </div>
 
-                  {/* accessnotes in excites stae  */}
+                  {/* accessnotes in excites state  */}
                   {allViewReq.map((req) => {
                     if (req.aboutId === about._id && value.islogout === false) {
                       return <div
@@ -1031,7 +1035,7 @@ const post = () => {
                               currentTarget.disabled = false
                             }}
                           >
-                            <span className={`req ${req.isaccept === false && req.isreq === true && req.isRejected === true ? "" : "d-none"}`} name={about._id}>
+                            <span className={`req ${req.isaccept === false && req.isreq === true && req.isRejected === true ? "" : "d-none"}`} name={about._id} >
                               Request{" "}
                               {user.length !== 0
                                 ? `${user[index].firstName}`

@@ -197,7 +197,6 @@ const notifications = () => {
     localStorage.removeItem("tempDelete");
   });
 
-//  console.log(allNotification)
   return (
     <div className="container my-4">
       <div className={`${isLoaded === true ? "d-none" : ""} contentLoader d-flex justify-content-center mt-5 pt-5`}>

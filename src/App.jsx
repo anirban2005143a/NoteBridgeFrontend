@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./components/navbar";
 import UserNotes from "./components/userNotes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NoteContext from "./context/notes/noteContext";

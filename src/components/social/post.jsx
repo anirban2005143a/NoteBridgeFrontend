@@ -26,7 +26,7 @@ const post = () => {
 
   const [reqStatus, setreqStatus] = useState([])
   const [comments, setcomments] = useState([])
-  const [isConnected, setisConnected] = useState(false)
+  const [isConnected, setisConnected] = useState(null)
   const [message, setmessage] = useState("Please Wait a While")
   const [like, setlike] = useState(false)
   const [view, setview] = useState(false)
@@ -738,11 +738,11 @@ const post = () => {
     <div>
       <ShareModal url={shareUrl} seturl={setshareUrl} />
       <Navbar search={search} />
-      <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder`} >
+      {isConnected!==null && <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder`} >
         <RotatingBorder message={message} />
-      </div>
+      </div>}
       {/* sckeleton loader  */}
-      <div className={`contentLoader d-flex justify-content-center mt-3 ${isLoaded === true ? "d-none" : ""}`}>
+      {isConnected!==false && <div className={`contentLoader d-flex justify-content-center mt-3 ${isLoaded === true ? "d-none" : ""}`}>
         <ContentLoader
           speed={2}
           width={400}
@@ -757,7 +757,7 @@ const post = () => {
           <rect x="109" y="75" rx="2" ry="2" width="66" height="14" />
           <rect x="42" y="127" rx="15" ry="15" width="300" height="268" />
         </ContentLoader>
-      </div>
+      </div>}
       {/* login modal  */}
       <LoginModal />
 

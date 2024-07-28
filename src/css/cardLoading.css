@@ -12,11 +12,12 @@
     .image,
     h2,
     p{
-      background: #eee;
-      background: linear-gradient(103deg, #6c6a6a 8%, #8d8a8a 29%, #6c6a6a 56%);
+      background: #000000;
+      background: linear-gradient(103deg, #000000 8%, #040024 29%, #252525 56%, #000000);
       border-radius: 5px;
-      background-size: 200% 100%;
-      animation: 1.5s shine linear infinite;
+      background-size: 600% 100%;
+      animation: 8s shine linear infinite;
+      animation-direction: alternate;
     }
   
     .image {

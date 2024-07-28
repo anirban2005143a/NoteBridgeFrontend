@@ -5,6 +5,7 @@ import { logout } from "../functions/logout";
 import defaultUserImg from "../assets/defaultUserImg.png";
 import NotificationBadge from "./notificationBadge";
 import AlertSound from "../assets/notification.mp3"
+import '../css/sidenavbar.css'
 
 const sideNavbar = () => {
   const location = useLocation();
@@ -27,7 +28,7 @@ const sideNavbar = () => {
       }),
     });
     const data = await res.json();
-     if (data.error) {
+    if (data.error) {
       value.setisOK(false)
       value.setmessage(data.message)
     } else {
@@ -38,70 +39,74 @@ const sideNavbar = () => {
   useEffect(() => {
     getOriUser()
   }, [])
-  
+
   useEffect(() => {
-    if(localStorage.getItem("unseen")){
-      localStorage.getItem("unseen")==="true" ? setunseen(true): ""
+    if (localStorage.getItem("unseen")) {
+      localStorage.getItem("unseen") === "true" ? setunseen(true) : ""
     }
-    if(location.pathname === "/social/notifications"){
+    if (location.pathname === "/social/notifications") {
       setunseen(false)
-      localStorage.setItem("unseen" , false)
+      localStorage.setItem("unseen", false)
     }
   }, [value.unReadNotificationLength])
-  
+
 
   useEffect(() => {
-    if(unseen === true && value.unReadNotificationLength > 0 ){
+    if (unseen === true && value.unReadNotificationLength > 0) {
       document.querySelector("audio").play()
     }
-    
-  }, [unseen , value.unReadNotificationLength])
-  
+  }, [unseen, value.unReadNotificationLength])
+
 
   return (
-    <div className=" sideNavbar px-2 bg-primary ">
-      <div className="d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
+    <div className=" sideNavbar px-2 " id='sideNavbar'>
+      <div className="navlist d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
         <ul
-          className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-5"
+          className="w-100 nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-5"
           id="menu"
         >
 
-          <Link to="/" className="nav-link align-middle px-0">
-            <li
-              className="nav-item  text-white   "
+          <Link to="/" className="p-0 nav-link align-middle my-2 px-0 w-100">
+            <li className="w-100"
               style={{ cursor: "pointer" }}
-              onClick={(e)=>{
+              onClick={(e) => {
                 value.seturlPath("/")
-              }}
-            >
-              <i className={`fa-solid fa-house-user  ${location.pathname == "/" ? "fw-bold active" : ""
+              }}>
+              <button class="importedbtn d-flex align-items-center ">
+
+                <i className={`fa-solid fa-house-user fs-5 ${location.pathname == "/" ? "fw-bold active" : ""
                   }`}></i>
-              <span
-                className={`ms-1 d-none d-sm-inline ${location.pathname == "/" ? "fw-bold active" : ""
-                  }`}
-              >
-                Home
-              </span>
+                <span
+                  className={`ms-1 d-none d-sm-inline ${location.pathname == "/" ? "fw-bold active" : ""
+                    }`}
+                >
+                  Home
+                </span>
+              </button>
             </li>
           </Link>
 
-          <Link className=" text-white text-decoration-none" to="/about">
-            <li
-              className=" text-white nav-link px-0 align-middle"
+          <Link to="/about" className="p-0 nav-link align-middle my-2 px-0 w-100">
+            <li className="w-100"
               style={{ cursor: "pointer" }}
-            >
-              <i className={`fa-solid fa-circle-info ${location.pathname == "/about" ? "fw-bold active" : ""
+              onClick={(e) => {
+                value.seturlPath("/")
+              }}>
+              <button class="importedbtn d-flex align-items-center">
+
+                <i className={`fa-solid fa-circle-info ${location.pathname == "/about" ? "fw-bold active" : ""
                   }`}></i>
-              <span
-                className={`ms-1 d-none d-sm-inline text-decoration-none ${location.pathname == "/about" ? "fw-bold active" : ""
-                  }`}
-              >
-                About Us
-              </span>
+                <span
+                  className={`ms-1 d-none d-sm-inline text-decoration-none ${location.pathname == "/about" ? "fw-bold active" : ""
+                    }`}
+                >
+                  About Us
+                </span>
+              </button>
             </li>
           </Link>
 
-         {!value.islogout && <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`}>
+          {/* {!value.islogout && <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`}>
             <li
 
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -117,9 +122,29 @@ const sideNavbar = () => {
                 &nbsp;Your Files
               </span>
             </li>
-          </Link>}
+          </Link>} */}
 
-          {!value.islogout && <Link to={`${value.islogout === false ? "/social/notifications" : ""}`}>
+          <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`} className="p-0 nav-link align-middle px-0 w-100">
+            <li
+              data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
+              data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
+              className="w-100 text-white nav-link px-0 align-middle"
+              style={{ cursor: "pointer" }}>
+
+              <button class="importedbtn d-flex align-items-center">
+
+                <i className={`fa-solid fa-file ${location.pathname.includes("your/files") ? "fw-bold active" : ""}`}></i>
+                <span
+                  className={`ms-1 d-none d-sm-inline ${location.pathname.includes("your/files") ? "fw-bold active" : ""
+                    }`}
+                >
+                  &nbsp;Your Files
+                </span>
+              </button>
+            </li>
+          </Link>
+
+          {/* {!value.islogout && <Link to={`${value.islogout === false ? "/social/notifications" : ""}`}>
             <li
               className=" position-relative text-white nav-link px-0 align-middle"
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -128,18 +153,40 @@ const sideNavbar = () => {
 
             ><audio src={AlertSound}></audio>
               <i
-                className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : "" }`}
-              // style={{ color: "#0020ff", cursor: "pointer" }}
-              > <div className={`${location.pathname === "/social/notifications" ? "d-none" : ""} ${unseen === true && value.unReadNotificationLength > 0 ? "" : "d-none" }`} ><NotificationBadge /></div>
+                className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}
+           
+              > <div className={`${location.pathname === "/social/notifications" ? "d-none" : ""} ${unseen === true && value.unReadNotificationLength > 0 ? "" : "d-none"}`} ><NotificationBadge /></div>
               </i>
-              <span className={`ms-1 d-none d-sm-inline ${location.pathname === "/social/notifications" ? "fw-bold active" : "" }`}>
+              <span className={`ms-1 d-none d-sm-inline ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}>
                 &nbsp;Notification
               </span>
             </li>
-          </Link>}
+          </Link>} */}
+
+          <Link to={`${value.islogout === false ? "/social/notifications" : ""}`} className="p-0 nav-link align-middle px-0 w-100">
+            <li
+              className=" position-relative text-white nav-link px-0 align-middle"
+              data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
+              data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
+              style={{ cursor: "pointer" }}>
+              <audio src={AlertSound}></audio>
+              <button class="importedbtn d-flex align-items-center">
+                <i
+                  className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}
+          
+                > <div className={`${location.pathname === "/social/notifications" ? "d-none" : ""} ${unseen === true && value.unReadNotificationLength > 0 ? "" : "d-none"}`} ><NotificationBadge /></div>
+                </i>
+                <span className={`ms-1 d-none d-sm-inline ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}>
+                  &nbsp;Notification
+                </span>
+              </button>
+            </li>
+          </Link>
+
         </ul>
-        <hr />
-        <div className="dropdown pb-4">
+        <br />
+
+        <div className="dropdown pb-4 position-fixed bottom-0 ms-3">
           <a
             className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
             id="dropdownUser1"
@@ -152,12 +199,12 @@ const sideNavbar = () => {
               alt="hugenerd"
               width="30"
               height="30"
-              className="rounded-circle"
+              className="rounded-circle me-3"
               style={{ objectFit: "cover" }}
             />
-            <span className="d-none d-sm-inline mx-1">User</span>
+            <span className="d-none d-sm-inline me-1">User</span>
           </a>
-          <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
+          <ul className="dropdown-menu dropdown-menu-dark text-small shadow mb-2">
             <li style={{ cursor: "pointer" }}>
               <Link className="dropdown-item" to="/user/logIn">
                 Log in

@@ -1,0 +1,105 @@
+#navbar div form{
+    width: 50%;
+}
+
+#navbar div form .form__group {
+    position: relative;
+    padding: 20px 0 0;
+    width: 100%;
+    max-width: 240px;
+}
+
+#navbar div form .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 17px;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+#navbar div form .form__field::placeholder {
+    color: transparent;
+}
+
+#navbar div form .form__field:placeholder-shown~.form__label {
+    font-size: 17px;
+    cursor: text;
+    top: 20px;
+}
+
+#navbar div form .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #d3d3d3;
+    pointer-events: none;
+}
+
+#navbar div form .form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #116399, #38caef);
+    border-image-slice: 1;
+}
+
+#navbar div form .form__field:focus~.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #38caef;
+    font-weight: 500;
+}
+
+/* reset input */
+#navbar div form .form__field:required,
+#navbar div form .form__field:invalid {
+    box-shadow: none;
+}
+
+#navbar div form .importedBtn {
+    height: 35px;
+    padding: 2px 12px;
+    border: 2px solid #17C3B2;
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    text-align: center;
+    font-size: 16px;
+    transition: .3s;
+    z-index: 1;
+    font-family: inherit;
+    color: #17C3B2;
+}
+
+#navbar div form .importedBtn::before {
+    content: '';
+    width: 0;
+    height: 200%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: #17C3B2;
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+}
+
+#navbar div form .importedBtn:hover::before {
+    width: 125%;
+}
+
+#navbar div form .importedBtn:hover {
+    font-weight: bold;
+    color: #111;
+}

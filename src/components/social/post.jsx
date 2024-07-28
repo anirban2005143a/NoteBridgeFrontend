@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import NoteContext from "../../context/notes/noteContext";
 import { v4 as uuid } from "uuid";
-import postBackground from "../../assets/postBackground.jpg";
+import postBackground from "../../assets/postBackground.png";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import defaultUserImg from "../../assets/defaultUserImg.png";
 import "../../css/glowBtn.css";
+import '../../css/post.css'
 import io from "socket.io-client";
 import RotatingBorder from "../rotatingBorder";
 import LoginModal from "../modals/loginModal";
@@ -735,19 +736,22 @@ const post = () => {
   return (
     <div>
       <ShareModal url={shareUrl} seturl={setshareUrl} />
+
       <Navbar search={search} />
-      {isConnected!==null && <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder`} >
+
+      {isConnected !== null && <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder`} >
         <RotatingBorder message={message} />
       </div>}
+
       {/* sckeleton loader  */}
-      {isConnected!==false && <div className={`contentLoader d-flex justify-content-center mt-3 ${isLoaded === true ? "d-none" : ""}`}>
+      {isConnected !== false && <div className={`contentLoader d-flex justify-content-center mt-3 ${isLoaded === true ? "d-none" : ""}`}>
         <ContentLoader
           speed={2}
           width={400}
           height={460}
-          viewBox="0 0 400 460"
-          backgroundColor="#8593ff"
-          foregroundColor="#616bff"
+          viewBox="0 0 400 406"
+          backgroundColor="#6e7070"
+          foregroundColor="#808282"
 
         >
           <circle cx="68" cy="87" r="25" />
@@ -756,6 +760,7 @@ const post = () => {
           <rect x="42" y="127" rx="15" ry="15" width="300" height="268" />
         </ContentLoader>
       </div>}
+
       {/* login modal  */}
       <LoginModal />
 
@@ -765,14 +770,14 @@ const post = () => {
             return (
               <div
                 key={about._id} name={about._id}
-                className=" px-1 px-md-4 py-3 mx-md-4 mx-1 my-2 mb-5 singlePost"
+                className=" px-1 px-md-4 py-3 mx-md-4 mx-1 my-2 mb-5 singlePost rounded-3"
                 style={{
-                  transform: "translateZ(15px)",
-                  boxShadow: "0px 0px 20px #0d6efd",
+                  transform: "translateZ(15px)"
                 }}
               >
                 {/* post header  */}
-                <div key={value.userId} className="header d-flex justify-content-between py-2 bg-body-tertiary">
+                <div key={value.userId} className="header d-flex justify-content-between py-2 mb-2">
+
                   {/* image and name  */}
                   <div
                     data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -794,7 +799,7 @@ const post = () => {
                       />
                     </div></Link>
 
-                    <div className="posterName fw-semibold fs-6 ">
+                    <div className="posterName fw-semibold fs-6 text-white">
                       {user.length !== 0
                         ? `${user[index].firstName} ${user[index].lastName}`
                         : ""}
@@ -808,6 +813,7 @@ const post = () => {
                     className={`normalState ${user[index]._id === value.userId ? "d-none" : ""} ${allFollow.length !== 0 ? allFollow.some(obj => obj.followingId === user[index]._id) ? "d-none" : "" : ""} px-2  d-flex justify-content-center align-items-center fw-bold fs-5 text-primary`}
                     onClick={async (e) => {
                       e.preventDefault();
+                      console.log('clikced')
                       const currentTarget = e.currentTarget
                       if (value.islogout === false) {
                         // e.currentTarget.style.display = "none"
@@ -862,12 +868,13 @@ const post = () => {
                       }
 
                     }}
-
-                    style={{ cursor: "pointer" }}
                   >
-                    <span className={`followText follow `}>
-                      <span className="text">Follow</span><i className="fa-solid fa-plus mx-2"></i><i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
-                    </span>
+                    <button class="importedbutton">
+                      <span className={`followText follow `}>
+                        <span className="text">Follow</span><i className="fa-solid fa-plus mx-2"></i><i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
+                      </span>
+                    </button>
+
                     <span
                       className={`followText request d-none text-success `}
                     >
@@ -902,31 +909,33 @@ const post = () => {
                           }}
                           style={{ cursor: "pointer" }}
                         >
-                          <span
-                            className={`followText follow ${follow.isaccept === true ? "d-none" : ""}  ${follow.isRejected === true ? "" : "d-none"}`}
-                          >
-                            Follow<i className="fa-solid fa-plus mx-2"></i>
-                          </span>
-                          <span
-                            className={`fs-6 followText follow ${follow.isreq === true && follow.isaccept === false && follow.isRejected === false
-                              ? ""
-                              : "d-none"
-                              } `}
-                            style={{ color: "orange" }}
-                          >
-                            <span className="text">Request</span>
-                            <i className="fa-solid fa-circle-check mx-2"></i>
-                            <i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
-                          </span>
-                          <span
-                            className={`fs-6 followed text-success user-select-none ${follow.isreq === true && follow.isaccept === true && follow.isRejected === false
-                              ? ""
-                              : "d-none"
-                              }`}
-                          >
-                            Following&nbsp;
-                            <i className="fa-solid fa-user-plus"></i>
-                          </span>
+                          <button className={`followText importedbutton follow ${follow.isaccept === true ? "d-none" : ""}  ${follow.isRejected === true ? "" : "d-none"}`}
+                          ><span>
+                              Follow<i className="fa-solid fa-plus mx-2"></i>
+                            </span>
+                          </button>
+
+                          <button className={`fs-6 importedbutton followText follow ${follow.isreq === true && follow.isaccept === false && follow.isRejected === false
+                            ? ""
+                            : "d-none"
+                            } `} >
+                            <span>
+                              <span className="text">Request</span>
+                              <i className="fa-solid fa-circle-check mx-2"></i>
+                              <i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
+                            </span>
+                          </button>
+
+                          <button className={` importedbutton fs-6 followed text-success user-select-none ${follow.isreq === true && follow.isaccept === true && follow.isRejected === false
+                            ? ""
+                            : "d-none"
+                            }`}>
+                            <span>
+                              Following&nbsp;
+                              <i className="fa-solid fa-user-plus"></i>
+                            </span>
+                          </button>
+
                         </div>
                       );
                     }
@@ -936,17 +945,16 @@ const post = () => {
 
                 {/* about post  */}
                 <div
-                  className="about py-2 fw-semibold px-2 fs-5"
-                  style={{ backgroundColor: "#FEFFD2" }}
-                >
+                  className="about py-2 fw-normal px-2 fs-5 " style={{ color: "#fff0d4" }}>
                   {about.about}
                 </div>
 
                 <div name={about._id} key={`${about._id}${uuid()}`}
-                  className="postBody overflow-hidden position-relative"
+                  className="postBody overflow-hidden position-relative rounded-3"
                   style={{
                     height: "400px",
-                    backgroundImage: `url(${postBackground})`,
+                    // backgroundImage: `url(${postBackground})`,
+                    backgroundColor: 'rgb(49 49 62 / 54%)',
                     backgroundSize: "cover",
                   }}
                 >
@@ -955,7 +963,7 @@ const post = () => {
                     name={about._id}
                     className={`${user[index]._id === value.userId ? "d-none" : ""
                       } ${allViewReq.length !== 0 ? allViewReq.some(obj => obj.aboutId === about._id) ? "d-none" : "" : ""} ${allViewReq.length !== 0 ? allViewReq.some(obj => obj.aboutId === about._id && obj.isaccept === true) ? "d-none" : "" : ""}  accessNotesNormal position-absolute top-0 start-0 w-100 h-100 z-1`}
-                    style={{ backgroundColor: "#4d4d4d9c" }}
+                    style={{ backgroundColor: "rgb(0 0 0 / 63%)" }}
                   >
                     <div className="glow normal position-relative w-100 h-100 d-flex align-items-center justify-content-center">
                       <button
@@ -991,7 +999,7 @@ const post = () => {
                             await fetchView()
                             currentTarget.disabled = false
                             currentTarget.getElementsByClassName("req")[0].innerHTML = `Request ${user.length !== 0 ? ` ${user[index].firstName} ` : ""} to see notes`
-                          }else{
+                          } else {
                             currentTarget.disabled = false
                           }
                         }}
@@ -1017,7 +1025,7 @@ const post = () => {
                         name={about._id}
                         className={`${user[index]._id === value.userId ? "d-none" : ""
                           } ${req.isaccept === true ? "d-none" : ""} accessNotesExcite position-absolute top-0 start-0 w-100 h-100 z-1`}
-                        style={{ backgroundColor: "#4d4d4d9c" }}
+                        style={{ backgroundColor: "rgb(0 0 0 / 63%)" }}
                       >
                         <div className="glow position-relative w-100 h-100 d-flex align-items-center justify-content-center">
                           <button
@@ -1051,20 +1059,29 @@ const post = () => {
                   })}
 
                   {/* notes section  */}
-                  <div className="notesection overflow-auto w-100 h-100" style={{ scrollbarWidth: "thin" }}>
+                  <div className="notesection overflow-auto w-100 h-100" >
                     {folderPath.length !== 0
                       ? folderPath[index].map((path) => {
                         return (
                           <div className="folderPathforNotesection" path={path} name={about._id}>
+
                             <div
-                              className="fw-semibold px-2 py-1"
+                              className=" fs-6 fst-italic px-2 py-1 d-flex align-items-center text-white"
                               key={uuid()}
                               style={{
-                                backgroundColor: "#7e8ef19e",
-                                fontStyle: "italic",
+                                backgroundColor: 'rgb(10 5 60 / 27%)',
+                                fontWeight: '400'
                               }}
                             >
+                              <div className="svg my-2 mx-2 linkIconSvg" style={{ width: "25px", cursor: 'default' }}>
+                                <svg fill='white' className='w-100' version="1.1" viewBox="0 0 2896 2896" xmlns="http://www.w3.org/2000/svg">
+                                  <path transform="translate(1679,893)" d="m0 0h422l53 2 31 3 43 7 32 8 27 8 18 7 17 6 35 16 22 11 23 14 22 14 19 14 21 16 15 13 15 14 8 7 12 12 7 8 1 3h2l9 11 10 11 28 38 9 14 17 28 14 27 13 28 9 24 9 25 10 38 6 28 6 42 3 48v21l-2 37-3 27-6 37-12 48-12 35-10 25-9 19-10 21-14 24-8 13-7 11-14 19-10 14-13 16-14 15-7 8-11 12-8 8-8 7-12 11-11 10-12 9-30 22-19 12-17 10-21 12-28 13-20 9-40 14-25 7-30 7-43 7-34 3-21 1h-462l-18-2-20-6-18-10-13-10-10-10-10-14-9-17-6-20-2-15v-14l3-19 6-18 11-20 9-11 11-11 11-8 17-9 16-5 8-2 12-1 443-1 29-1 22-2 29-5 29-8 25-9 22-10 20-11 20-13 18-13 11-10h2v-2l8-7 9-8 1-2h2l2-4 6-7h2l2-4 9-10 13-18 9-14 12-21 12-26 7-19 5-15 6-25 5-33 1-16v-35l-2-25-5-29-8-30-9-25-12-26-10-18-12-19-16-21-11-12-12-13-8-8-8-7-10-9-14-10-18-12-15-9-28-14-24-9-15-5-28-7-27-4-28-2-457-1-20-2-21-7-20-11-12-11-5-5-9-10-10-17-5-12-4-14-2-15v-12l2-18 6-19 8-16 8-11 9-11 13-11 19-11 17-6 17-3z" />
+                                  <path transform="translate(797,893)" d="m0 0h417l23 1 15 2 18 6 17 9 13 10 12 12 9 13 9 17 5 16 2 14v22l-2 15-6 18-8 15-4 7-8 10h-2l-2 4-14 12-23 12-21 6-19 2-458 1-27 2-30 5-28 7-28 10-29 14-16 9-21 14-12 9-11 9-12 11-3 1v2l-5 4-1 2h-2l-2 4-9 9-8 10-11 14-10 15-12 20-8 15-10 23-10 29-7 30-4 27-1 10-1 29 2 33 4 27 6 25 6 20 11 28 12 24 13 21 13 19 11 13 7 8 12 13 8 8 8 7 13 11 18 13 19 12 16 9 23 11 28 10 17 5 22 5 29 4 11 1 33 1 439 1 17 2 17 5 16 8 10 7 10 8 7 7 9 12 9 16 5 14 3 12 1 9v22l-2 14-5 16-8 16-7 11-12 13-9 8-15 9-16 7-15 4-16 2h-463l-48-3-40-6-23-5-35-9-40-14-24-10-35-17-18-10-18-11-17-11-20-15-14-10-15-13-8-7-16-15-9-8v-2h-2l-7-8-15-16-9-11-12-15-10-14-12-16-17-28-11-19-14-28-11-25-14-38-7-25-7-28-4-21-6-42-2-34v-41l2-35 6-41 5-25 7-28 8-26 15-41 22-45 8-14 12-20 10-16 14-18 10-14 13-16 10-11 1-2h2l2-4 9-9 7-8 12-11 14-13 11-9 12-10 18-13 16-12 15-9 28-17 30-15 27-12 33-12 23-7 37-9 35-6 36-4 21-1z" />
+                                  <path transform="translate(1016,1336)" d="m0 0h851l34 1 15 2 18 6 19 10 11 9 10 9 10 13 10 19 5 15 3 17v21l-3 18-4 12-8 16-6 10-11 12-5 5-11 9-14 8-19 7-16 3-9 1h-898l-20-3-18-6-15-8-12-9-7-6-7-8-8-11-10-19-6-21-2-16 1-16 3-17 5-14 8-16 8-11 9-10 10-9 14-9 15-7 14-4 13-2z" />
+                                </svg>
+                              </div>
                               {path}
+
                             </div>
                             {/* getting notes in a loop  */}
                             <div path={path} name={about._id} className="filecards d-flex flex-wrap justify-content-center py-3">
@@ -1084,8 +1101,9 @@ const post = () => {
                                             showFiles(note.file.url, note.file.desc)
                                           }}
                                           className="card h-auto"
-                                          style={{ cursor: "pointer" }}
+                                          style={{ cursor: "pointer", backgroundColor: "#0000003b" }}
                                         >
+                                          {/* file icon image  */}
                                           <div
                                             className="card-img-top mx-auto pt-2 cradImg "
                                             style={{ width: "65%" }}
@@ -1096,14 +1114,11 @@ const post = () => {
                                               }
                                             />
                                           </div>
-
-                                          <div className="card-body p-0">
+                                          {/* file name  */}
+                                          <div className="card-body p-0" style={{ scrollbarWidth: 'none' }}>
                                             <p
-                                              className=" w-100 cardName fw-bold card-title text-center mb-0 fs-6 overflow-auto p-2 "
-                                              style={{
-                                                scrollbarWidth: "thin",
-                                              }}
-                                            >
+                                              className=" w-100 cardName fw-semibold card-title text-center mb-0 overflow-auto p-2 "
+                                              style={{ scrollbarWidth: 'none', color: 'rgb(255, 241, 215)', fontSize: '1.05rem' }}>
                                               {note.file.originalname}
                                             </p>
                                           </div>
@@ -1124,6 +1139,7 @@ const post = () => {
 
                 {/* post footer  */}
                 <div className="postFooter d-flex justify-content-between align-items-center fs-3 pt-2 ">
+
                   {/* like btn  */}
                   <div
                     data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -1131,7 +1147,7 @@ const post = () => {
 
                     title="Like Post"
                     className="likePost mx-3 position-relative "
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", color: 'red' }}
                     onClick={(e) => {
                       e.preventDefault();
                       if (value.islogout === false) {
@@ -1140,15 +1156,16 @@ const post = () => {
                     }}
                   >
                     <i
-                      className="fa-solid fa-heart d-none text-danger"
+                      className="fa-solid fa-heart d-none "
                       name={about._id}
                     ></i>
                     <i
-                      className="fa-regular fa-heart text-danger"
+                      className="fa-regular fa-heart "
                       name={about._id}
                     ></i>
-                    <span className=" d-inline-block position-absolute ms-2" style={{ top: "11px", fontSize: "15px", width: "100px" }}>{`${aboutLike.length !== 0 ? aboutLike[index].length + " likes" : ""}`}</span>
+                    <span className=" d-inline-block position-absolute ms-2 text-white" style={{ top: "11px", fontSize: "15px", width: "100px" }}>{`${aboutLike.length !== 0 ? aboutLike[index].length + " likes" : ""}`}</span>
                   </div>
+
                   {/* comment btn  */}
                   <div
                     data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -1167,26 +1184,27 @@ const post = () => {
                       }
                     }}
                   >
-                    <i className=" fa-regular fa-comment text-primary"></i>
-                    <span className=" d-inline-block position-absolute ms-2" style={{ top: "11px", fontSize: "15px", width: "100px" }}>{`${allComment.length !== 0 ? allComment[index].length + " comments" : ""}`}</span>
+                    <i className=" fa-regular fa-comment " style={{ color: "blue" }}></i>
+                    <span className=" d-inline-block position-absolute ms-2 text-white" style={{ top: "11px", fontSize: "15px", width: "100px" }}>{`${allComment.length !== 0 ? allComment[index].length + " comments" : ""}`}</span>
                   </div>
+
                   {/* share btn  */}
                   <div
-
                     data-bs-toggle={`${value.islogout === true ? "modal" : "modal"}`}
                     data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : "#exampleModalshare"}`}
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Share"
-                    className="sharePost mx-3"
+                    className="sharePost mx-3 text-white"
                     style={{ cursor: "pointer" }}
                     onClick={(e) => {
                       e.preventDefault()
                       setshareUrl(`https://notebridge2005.netlify.app/post/${about._id}`)
                     }}
                   >
-                    <i className=" fa-regular fa-share-from-square text-primary-emphasis"></i>
+                    <i className=" fa-regular fa-share-from-square "></i>
                   </div>
+
                 </div>
 
                 {/* comment section  */}
@@ -1220,21 +1238,22 @@ const post = () => {
                           style={{ width: "30px", height: "30px" }}
                         />
                       </div>
-                      <div className="name fw-semibold">{`${originalUser && originalUser.firstName}`}</div>
+
+                      <div className="name fw-semibold text-white">{`${originalUser && originalUser.firstName}`}</div>
                       <input
                         required
-                        className="commentInput w-75 mx-3"
+                        className="commentInput w-75 mx-3 text-white pb-1"
                         placeholder="Write Your Comment"
                         style={{
                           outline: "none",
                           border: "none",
-                          borderBottom: "2px solid black",
+                          borderBottom: "2px solid #475362",
                           backgroundColor: "transparent",
                         }}
                       />
                       <button
                         type="submit"
-                        className=" commentSubmit btn btn-primary rounded-5 px-2 py-1"
+                        className=" commentSubmit btn rounded-5 "
                       >
                         Post
                       </button>
@@ -1256,8 +1275,8 @@ const post = () => {
                             </div>
                             <div className="nameOfComment"></div>
                           </div>
-                          <div className="commentBody">
-                            <div className="userName fw-light">{`${eachUser.firstName} ${eachUser.lastName}`}</div>
+                          <div className="commentBody text-white">
+                            <div className="userName fw-light" style={{ fontSize: '13px' }}>{`${eachUser.firstName} ${eachUser.lastName}`}</div>
                             <div className="commentContent fw-medium">
                               {allComment[index][i].comment}
                             </div>

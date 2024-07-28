@@ -1,25 +1,28 @@
 import React, { useState, useEffect, useContext } from "react";
 import NoteCard from "./noteCard";
 import { Link } from "react-router-dom";
-import Alert from "./alert";
-import NoteContext from "../context/notes/noteContext";
-import Modal from "./modals/deletemodal";
+import io from "socket.io-client";
+import { v4 as uuid } from "uuid";
 import { deleteFileFromFirebase } from "../firebase/deletefile";
+import '../css/userNotes.css'
+import NoteContext from "../context/notes/noteContext";
+import DeleteModal from "./modals/deletemodal";
 import Folder from "./folder";
 import FolderPath from "./folderPath";
-import { v4 as uuid } from "uuid";
 import UploadModal from "./modals/uploadModal"
 import CreateFolder from "./inputForms/createFolder";
 import ShareModal from "./modals/shareModal";
-import io from "socket.io-client";
+import Alert from "./alert";
+import PageLoader from "./pageLoader";
 
 const UserNotes = () => {
   const value = useContext(NoteContext);
   const socket = io(`${value.host}`);
+
   const [notes, setnotes] = useState([]); //state to save all notes in a array
   const [notesId, setnotesId] = useState([]); //state to save all selected note id in an array , by default all notes are selected
   const [folderId, setfolderId] = useState([]);
-   //state for folder path
+  //state for folder path
   const [folderPathArray, setfolderPathArray] = useState(["MainSection"]);
 
   //state for number of folders anf forlder names
@@ -46,35 +49,35 @@ const UserNotes = () => {
 
     //get accept req status
     socket.on("acceptReq", (data) => {
-        setfollow(!follow);
+      setfollow(!follow);
     });
     //socket reply of followReqStatus
     socket.on("postComment", (data) => {
-        setcomments(data)
+      setcomments(data)
     });
     //get accept req status
     socket.on("denyReq", (data) => {
-        setfollow(!follow);
+      setfollow(!follow);
     });
     //socket reply for likes
     socket.on("postLike", (data) => {
-        setlike(!like)
+      setlike(!like)
     });
 
     //socket reply of view request status
     socket.on("viewReq", (data) => {
-        setview(!view);
+      setview(!view);
     });
 
     //socket reply of followReqStatus
     socket.on("followReqStatus", (data) => {
-        setfollow(!follow);
+      setfollow(!follow);
     });
-}, [])
+  }, [])
 
-useEffect(() => {
+  useEffect(() => {
     value.fetchNotificationToRead()
-}, [follow, comments, like, view])
+  }, [follow, comments, like, view])
 
 
   //function for telling user to login to perform any features..
@@ -119,7 +122,7 @@ useEffect(() => {
       //if any error occured
       value.setisOK(false);
       value.setmessage(`${data.message}`);
-      
+
     } else {
       //if all is well
       setfirstCreate(null);
@@ -184,9 +187,9 @@ useEffect(() => {
 
   //function to post files and folders
   const createPost = async (aboutId) => {
-    
+
     if (notesId.length !== 0 || folderId.length !== 0) {
-       let folderpath;
+      let folderpath;
       if (localStorage.getItem("folderPath")) {
         folderpath = localStorage.getItem("folderPath").split(",").join("/");
       } else {
@@ -197,7 +200,7 @@ useEffect(() => {
       }
 
       if (folderId.length !== 0) {
-        const res = await fetch(`${value.host}/api/social/post/folder/upload` , {
+        const res = await fetch(`${value.host}/api/social/post/folder/upload`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -205,13 +208,13 @@ useEffect(() => {
           },
           body: JSON.stringify({
             user: `${value.userId}`,
-            id : folderId,
+            id: folderId,
             folderPath: `${folderpath}`,
-            aboutId : aboutId
+            aboutId: aboutId
           })
         })
         const data = await res.json()
-       }
+      }
 
       //post only files
       if (notesId.length !== 0) {
@@ -226,11 +229,11 @@ useEffect(() => {
               user: `${value.userId}`,
               id: notesId,
               folderPath: `${folderpath}`,
-              aboutId : aboutId
+              aboutId: aboutId
             }),
           });
           const data = await res.json();
- 
+
           if (data.error) {
             //if any error occured
             value.setisOK(false);
@@ -242,7 +245,7 @@ useEffect(() => {
           }
 
         } catch (error) {
-           setisDelete(false);
+          setisDelete(false);
           setdeleteMessage(error.message);
           value.setisOK(false);
           value.setmessage("Some Error Occured.. Please try again");
@@ -289,7 +292,7 @@ useEffect(() => {
             }),
           });
           const data = await res.json();
-           if (data.error) {
+          if (data.error) {
             //if any error occured
             setisDelete(false);
             setdeleteMessage(data.message);
@@ -303,7 +306,7 @@ useEffect(() => {
             value.setmessage(data.message);
           }
         } catch (error) {
-           setisDelete(false);
+          setisDelete(false);
           setdeleteMessage(error.message);
           value.setisOK(false);
           value.setmessage("Some Error Occured.. Please try again");
@@ -365,7 +368,7 @@ useEffect(() => {
             }
           }
         } catch (error) {
-           setisDelete(false);
+          setisDelete(false);
           setdeleteMessage(error.message);
           value.setisOK(false);
           value.setmessage("Some Error Occured.. Please try again");
@@ -408,8 +411,8 @@ useEffect(() => {
 
   useEffect(() => {
     fetchNotes();
-  }, [newFolderSwitch,isDelete])
-  
+  }, [newFolderSwitch, isDelete])
+
 
   useEffect(() => {
     if (value.islogout === true) {
@@ -434,36 +437,49 @@ useEffect(() => {
   }, [value.isOK]);
 
   return (
-    
-    <div className="mt-3 h-auto position-relative">
-      <ShareModal url={shareurl} seturl= {setshareurl}/>
+
+    <div className="mt-3 h-100 position-relative ">
+
+      <ShareModal url={shareurl} seturl={setshareurl} />
+
+      <UploadModal createPost={createPost} setnotesId={setnotesId} setfolderId={setfolderId} />
+
+      <DeleteModal
+        deleteNoteById={deleteNoteById}
+        setisDelete={setisDelete}
+        isDelete={isDelete}
+        setdeleteMessage={setdeleteMessage}
+        deleteMessage={deleteMessage}
+      />
+
       {/* alert for any change */}
       <Alert
         isdisplay={value.isOK === null ? false : true}
         mode={`${value.isOK === true ? "success" : "warning"}`}
         message={value.message}
       />
-      <div
-        className=" mainContent w-100 position-absolute"
-        style={{ backgroundColor: "#FFFAB7", top: "60px" }}
+
+      {<div
+        className={`mainContent w-100 position-absolute rounded-3 top-0 pt-4 ${notes.length !== 0 && folders.length !== 0 ? 'd-none' : ''}`}
+        style={{ backgroundColor: "#1f1f2ab8" }}
       >
+        {/* headers and options */}
         <div
-          className=" d-md-flex align-items-center py-3 w-100 "
+          className="headersAndOptions d-md-flex align-items-center py-3 w-100 "
           role="group"
           aria-label="Basic example"
         >
           <div className="textBtn d-flex flex-wrap align-items-center">
+
             {/* add notes button  */}
             <button
               type="button"
-              className="btn btn-primary rounded-3 mx-3 mb-3"
+              className="fileControls rounded-3 mx-3 mb-3"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Add Notes
+             <span className=" position-relative z-1">Add Notes</span> 
             </button>
-
-
             <ul className="dropdown-menu" style={{ minWidth: "100px" }}>
               <Link
                 className="dropdown-item"
@@ -489,7 +505,7 @@ useEffect(() => {
             {/* create folder button  */}
             <button
               type="button"
-              className="btn btn-primary rounded-3 mx-3 mb-3"
+              className="fileControls rounded-3 mx-3 mb-3"
               onClick={(e) => {
                 checklogin();
                 if (value.islogout === false) {
@@ -499,25 +515,23 @@ useEffect(() => {
                 }
               }}
             >
-              Folder <i className="fa-solid fa-folder-plus"></i>
+             <span className=" position-relative z-1"> Folder <i className="fa-solid fa-folder-plus"></i></span>
             </button>
 
             {/* upload files and folders button  */}
             <button
               type="button"
-              className="btn btn-primary rounded-3 mx-3 mb-3"
-              data-bs-toggle={`${
-                (folderId.length !== 0 || notesId.length !== 0) &&
+              className="fileControls rounded-3 mx-3 mb-3"
+              data-bs-toggle={`${(folderId.length !== 0 || notesId.length !== 0) &&
                 value.isOK !== false
-                  ? "modal"
-                  : ""
-              }`}
-              data-bs-target={`${
-                (folderId.length !== 0 || notesId.length !== 0) &&
+                ? "modal"
+                : ""
+                }`}
+              data-bs-target={`${(folderId.length !== 0 || notesId.length !== 0) &&
                 value.isOK !== false
-                  ? "#exampleModal2"
-                  : ""
-              }`}
+                ? "#exampleModal2"
+                : ""
+                }`}
               onClick={(e) => {
                 checklogin();
                 if (
@@ -529,7 +543,7 @@ useEffect(() => {
                   value.setmessage(
                     "You donot have any notes ... please add notes"
                   );
-                }else if (
+                } else if (
                   notesId.length === 0 &&
                   value.islogout === false &&
                   folderId.length == 0
@@ -539,13 +553,13 @@ useEffect(() => {
                 }
               }}
             >
-              Post <i className="fa-solid fa-cloud-arrow-up"></i>
+            <span className=" position-relative z-1">Post <i className="fa-solid fa-cloud-arrow-up"></i></span>  
             </button>
 
             {/* select button  */}
             <button
               type="button"
-              className="btn btn-primary rounded-3 mx-3 mb-3"
+              className="fileControls rounded-3 mx-3 mb-3"
               onClick={() => {
                 value.islogout === true ? checklogin() : "";
                 //inform user to add notes when he is logged in;
@@ -560,20 +574,20 @@ useEffect(() => {
                   );
                 }
                 (folders.length !== 0 || notes.length !== 0) &&
-                value.islogout === false
+                  value.islogout === false
                   ? select()
                   : "";
               }}
             >
-              Select
+             <span className=" position-relative z-1"> Select</span>
             </button>
-         
-              {/* btn icons  */}
-            <div className="iconBtn mb-3">
-              {/* share button  */}
 
+            {/* btn icons  */}
+            <div className="iconBtn mb-3 ">
+
+              {/* share button  */}
               <button
-              data-bs-toggle="modal" data-bs-target="#exampleModalshare"
+                data-bs-toggle="modal" data-bs-target="#exampleModalshare"
                 type="button"
                 className=" rounded-3 mx-3 pt-2"
                 style={{
@@ -581,14 +595,14 @@ useEffect(() => {
                   outlineColor: "transparent",
                   backgroundColor: "transparent",
                 }}
-                onClick={(e)=>{
+                onClick={(e) => {
                   e.preventDefault()
                   setshareurl(`https://notebridge2005.netlify.app/your/files/${value.userId}`)
                 }}
               >
                 <i
                   className="fa-solid fa-share-nodes"
-                  style={{ fontSize: "26px" }}
+                  style={{ fontSize: "26px" , color:'white' }}
                 ></i>
               </button>
 
@@ -597,18 +611,16 @@ useEffect(() => {
                 type="button"
                 id="deletebutton"
                 className="rounded-3 mx-3"
-                data-bs-toggle={`${
-                  (folderId.length !== 0 || notesId.length !== 0) &&
+                data-bs-toggle={`${(folderId.length !== 0 || notesId.length !== 0) &&
                   value.isOK !== false
-                    ? "modal"
-                    : ""
-                }`}
-                data-bs-target={`${
-                  (folderId.length !== 0 || notesId.length !== 0) &&
+                  ? "modal"
+                  : ""
+                  }`}
+                data-bs-target={`${(folderId.length !== 0 || notesId.length !== 0) &&
                   value.isOK !== false
-                    ? "#exampleModal1"
-                    : ""
-                }`}
+                  ? "#exampleModal1"
+                  : ""
+                  }`}
                 style={{
                   border: "none",
                   outlineColor: "transparent",
@@ -637,23 +649,15 @@ useEffect(() => {
                   }
                 }}
               >
-                <i className="fa-solid fa-trash" style={{ fontSize: "23px" }}></i>
+                <i className="fa-solid fa-trash" style={{ fontSize: "23px", color:'white' }}></i>
               </button>
+
             </div>
 
           </div>
-          <UploadModal createPost={createPost} setnotesId={setnotesId} setfolderId={setfolderId} />
 
-          <Modal
-            deleteNoteById={deleteNoteById}
-            setisDelete={setisDelete}
-            isDelete={isDelete}
-            setdeleteMessage={setdeleteMessage}
-            deleteMessage={deleteMessage}
-          />
         </div>
 
-        <h3 className="fw-bold w-auto px-3">Your Notes</h3>
         <div className="path d-flex align-items-center w-auto px-3 overflow-auto">
           {folderPathArray.map((item) => {
             return (
@@ -668,17 +672,11 @@ useEffect(() => {
           })}
         </div>
 
-        <div
-          className="loader d-none d-flex justify-content-center align-items-center py-5 w-100"
-          id="loader"
-        >
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
+        {/* loder upto isloaded is false  */}
+        {notes.length === 0 && folders.length === 0 && <PageLoader />}
 
         <div
-          className="w-auto px-3 mainSection d-flex flex-wrap justify-content-center py-3 "
+          className={`w-auto px-3 mainSection d-flex flex-wrap justify-content-center py-3 `}
           id="mainSection"
         >
           {/* area for showing folders  */}
@@ -690,6 +688,7 @@ useEffect(() => {
             isCreated={isCreated}
             setisCreated={setisCreated}
           />
+
           {folders.map((item) => {
             return (
               <Folder
@@ -708,7 +707,7 @@ useEffect(() => {
           })}
 
           {notes.map((file) => {
-           
+
             return (
               <NoteCard
                 key={file._id}
@@ -718,7 +717,7 @@ useEffect(() => {
                 setnotesId={setnotesId}
                 notesId={notesId}
                 url={file.url}
-                desc = {file.desc}
+                desc={file.desc}
               />
             );
           })}
@@ -727,7 +726,9 @@ useEffect(() => {
             <p className=" h3 emptyNotes fw-bold text-center"></p>
           </div>
         </div>
-      </div>
+
+      </div>}
+
     </div>
   );
 };

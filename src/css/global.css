@@ -1,3 +1,12 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body{
+  /* background-image: linear-gradient(45deg, black, rgb(7, 7, 33), rgb(47, 12, 51)); */
+  background-image:  conic-gradient(from 0deg,  rgb(14, 1, 26) , rgb(0, 0, 0) ,   rgb(30, 2, 34));
+  background-size: 400%;
+}
 .animate-from-top {
     background-color: rgb(136 202 255);
     /* transform: translate(50%,30%); */
@@ -65,9 +74,7 @@
 .cradImg{
   height: 150px;
 }
-.sideNavbar{
-  width: 34%;
-}
+
 
 @media only screen and (max-width:450px){
   .cradImg{
@@ -76,10 +83,7 @@
 }
 
 @media only screen and (max-width:576px){
-  .sideNavbar{
-    width: 13%;
-    padding: 0;
-  }
+ 
   .cardSize{
     width: 40%;
   }

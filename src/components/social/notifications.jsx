@@ -19,6 +19,8 @@ const notifications = () => {
   const [deleteSocket, setdeleteSocket] = useState([]);
   const [tempDelete, settempDelete] = useState([]);
   const [isLoaded, setisLoaded] = useState(false)
+
+
    useEffect(() => {
     socket.emit("userConnected", `${value.userId}`); //connect to io
     //socket reply of followReqStatus
@@ -198,7 +200,7 @@ const notifications = () => {
   });
 
   return (
-    <div className="container my-4">
+    <div className="container my-4 " id='notification'>
       <div className={`${isLoaded === true ? "d-none" : ""} contentLoader d-flex justify-content-center mt-5 pt-5`}>
         <ContentLoader
           speed={2}
@@ -219,16 +221,17 @@ const notifications = () => {
           <rect x="95" y="112" rx="5" ry="5" width="220" height="10" />
         </ContentLoader>
       </div>
+      {/* empty notification  */}
       <div
-        className={`${(allNotification.length === 0 && tempNotification.length === 0) && isLoaded === true
+        className={`${allNotification.length === 0 && tempNotification.length === 0 && isLoaded === true
           ? ""
           : "d-none"
           }`}
-        style={{ marginTop: "10%" }}
       >
         <RotatingBorder message="You do not have any notification" />
       </div>
-      <div className="row">
+
+      <div className={`row ${allNotification.length === 0 && tempNotification.length === 0 ? 'd-none' : '' }`}>
         <div className="col-lg-9 right mx-auto " style={{ padding: 0 }}>
           <div className="box rounded bg-white mb-3">
             <div className="box-body p-0">

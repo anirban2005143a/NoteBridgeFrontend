@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import NoteContext from "../context/notes/noteContext";
+import '../css/navbar.css'
 
 const navbar = (props) => {
   const location = useLocation();
@@ -14,33 +15,22 @@ const navbar = (props) => {
 
 
   return (
-    <nav className="d-sm-flex justify-content-between w-auto my-2 mx-2">
-      <div className="bg-secondary-subtle mx-auto d-flex justify-content-center align-items-center rounded-3">
-        <i
-          className="fa fa-search p-2 ms-1"
-          style={{ borderRight: "1px solid black" }}
-        ></i>
-        <form className=" d-flex justify-content-center" onSubmit={(e) => {
+    <nav className="d-sm-flex justify-content-between w-auto my-2 mx-2" id='navbar'>
+      <div className=" mx-auto d-flex justify-content-center align-items-center rounded-3 w-100">
+
+        <form className=" d-flex justify-content-center align-items-end" onSubmit={(e) => {
           e.preventDefault()
           props.search(e.currentTarget.querySelector('input').value)
-        }}>
-          <input
-            onChange={(e) => {
-              e.preventDefault()
-              setsearchInput(e.target.value)
-            }}
-            value={searchInput}
-            type="text"
-            className="form-control"
-            placeholder="Search Here"
-            style={{
-              backgroundColor: "transparent",
-              outline: "none",
-              border: "none",
-              boxShadow: "none"
-            }}
-          />
-          <button className="btn btn-primary">Search</button>
+        }} >
+
+          <div class="form__group field mx-3">
+            <input required type="input" class="form__field" placeholder="Name" />
+            <label for="name" class="form__label">Search</label>
+          </div>
+
+          <button type="submit" className="importedBtn rounded-2">
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </button>
         </form>
       </div>
 

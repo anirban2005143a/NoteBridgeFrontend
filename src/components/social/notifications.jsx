@@ -21,23 +21,23 @@ const notifications = () => {
   const [isLoaded, setisLoaded] = useState(false)
 
 
-   useEffect(() => {
+  useEffect(() => {
     socket.emit("userConnected", `${value.userId}`); //connect to io
     //socket reply of followReqStatus
     socket.on("followReqStatus", (data) => {
-       settempdata(data);
+      settempdata(data);
     });
     //socket reply of followReqStatus
     socket.on("UserpostComment", (data) => {
-       settempdata(data);
+      settempdata(data);
     });
     //socket reply of view request status
     socket.on("viewReq", (data) => {
-       settempdata(data);
+      settempdata(data);
     });
     //socket reply for likes
     socket.on("postLike", (data) => {
-       settempdata(data);
+      settempdata(data);
       // value.fetchNotificationToRead()
     });
     //socket reply for deleting
@@ -94,7 +94,7 @@ const notifications = () => {
       }),
     });
     const data = await res.json();
-     if (data.error) {
+    if (data.error) {
     } else {
       parentNode.querySelectorAll("button")[0].innerHTML = "Accepted";
       parentNode.querySelectorAll("button")[0].style.backgroundColor = "green";
@@ -127,7 +127,7 @@ const notifications = () => {
       }),
     })
     const data = await res.json()
-     if (data.error) {
+    if (data.error) {
 
     } else {
       parentNode.querySelectorAll("button")[1].innerHTML = "Denied";
@@ -177,7 +177,7 @@ const notifications = () => {
           ? (status = false)
           : "";
       }
-       return status;
+      return status;
     });
     settempNotification(filterdarr);
 
@@ -200,7 +200,8 @@ const notifications = () => {
   });
 
   return (
-    <div className="container my-4 " id='notification'>
+    <div className="" id='notification'>
+
       <div className={`${isLoaded === true ? "d-none" : ""} contentLoader d-flex justify-content-center mt-5 pt-5`}>
         <ContentLoader
           speed={2}
@@ -221,6 +222,7 @@ const notifications = () => {
           <rect x="95" y="112" rx="5" ry="5" width="220" height="10" />
         </ContentLoader>
       </div>
+
       {/* empty notification  */}
       <div
         className={`${allNotification.length === 0 && tempNotification.length === 0 && isLoaded === true
@@ -231,15 +233,13 @@ const notifications = () => {
         <RotatingBorder message="You do not have any notification" />
       </div>
 
-      <div className={`row ${allNotification.length === 0 && tempNotification.length === 0 ? 'd-none' : '' }`}>
-        <div className="col-lg-9 right mx-auto " style={{ padding: 0 }}>
-          <div className="box rounded bg-white mb-3">
-            <div className="box-body p-0">
-              <div
+      <div className={` d-flex justify-content-center  ${allNotification.length === 0 && tempNotification.length === 0 ? 'd-none' : ''}`}>
+        <div className=" allNotification rounded-2 my-3 me-3 overflow-hidden p-sm-3 p-2 osahan-post-header"  style={{ backgroundColor: "rgba(31, 31, 42, 0.72)" }}>
+         
+              {/* <div
                 key={Math.random() * 10000}
-                className=" p-sm-3 p-2 border-bottom osahan-post-header"
-              >
-
+                className=" p-sm-3 p-2 osahan-post-header"
+              > */}
 
                 {/* notifications after refresh  */}
                 {allNotification.map((notification) => {
@@ -251,16 +251,14 @@ const notifications = () => {
                   }
                   notification.notification.isreq ? isShow = true : ""
                   notification.notification.comment ? (isShow = true) : "";
-                   if (
-                    isShow === true 
+                  if (
+                    isShow === true
                   ) {
                     return (
                       <div
                         key={notification._id}
-                        className=" mb-3 justify-content-center notification sm-notification d-flex position-relative"
-                        style={{
-                          boxShadow: "0 0 15px blue",
-                        }}
+                        className=" mb-3 text-white justify-content-center notification sm-notification d-flex position-relative"
+                        style={{ backgroundColor: 'rgb(50 50 63 / 51%)' }}
                       >
                         {/* prifile img  */}
                         <div className="profileImg position-absolute start-0 mx-3 ">
@@ -276,7 +274,6 @@ const notifications = () => {
                               cursor: "pointer",
                             }}
                           >
-                            {/* <a href={`/social/profile/${notification.user._id}`}> */}
                             <img
                               src={
                                 notification.user.profileimg === "undefined"
@@ -285,10 +282,10 @@ const notifications = () => {
                               }
                               className=" w-100 h-100 object-fit-cover"
                             />
-                            {/* </a> */}
 
                           </div>
                         </div>
+
                         {/* notification message  */}
                         <div
                           className="content position-absolute "
@@ -300,12 +297,13 @@ const notifications = () => {
                             <Link to={`/post/${notification.notification.aboutId}`}>
                               <span onClick={(e) => {
                                 value.seturlPath(`/post/${notification.notification.aboutId}`)
-                              }} className={`${notification.notification.type ==="view" ? "" : "d-none"} mx-2`} >
+                              }} className={`${notification.notification.type === "view" ? "" : "d-none"} mx-2`} >
                                 <img src={postImg} style={{ border: "1px solid black", width: "25px", height: "25px", cursor: "pointer" }} />
                               </span>
                             </Link>
                           </div>
                         </div>
+
                         {/* btn group  */}
                         <div
                           className={`${notification.notification.isreq ? "" : "d-none"
@@ -313,13 +311,14 @@ const notifications = () => {
                         >
                           {/* accept btn  */}
                           <button
+                            disabled={notification.notification.isaccept ? true : false}
                             type="button"
                             className={`btn mx-1 sm-small btn-primary ${notification.notification.isRejected === true ? "d-none" : ""}`}
                             style={{ backgroundColor: `${notification.notification.isaccept === true ? "rgb(89 202 65)" : ""}`, color: `${notification.notification.isaccept === true ? "white" : ""}` }}
                             onClick={(e) => {
                               e.preventDefault();
                               if (notification.notification.isaccept === false) {
-                                 e.target.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
+                                e.target.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
                                 let followerId;
                                 notification.notification.type === "view"
                                   ? (followerId = notification.notification.user)
@@ -328,7 +327,7 @@ const notifications = () => {
                                   ? (followerId =
                                     notification.notification.followerId)
                                   : "";
-                                 
+
                                 acceptReq(
                                   followerId,
                                   notification.notification.aboutId,
@@ -342,12 +341,14 @@ const notifications = () => {
                             {`${notification.notification.isaccept === true ? "Accepted" : "Accept"}`}
                           </button>
                           {/* deny btn  */}
-                          <button type="button"
+                          <button
+                            disabled={notification.notification.isRejected ? true : false}
+                            type="button"
                             className={`mx-1 sm-small btn btn-danger ${notification.notification.isaccept === true ? "d-none" : ""}`}
                             onClick={(e) => {
                               e.preventDefault()
                               if (notification.notification.isRejected === false) {
-                                 e.target.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`
+                                e.target.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`
                                 let followerId;
                                 notification.notification.type === "view"
                                   ? (followerId = notification.notification.user)
@@ -356,7 +357,7 @@ const notifications = () => {
                                   ? (followerId =
                                     notification.notification.followerId)
                                   : "";
-                                
+
                                 denyReq(followerId,
                                   notification.notification.aboutId,
                                   notification.notification.type,
@@ -377,7 +378,7 @@ const notifications = () => {
                             cursor: "pointer",
                           }}
                         ><Link to={`/post/${notification.notification.aboutId}`}>
-                            <img onClick={(e)=>{
+                            <img onClick={(e) => {
                               value.seturlPath(`/post/${notification.notification.aboutId}`)
                             }} src={postImg} className=" w-100 h-100 " />
                           </Link>
@@ -390,9 +391,9 @@ const notifications = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        // </div>
+      
+
   );
 };
 

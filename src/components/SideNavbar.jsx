@@ -186,7 +186,7 @@ const sideNavbar = () => {
         </ul>
         <br />
 
-        <div className="dropdown pb-4 position-fixed bottom-0 ms-3">
+        <div className="dropdown pb-4 position-fixed bottom-0 ms-sm-3">
           <a
             className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
             id="dropdownUser1"
@@ -199,10 +199,10 @@ const sideNavbar = () => {
               alt="hugenerd"
               width="30"
               height="30"
-              className="rounded-circle me-3"
+              className="rounded-circle "
               style={{ objectFit: "cover" }}
             />
-            <span className="d-none d-sm-inline me-1">User</span>
+            <span className=" me-1">User</span>
           </a>
           <ul className="dropdown-menu dropdown-menu-dark text-small shadow mb-2">
             <li style={{ cursor: "pointer" }}>
@@ -211,9 +211,10 @@ const sideNavbar = () => {
               </Link>
             </li>
             <li style={{ cursor: "pointer" }} className={`${value.islogout === true ? "d-none" : ""}`}>
-              <a
+              <Link
                 className="dropdown-item "
-                href={profilePath}
+                // href={profilePath}
+                to={profilePath}
                 onClick={() => {
                   value.islogout === true ? value.setisOK(false) : "";
                   value.islogout === true
@@ -224,7 +225,7 @@ const sideNavbar = () => {
                 }}
               >
                 Profile
-              </a>
+              </Link>
             </li>
             <li style={{ cursor: "pointer" }}>
               <hr className="dropdown-divider" />

@@ -20,8 +20,15 @@
     height: 100px;
     align-items: center;
 }
-
-@media only screen and (max-width:680px){
+.allNotification{
+    width:85%;
+}
+@media only screen and (max-width:901px){
+    .allNotification{
+        width:100%;
+    }
+}
+@media only screen and (max-width:730px){
     .sm-small{
         font-size:15px;
     }
@@ -31,7 +38,9 @@
         padding-top: 15px;
     }
     .sm-btngroup{
+        margin-top: 10px;
         bottom: 7px;
         width: 100%;
     }
+    
 }

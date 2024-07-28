@@ -1,14 +1,46 @@
 #sideNavbar {
-  width: 20%;
-  background-image: linear-gradient(90deg , black , transparent);
+  width: 26%;
+  background-image: linear-gradient(90deg, black, transparent);
 }
 
-@media only screen and (max-width:576px) {
-  .sideNavbar {
-    width: 13%;
+#sideNavbar .dropdown a img {
+  margin-right: 1rem;
+}
+
+@media only screen and (max-width:900px) {
+  #sideNavbar {
+    width: 30%;
     padding: 0;
   }
 }
+
+@media only screen and (max-width:900px) {
+  #sideNavbar {
+    width: 40%;
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width:625px) {
+  #sideNavbar {
+    width: 15%;
+    padding: 0;
+  }
+
+  #sideNavbar .navlist ul {
+    display: none;
+  }
+
+  #sideNavbar .dropdown a span {
+    display: none;
+  }
+
+  #sideNavbar .dropdown a img {
+    margin-right: 0.2rem;
+  }
+
+}
+
 
 .sideNavbar .navlist li .importedbtn {
   width: 85%;

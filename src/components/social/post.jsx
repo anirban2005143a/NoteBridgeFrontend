@@ -739,7 +739,7 @@ const post = () => {
 
       <Navbar search={search} />
 
-      {isConnected !== null && <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder`} >
+      {isConnected !== null && <div className={`${about.length === 0 && isLoaded === true ? "" : "d-none"} rotatingBorder w-100`} style={{marginTop:"15%"}} >
         <RotatingBorder message={message} />
       </div>}
 
@@ -813,7 +813,6 @@ const post = () => {
                     className={`normalState ${user[index]._id === value.userId ? "d-none" : ""} ${allFollow.length !== 0 ? allFollow.some(obj => obj.followingId === user[index]._id) ? "d-none" : "" : ""} px-2  d-flex justify-content-center align-items-center fw-bold fs-5 text-primary`}
                     onClick={async (e) => {
                       e.preventDefault();
-                      console.log('clikced')
                       const currentTarget = e.currentTarget
                       if (value.islogout === false) {
                         // e.currentTarget.style.display = "none"

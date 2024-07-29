@@ -14,10 +14,13 @@ import CreateFolder from "./inputForms/createFolder";
 import ShareModal from "./modals/shareModal";
 import Alert from "./alert";
 import PageLoader from "./pageLoader";
+import RotatingBorder from "./rotatingBorder";
 
 const UserNotes = () => {
   const value = useContext(NoteContext);
   const socket = io(`${value.host}`);
+
+  const [isloaded, setisloaded] = useState(null)
 
   const [notes, setnotes] = useState([]); //state to save all notes in a array
   const [notesId, setnotesId] = useState([]); //state to save all selected note id in an array , by default all notes are selected
@@ -128,6 +131,7 @@ const UserNotes = () => {
       setfirstCreate(null);
       setisCreated(false);
       setfolders(data.folders);
+      setisloaded(true)
     }
   };
 
@@ -161,6 +165,7 @@ const UserNotes = () => {
       //if all is well
       try {
         setnotes(data.file);
+        setisloaded(true)
       } catch (error) {
         value.setisOK(false);
         value.setmessage(error.message);
@@ -436,6 +441,7 @@ const UserNotes = () => {
     }
   }, [value.isOK]);
 
+
   return (
 
     <div className="mt-3 h-100 position-relative ">
@@ -480,23 +486,29 @@ const UserNotes = () => {
             >
              <span className=" position-relative z-1">Add Notes</span> 
             </button>
-            <ul className="dropdown-menu" style={{ minWidth: "100px" }}>
+            <ul className="dropdown-menu text-white" style={{ minWidth: "100px" ,background: "#3d3a4e" }}>
               <Link
-                className="dropdown-item"
+                className="dropdown-item text-white"
                 to={`${value.islogout === false ? "/addNoteForm" : ""}`}
                 onClick={(e) => {
                   checklogin();
                 }}
+                onMouseOver={(e)=>{e.currentTarget.style.backgroundColor = "#2e2b3c"}}
+                onMouseLeave={(e)=>{e.currentTarget.style.backgroundColor = "#3d3a4e"}}
+                style={{transition:"all 500ms ease"}}
               >
                 <li>Text</li>
               </Link>
 
               <Link
-                className="dropdown-item"
+                className="dropdown-item text-white"
                 to={`${value.islogout === false ? "/uploadFileForm" : ""}`}
                 onClick={(e) => {
                   checklogin();
                 }}
+                onMouseOver={(e)=>{e.currentTarget.style.backgroundColor = "#2e2b3c"}}
+                onMouseLeave={(e)=>{e.currentTarget.style.backgroundColor = "#3d3a4e"}}
+                style={{transition:"all 500ms ease"}}
               >
                 <li>File</li>
               </Link>
@@ -673,7 +685,7 @@ const UserNotes = () => {
         </div>
 
         {/* loder upto isloaded is false  */}
-        {notes.length === 0 && folders.length === 0 && <PageLoader />}
+        {(notes.length === 0 && folders.length === 0) && isloaded!==true && <PageLoader />}
 
         <div
           className={`w-auto px-3 mainSection d-flex flex-wrap justify-content-center py-3 `}

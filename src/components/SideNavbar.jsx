@@ -72,7 +72,7 @@ const sideNavbar = () => {
               onClick={(e) => {
                 value.seturlPath("/")
               }}>
-              <button class="importedbtn d-flex align-items-center ">
+              <button className="importedbtn d-flex align-items-center ">
 
                 <i className={`fa-solid fa-house-user fs-5 ${location.pathname == "/" ? "fw-bold active" : ""
                   }`}></i>
@@ -92,7 +92,7 @@ const sideNavbar = () => {
               onClick={(e) => {
                 value.seturlPath("/")
               }}>
-              <button class="importedbtn d-flex align-items-center">
+              <button className="importedbtn d-flex align-items-center">
 
                 <i className={`fa-solid fa-circle-info ${location.pathname == "/about" ? "fw-bold active" : ""
                   }`}></i>
@@ -131,7 +131,7 @@ const sideNavbar = () => {
               className="w-100 text-white nav-link px-0 align-middle"
               style={{ cursor: "pointer" }}>
 
-              <button class="importedbtn d-flex align-items-center">
+              <button className="importedbtn d-flex align-items-center">
 
                 <i className={`fa-solid fa-file ${location.pathname.includes("your/files") ? "fw-bold active" : ""}`}></i>
                 <span
@@ -170,7 +170,7 @@ const sideNavbar = () => {
               data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
               style={{ cursor: "pointer" }}>
               <audio src={AlertSound}></audio>
-              <button class="importedbtn d-flex align-items-center">
+              <button className="importedbtn d-flex align-items-center">
                 <i
                   className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}
           
@@ -186,7 +186,7 @@ const sideNavbar = () => {
         </ul>
         <br />
 
-        <div className="dropdown pb-4 position-fixed bottom-0 ms-sm-3">
+        <div className="dropdown position-fixed bottom-0 ms-sm-3 mb-5">
           <a
             className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
             id="dropdownUser1"

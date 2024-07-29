@@ -23,9 +23,9 @@ const navbar = (props) => {
           props.search(e.currentTarget.querySelector('input').value)
         }} >
 
-          <div class="form__group field mx-3">
-            <input required type="input" class="form__field" placeholder="Name" />
-            <label for="name" class="form__label">Search</label>
+          <div className="form__group field mx-3">
+            <input required type="input" className="form__field" placeholder="Name" />
+            <label htmlFor="name" className="form__label">Search</label>
           </div>
 
           <button type="submit" className="importedBtn rounded-2">

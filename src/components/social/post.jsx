@@ -868,7 +868,7 @@ const post = () => {
 
                     }}
                   >
-                    <button class="importedbutton">
+                    <button className="importedbutton">
                       <span className={`followText follow `}>
                         <span className="text">Follow</span><i className="fa-solid fa-plus mx-2"></i><i className="fa-solid fa-spinner fa-spin me-3 d-none"></i>
                       </span>

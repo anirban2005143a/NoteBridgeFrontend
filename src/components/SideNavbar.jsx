@@ -173,7 +173,7 @@ const sideNavbar = () => {
               <button className="importedbtn d-flex align-items-center">
                 <i
                   className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}
-          
+
                 > <div className={`${location.pathname === "/social/notifications" ? "d-none" : ""} ${unseen === true && value.unReadNotificationLength > 0 ? "" : "d-none"}`} ><NotificationBadge /></div>
                 </i>
                 <span className={`ms-1 d-none d-sm-inline ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}>
@@ -187,7 +187,7 @@ const sideNavbar = () => {
         <br />
 
         <div className="dropdown position-fixed bottom-0 ms-sm-3 mb-5">
-          <a
+          {originalUser !== null && <a
             className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
             id="dropdownUser1"
             data-bs-toggle="dropdown"
@@ -195,7 +195,7 @@ const sideNavbar = () => {
             style={{ cursor: "pointer" }}
           >
             <img
-              src={originalUser ? value.islogout === true || originalUser.profileimg === "undefined" ? defaultUserImg : originalUser.profileimg : defaultUserImg}
+              src={originalUser!==null ? value.islogout === true || originalUser.profileimg === "undefined" ? defaultUserImg : originalUser.profileimg : defaultUserImg}
               alt="hugenerd"
               width="30"
               height="30"
@@ -203,7 +203,7 @@ const sideNavbar = () => {
               style={{ objectFit: "cover" }}
             />
             <span className=" me-1">User</span>
-          </a>
+          </a>}
           <ul className="dropdown-menu dropdown-menu-dark text-small shadow mb-2">
             <li style={{ cursor: "pointer" }}>
               <Link className="dropdown-item" to="/user/logIn">

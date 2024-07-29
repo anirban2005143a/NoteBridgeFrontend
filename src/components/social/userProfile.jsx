@@ -389,6 +389,7 @@ const userProfile = () => {
     }
   }, [allFiles, user])
 
+  console.log(user)
 
    return (
 
@@ -408,14 +409,14 @@ const userProfile = () => {
                     height: "200px",
                   }}
                 >
-                  <div className="z-2 ms-4 mt-5 d-flex flex-column" style={{ width: "150px", maxHeight: "160px" }}>
+                  {user.user && <div className="z-2 ms-4 mt-5 d-flex flex-column" style={{ width: "150px", maxHeight: "160px" }}>
                     <img
                       src={user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}
                       alt="Generic placeholder image"
                       className=" img-fluid img-thumbnail mt-4 mb-2 h-100"
                       style={{ width: "150px", backgroundColor: "#cccafa78" }}
                     />
-                  </div>
+                  </div>}
                   <div className=" z-2 ms-3" style={{ marginTop: "110px" }}>
                     <h5>{`${user.user.firstName} ${user.user.lastName}`}</h5>
 

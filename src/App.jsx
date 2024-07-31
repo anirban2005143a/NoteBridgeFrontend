@@ -11,6 +11,7 @@ import Img from "./assets/defaultUserImg.png";
 import SideNavbar from "./components/SideNavbar";
 import UserProfile from "./components/social/userProfile";
 import Post from "./components/social/post";
+import Navbar from "./components/navbar";
 import "./css/global.css";
 import Notifications from "./components/social/notifications"
 import About from "./components/about";
@@ -49,19 +50,19 @@ function App() {
       const data = await res.json();
       if (data.allNotification) {
         const Arr = data.allNotification.flat();
-         const total = Arr.length
+        const total = Arr.length
         let seen = 0
         if (localStorage.getItem("seen")) {
           seen = localStorage.getItem("seen")
-          if(location.pathname === "/social/notifications"){
-            localStorage.setItem("seen" , total)
+          if (location.pathname === "/social/notifications") {
+            localStorage.setItem("seen", total)
           }
         } else { localStorage.setItem("seen", 0) }
         const unseen = total - seen
         // console.log(total , seen , unseen)
         setunReadNotificationLength(unseen)
         if (unseen > 0) {
-           localStorage.setItem("unseen", true)
+          localStorage.setItem("unseen", true)
         }
       }
     }
@@ -88,12 +89,9 @@ function App() {
       path: "/",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
+             <div className=" w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 10}px` }}>
             <SideNavbar />
-            <div className=" w-100 overflow-auto">
-
-              <Post />
-            </div>
+            <Post />
           </div>
         </>
       ),
@@ -102,12 +100,7 @@ function App() {
       path: "/post/:id",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
-            <SideNavbar />
-            <div className=" w-100 overflow-auto">
-              <Post />
-            </div>
-          </div>
+      
         </>
       ),
     },
@@ -115,7 +108,7 @@ function App() {
       path: "/your/files/:id",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
+          <div className=" d-flex overflow-hidden" >
             <SideNavbar />
             <div className=" w-100 overflow-auto">
 
@@ -129,12 +122,10 @@ function App() {
       path: "/about",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
-
+          <Navbar />
+          <div className="d-flex w-100 overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
             <SideNavbar />
-            <div className=" w-100 overflow-auto">
-              <About />
-            </div>
+            <About />
           </div>
         </>
       ),
@@ -169,7 +160,7 @@ function App() {
       path: "/social/notifications",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
+          <div className=" d-flex overflow-hidden" >
             <SideNavbar />
             <div className=" w-100 overflow-auto">
               <Notifications />
@@ -182,7 +173,7 @@ function App() {
       path: "/social/profile/:id",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" style={{ height: "100vh" }}>
+          <div className=" d-flex overflow-hidden" >
             <SideNavbar />
             <div className=" w-100 overflow-auto">
               <UserProfile />

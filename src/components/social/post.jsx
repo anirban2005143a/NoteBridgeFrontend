@@ -734,7 +734,7 @@ const post = () => {
 
 
   return (
-    <div>
+    <div className=" w-100 overflow-auto">
       <ShareModal url={shareUrl} seturl={setshareUrl} />
 
       <Navbar search={search} />
@@ -764,13 +764,13 @@ const post = () => {
       {/* login modal  */}
       <LoginModal />
 
-      <div className="allPosts my-4 user-select-none">
+      <div className="allPosts my-4 user-select-none ">
         {about.length !== 0
           ? about.map((about, index) => {
             return (
               <div
                 key={about._id} name={about._id}
-                className=" px-1 px-md-4 py-3 mx-md-4 mx-1 my-2 mb-5 singlePost rounded-3"
+                className=" px-2 px-md-4 py-3 mx-md-4 mx-1 my-2 mb-5 singlePost rounded-3"
                 style={{
                   transform: "translateZ(15px)"
                 }}
@@ -944,7 +944,7 @@ const post = () => {
 
                 {/* about post  */}
                 <div
-                  className="about py-2 fw-normal px-2 fs-5 " style={{ color: "#fff0d4" }}>
+                  className="about py-2 fw-normal px-2 fs-5 " style={{ color: "rgb(255 248 236)" }}>
                   {about.about}
                 </div>
 
@@ -952,9 +952,7 @@ const post = () => {
                   className="postBody overflow-hidden position-relative rounded-3"
                   style={{
                     height: "400px",
-                    // backgroundImage: `url(${postBackground})`,
-                    backgroundColor: 'rgb(49 49 62 / 54%)',
-                    backgroundSize: "cover",
+                    backgroundColor: 'rgb(48 48 61)',
                   }}
                 >
                   {/* accessnotes in normal state  */}

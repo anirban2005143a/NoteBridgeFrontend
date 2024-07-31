@@ -13,7 +13,7 @@ const sideNavbar = () => {
   const [originalUser, setoriginalUser] = useState(null); //state for original user details
   const [unseen, setunseen] = useState(false)
   const [profilePath, setprofilePath] = useState(`/social/profile/${value.userId}`)
-
+  const [isVisible, setisVisible] =  useState(window.innerWidth <= 625 ? false : true)
   //function to save original user details
   const getOriUser = async () => {
     const res = await fetch(`${value.host}/api/auth/getuser`, {
@@ -35,6 +35,10 @@ const sideNavbar = () => {
       setoriginalUser(data.user);
     }
   };
+
+  window.addEventListener('resize', () => {
+    window.innerWidth <= 625 ? setisVisible(false) :  setisVisible(true)
+  })
 
   useEffect(() => {
     getOriUser()
@@ -59,7 +63,7 @@ const sideNavbar = () => {
 
 
   return (
-    <div className=" sideNavbar px-2 " id='sideNavbar'>
+    isVisible && <div className=" sideNavbar px-2 " id='sideNavbar' style={{height:`${window.innerHeight}px`}}>
       <div className="navlist d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
         <ul
           className="w-100 nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-5"
@@ -106,24 +110,6 @@ const sideNavbar = () => {
             </li>
           </Link>
 
-          {/* {!value.islogout && <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`}>
-            <li
-
-              data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
-              data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
-              className=" text-white nav-link px-0 align-middle"
-              style={{ cursor: "pointer" }}
-            >
-              <i className={`fa-solid fa-file ${location.pathname.includes("your/files") ? "fw-bold active" : ""}`}></i>
-              <span
-                className={`ms-1 d-none d-sm-inline ${location.pathname.includes("your/files") ? "fw-bold active" : ""
-                  }`}
-              >
-                &nbsp;Your Files
-              </span>
-            </li>
-          </Link>} */}
-
           <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`} className="p-0 nav-link align-middle px-0 w-100">
             <li
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
@@ -143,25 +129,6 @@ const sideNavbar = () => {
               </button>
             </li>
           </Link>
-
-          {/* {!value.islogout && <Link to={`${value.islogout === false ? "/social/notifications" : ""}`}>
-            <li
-              className=" position-relative text-white nav-link px-0 align-middle"
-              data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
-              data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
-              style={{ cursor: "pointer" }}
-
-            ><audio src={AlertSound}></audio>
-              <i
-                className={`fa-solid fa-bell position-relative ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}
-           
-              > <div className={`${location.pathname === "/social/notifications" ? "d-none" : ""} ${unseen === true && value.unReadNotificationLength > 0 ? "" : "d-none"}`} ><NotificationBadge /></div>
-              </i>
-              <span className={`ms-1 d-none d-sm-inline ${location.pathname === "/social/notifications" ? "fw-bold active" : ""}`}>
-                &nbsp;Notification
-              </span>
-            </li>
-          </Link>} */}
 
           <Link to={`${value.islogout === false ? "/social/notifications" : ""}`} className="p-0 nav-link align-middle px-0 w-100">
             <li
@@ -184,10 +151,9 @@ const sideNavbar = () => {
           </Link>
 
         </ul>
-        <br />
 
         <div className="dropdown position-fixed bottom-0 ms-sm-3 mb-5">
-          {originalUser !== null && <a
+          <a
             className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
             id="dropdownUser1"
             data-bs-toggle="dropdown"
@@ -195,7 +161,7 @@ const sideNavbar = () => {
             style={{ cursor: "pointer" }}
           >
             <img
-              src={originalUser!==null ? value.islogout === true || originalUser.profileimg === "undefined" ? defaultUserImg : originalUser.profileimg : defaultUserImg}
+              src={originalUser !== null ? value.islogout === true || originalUser.profileimg === "undefined" ? defaultUserImg : originalUser.profileimg : defaultUserImg}
               alt="hugenerd"
               width="30"
               height="30"
@@ -203,7 +169,7 @@ const sideNavbar = () => {
               style={{ objectFit: "cover" }}
             />
             <span className=" me-1">User</span>
-          </a>}
+          </a>
           <ul className="dropdown-menu dropdown-menu-dark text-small shadow mb-2">
             <li style={{ cursor: "pointer" }}>
               <Link className="dropdown-item" to="/user/logIn">

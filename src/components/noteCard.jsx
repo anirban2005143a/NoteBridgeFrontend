@@ -44,7 +44,7 @@ const noteCard = (props) => {
           <FileIconComponent extention={props.extention} />
         </div>
 
-        <div className="card-body p-0">
+        <div className="card-body p-0 mt-2">
           <p className=" w-100 cardName fw-semibold card-title text-center mb-0 fs-6 overflow-auto p-2 text-white">{props.name}</p>
         </div>
       </div>

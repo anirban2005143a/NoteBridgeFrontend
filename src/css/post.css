@@ -70,7 +70,7 @@
 }
 
 .allPosts .singlePost {
-    background-color: rgba(31, 31, 42, 0.72);
+    background-color: rgb(31 31 42);
 }
 
 .allPosts .singlePost .postBody .notesection {

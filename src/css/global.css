@@ -76,21 +76,27 @@ body{
 }
 
 
-@media only screen and (max-width:450px){
-  .cradImg{
-    height: 120px;
-  }
-}
-
-@media only screen and (max-width:576px){
+@media only screen and (max-width:625px){
  
   .cardSize{
     width: 40%;
   }
+  .cradImg{
+    height: 200px;
+  }
   .cardName{
     height: 45px;
   }
-  
+}
+@media only screen and (max-width:520px){
+  .cradImg{
+    height: 170px;
+  }
+}
+@media only screen and (max-width:450px){
+  .cradImg{
+    height: 140px;
+  }
 }
 
 .width-adjust{

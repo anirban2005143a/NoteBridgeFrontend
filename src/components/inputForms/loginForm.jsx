@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import Alert from "../alert";
 import { Link, useNavigate } from "react-router-dom";
 import NoteContext from "../../context/notes/noteContext";
+import '../../css/form.css'
 
 const LoginForm = () => {
   const value = useContext(NoteContext);
@@ -12,7 +13,7 @@ const LoginForm = () => {
     //change login button text to show the uploading process
     document.getElementById(
       "submit"
-    ).innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> loging in...`;
+    ).innerHTML = `<i className="fa-solid fa-spinner fa-spin"></i> loging in...`;
 
     try {
       const res = await fetch(`${value.host}/api/auth/login`, {
@@ -62,17 +63,17 @@ const LoginForm = () => {
   };
 
   return (
-    <>
-      <div className="Content background overflow-hidden">
-        {/* alert for any change */}
-        <Alert
-          isdisplay={value.isOK == null ? false : true}
-          mode={`${value.isOK === true ? "success" : "danger"}`}
-          message={value.message}
-        />
-        <div className="form position-relative overflow-auto w-100 h-100">
+    <>{/* alert for any change */}
+      <Alert
+        isdisplay={value.isOK == null ? false : true}
+        mode={`${value.isOK === true ? "success" : "danger"}`}
+        message={value.message}
+      />
+      <div className="Content bg-black overflow-hidden" id="Content">
+        <div className="heading fw-bold text-center mt-4 " style={{ color: "wheat", fontSize: "4rem" }}>Welcome!</div>
+        <div className="form position-relative">
           <form
-            className=" p-3 z-2 animate-from-top width-adjust"
+            className=" p-3 w-50 mx-auto"
             onSubmit={(e) => {
               e.preventDefault();
               loginUser();
@@ -91,38 +92,64 @@ const LoginForm = () => {
               ></button>
             </div>
             {/* user email  */}
-            <div className="form-group my-1">
-              <label htmlFor="exampleInputEmail" className=" fw-semibold">
-                Email address
-              </label>
+            <div className="formcontrol">
               <input
                 required
                 type="email"
-                className="form-control fw-semibold"
-                id="exampleInputEmail"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-              />
-            </div>
-            {/* user password  */}
-            <div className="form-group my-1">
-              <label htmlFor="exampleInputPassword" className=" fw-semibold">
-                Password
+                id="exampleInputEmail" />
+              <label>
+                <span style={{ transitionDelay: "0ms" }}>E</span>
+                <span style={{ transitionDelay: "50ms" }}>n</span>
+                <span style={{ transitionDelay: "100ms" }}>t</span>
+                <span style={{ transitionDelay: "150ms" }}>e</span>
+                <span style={{ transitionDelay: "200ms" }}>r</span>
+                <span style={{ transitionDelay: "250ms" }}>{` `}</span>
+                <span style={{ transitionDelay: "300ms" }}>E</span>
+                <span style={{ transitionDelay: "350ms" }}>m</span>
+                <span style={{ transitionDelay: "400ms" }}>a</span>
+                <span style={{ transitionDelay: "450ms" }}>i</span>
+                <span style={{ transitionDelay: "500ms" }}>l</span>
               </label>
+            </div>
+
+            {/* user password  */}
+            <div className="formcontrol">
               <input
                 minLength={5}
                 required
                 type="password"
-                className="form-control fw-semibold"
-                id="exampleInputPassword"
-                placeholder="Password"
-              />
+                id="exampleInputPassword" />
+              <label>
+                <span style={{ transitionDelay: "0ms" }}>P</span>
+                <span style={{ transitionDelay: "50ms" }}>a</span>
+                <span style={{ transitionDelay: "100ms" }}>s</span>
+                <span style={{ transitionDelay: "150ms" }}>s</span>
+                <span style={{ transitionDelay: "200ms" }}>w</span>
+                <span style={{ transitionDelay: "300ms" }}>o</span>
+                <span style={{ transitionDelay: "350ms" }}>r</span>
+                <span style={{ transitionDelay: "400ms" }}>d</span>
+              </label>
             </div>
 
             <button type="submit" className="btn btn-primary mt-3" id="submit">
               Log-in
             </button>
-            <p className=" fw-light mt-2">
+            <button type="submit" id="submit" className="animated-button">
+              <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+              </svg>
+              <span className="text">Modern Button</span>
+              <span className="circle"></span>
+              <svg viewBox="0 0 24 24" className="arr-1" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+              </svg>
+            </button>
+
+            <p className=" fw-light mt-2 text-warning">
               does not have any account?{" "}
               <Link
                 to="/user/signup"

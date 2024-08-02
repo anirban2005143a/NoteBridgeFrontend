@@ -79,8 +79,8 @@ const modal = (props) => {
       aria-hidden="true"
     >
       <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header " style={{ background: "#5AB2FF" }}>
+        <div className="modal-content" style={{backgroundColor:"#4b4d4f"}}>
+          <div className="modal-header text-white" style={{ background: "rgb(44 52 59)" }}>
             <h1 className="modal-title ps-2 fs-5" id="exampleModalLabel">
               Upload
             </h1>
@@ -88,7 +88,6 @@ const modal = (props) => {
           <form onSubmit={handelPost}>
             <div
               className="modal-body fs-5 fw-semibold "
-              style={{ backgroundColor: "#FFF5E0" }}
             >
               <textarea
                 id="aboutPost"
@@ -96,9 +95,10 @@ const modal = (props) => {
                 className="w-100 ps-2 rounded-3 fs-6"
                 placeholder="Write something about your post..."
                 style={{
-                  border: "2px solid black",
+                  border: "2px solid #242424",
                   maxHeight: "100px",
                   minHeight: "40px",
+                  background: "#242424"
                 }}
                 onChange={(e)=>{
                   e.preventDefault()
@@ -118,7 +118,6 @@ const modal = (props) => {
             </div>
             <div
               className="modal-footer"
-              style={{ backgroundColor: "#FFF5E0" }}
             >
               <button
                 type="button"
@@ -133,7 +132,7 @@ const modal = (props) => {
                 type="submit"
                 className="btn text-white"
                 id="Postbutton"
-                style={{ backgroundColor: "#001494" }}
+                style={{ backgroundColor: "rgb(4 13 64)" }}
               >
                 Post
               </button>

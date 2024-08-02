@@ -1,5 +1,6 @@
 #userProfile{
     width: 72%;
+    margin-top: 2rem;
 }
 #userProfile .userDetails{
     padding: 1rem;
@@ -8,5 +9,6 @@
 @media (max-width : 626px){
     #userProfile{
         width: 100%;
+        margin-top:5rem;
     }
 }

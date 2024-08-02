@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import NoteContext from "../../context/notes/noteContext";
-import lightBackground from "../../assets/lightBackground.jpg"
-import postBackground from "../../assets/postBackground.jpg";
 import { v4 as uuid } from "uuid";
 import io from "socket.io-client";
 import LoadingProfile from "../loadingProfile"
@@ -12,6 +10,7 @@ import CardLoading from "../cardLoading";
 import { showFiles } from "../../functions/showFiles";
 import '../../css/userProfile.css'
 import coverImg from '../../assets/wave (1).png'
+import Navbar from '../navbar'
 
 const userProfile = () => {
 
@@ -80,6 +79,7 @@ const userProfile = () => {
   const [originalUser, setoriginalUser] = useState({})
   const [allViewReq, setallViewReq] = useState([]);
   const [isLoaded, setisLoaded] = useState(false)
+  const [navbarVisible, setnavbarVisible] = useState(false)
 
   //function to fetch user details
   const fetchUserDetails = async (userId) => {
@@ -391,393 +391,405 @@ const userProfile = () => {
     }
   }, [allFiles, user])
 
+  useEffect(() => {
+    window.innerWidth <= 625 ? setnavbarVisible(true) : setnavbarVisible(false)
+  }, [])
+  
+  window.addEventListener('resize', () => {
+    window.innerWidth <= 625 ? setnavbarVisible(true) : setnavbarVisible(false)
+  })
+
+
   return (
-
-    <section className="h-100 gradient-custom-2 user-select-none" id="userProfile" >
-      <div className="profileLoader w-100 h-100"><LoadingProfile /></div>
-      {user.map((user) => {
-        return <div key={user.user._id} className="userDetails h-100 w-100 overflow-auto rounded-3">
-          <div className=" rounded-3">
-            <div
-              className="rounded-top position-relative text-white d-flex flex-row background"
-              style={{
-                backgroundImage: `url('${coverImg}')`,
-                backgroundSize: "100% 100%",
-                backgroundRepeat: "no-repeat",
-                height: "200px",
-                backgroundColor: "#1a1a1dbd" 
-              }}
-            >
-              <div className="z-2 ms-4 mt-5 d-flex flex-column" style={{ width: "150px", maxHeight: "160px" }}>
-                <img
-                  src={user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}
-                  alt="Generic placeholder image"
-                  className=" img-fluid img-thumbnail mt-4 mb-2 h-100"
-                  style={{ width: "150px", backgroundColor: "rgb(39 38 45 / 77%)" }}
-                />
-              </div>
-
-              <div className=" z-2 ms-3 text-white" style={{ marginTop: "110px" }}>
-                <h5>{`${user.user.firstName} ${user.user.lastName}`}</h5>
-              </div>
-            </div>
-
-            <div className={`my-3 my-sm-0 p-4 text-black d-sm-flex justify-content-between  align-items-center`} >
-
-              {/* more info  */}
-              {/* <div className={`userinfo fs-5 ${user.user._id !== value.userId ? "d-none" : ""} py-1 px-2 bg-white rounded-3`} style={{ boxShadow: "0 0 15px #0d6efd" }}>
-                    <Link className="text-decoration-none" to={`${value.islogout === false ? "/user/account" : ""}`} style={{ cursor: "pointer" }}><i className="fa-solid fa-user"></i><span className=" px-2 fw-semibold">More About You</span></Link>
-                  </div> */}
-              <div className={`userabout text-white ${user.user._id !== value.userId ? "d-none" : ""}  px-2 `} style={{ maxWidth: "50%" }}>
-                <p className=" m-0" style={{ fontSize: "1.1rem" }}>
-                  {user.user.about}
-                </p>
-              </div>
-
-              {/* follow section  */}
-              <div style={{ cursor: "pointer" }} className={`user-select-none text-white ${user.user._id === value.userId ? "d-none" : ""} mx-2 followSection d-flex justify-content-center align-items-center fw-bolder fs-4`}>
-                <span
-                  className={`${user.followers.some(men => men.followerId === value.userId) ? "d-none" : ""} ${user.pendding.some(men => men.followerId === value.userId) ? "d-none" : ""}  followText follow`}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, true)
-                  }}
-                >
-                  Follow<i className="fa-solid fa-plus mx-2"></i>
-                </span>
-                <span
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, false)
-                  }}
-                  className={`${user.pendding.some(men => men.followerId === value.userId) ? "" : "d-none"} followText request follow  `}
-                  style={{ color: "orange" }}
-                >
-                  Request
-                  <i className="fa-solid fa-circle-check mx-2"></i>
-                </span>
-                <span
-                  className={`${user.followers.some(men => men.followerId === value.userId) ? "" : "d-none"} followed user-select-none`}
-                >
-                  Following&nbsp;
-                  <i className="fa-solid fa-user-plus"></i>
-                </span>
-              </div>
-              {/* posts , followers , following  */}
-              <div className="d-flex my-3 my-sm-0 justify-content-center justify-content-sm-end text-center py-1 text-white" >
-                <div className="px-1">
-                  <p className="mb-1 h5">{`${user.about.length}`}</p>
-                  <p className="small mb-0">Posts</p>
+    <>
+      {/* {navbarVisible && <Navbar search={() => { }} />} */}
+     {navbarVisible && <div className=" position-absolute w-100 top-0">
+      <Navbar search={() => { }} />
+      </div>}
+      <section className="h-100 gradient-custom-2 user-select-none" id="userProfile" >
+        <div className="profileLoader w-100 h-100"><LoadingProfile /></div>
+        {user.map((user) => {
+          return <div key={user.user._id} className="userDetails h-100 w-100 overflow-auto rounded-3">
+            <div className=" rounded-3">
+              <div
+                className="rounded-top position-relative text-white d-flex flex-row background"
+                style={{
+                  backgroundImage: `url('${coverImg}')`,
+                  backgroundSize: "100% 100%",
+                  backgroundRepeat: "no-repeat",
+                  height: "200px",
+                  backgroundColor: "#1a1a1dbd"
+                }}
+              >
+                <div className="z-2 ms-4 mt-5 d-flex flex-column" style={{ width: "150px", maxHeight: "160px" }}>
+                  <img
+                    src={user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}
+                    alt="Generic placeholder image"
+                    className=" img-fluid img-thumbnail mt-4 mb-2 h-100"
+                    style={{ width: "150px", backgroundColor: "rgb(39 38 45 / 77%)" }}
+                  />
                 </div>
-                <div className="px-1">
-                  <p className="mb-1 h5">{`${user.followers.length}`}</p>
-                  <p className="small mb-0">Followers</p>
-                </div>
-                <div className="px-1">
-                  <p className="mb-1 h5">{`${user.followings.length}`}</p>
-                  <p className="small mb-0">Following</p>
+
+                <div className=" z-2 ms-3 text-white" style={{ marginTop: "110px" }}>
+                  <h5>{`${user.user.firstName} ${user.user.lastName}`}</h5>
                 </div>
               </div>
-            </div>
 
-            {/* user name , email and other details  */}
+              <div className={`my-3 my-sm-0 p-4 text-black d-sm-flex justify-content-between  align-items-center`} >
 
+                {/* more info  */}
 
-            <div className="card-body">
-              <div className=" g-4">
-                {user.about.map((about, index) => {
-                  return (<div
-                    key={about._id}
-                    id="post"
-                    className="mb-5 rounded-3"
-                    style={{
-                      transform: "translateZ(15px)",
-                      backgroundColor:"#25252f"
+                <div className={`userabout text-white ${user.user._id !== value.userId ? "d-none" : ""}  px-2 `} style={{ maxWidth: "50%" }}>
+                  <p className=" m-0" style={{ fontSize: "1.1rem" }}>
+                    {user.user.about}
+                  </p>
+                </div>
+
+                {/* follow section  */}
+                <div style={{ cursor: "pointer" }} className={`user-select-none text-white ${user.user._id === value.userId ? "d-none" : ""} mx-2 followSection d-flex justify-content-center align-items-center fw-bolder fs-4`}>
+                  <span
+                    className={`${user.followers.some(men => men.followerId === value.userId) ? "d-none" : ""} ${user.pendding.some(men => men.followerId === value.userId) ? "d-none" : ""}  followText follow`}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, true)
                     }}
                   >
-                    {/* post header  */}
-                    <div className="header d-flex justify-content-between py-2 ">
-                      <div className="profileImgAndName px-2 d-flex justify-content-between  w-auto py-2 align-items-center">
-                        <div className="profileImg mx-2">
-                          <img
-                            className=" rounded-circle"
-                            src={user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}
-                            style={{
-                              width: "40px",
-                              height: "40px",
-                              objectFit: "cover",
-                              objectPosition: "center",
-                            }}
-                          />
-                        </div>
-                        <div className="posterName fw-semibold fs-5 text-white">
-                          {`${user.user.firstName} ${user.user.lastName}`}
-                        </div>
-                      </div>
-                    </div>
+                    Follow<i className="fa-solid fa-plus mx-2"></i>
+                  </span>
+                  <span
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, false)
+                    }}
+                    className={`${user.pendding.some(men => men.followerId === value.userId) ? "" : "d-none"} followText request follow  `}
+                    style={{ color: "orange" }}
+                  >
+                    Request
+                    <i className="fa-solid fa-circle-check mx-2"></i>
+                  </span>
+                  <span
+                    className={`${user.followers.some(men => men.followerId === value.userId) ? "" : "d-none"} followed user-select-none`}
+                  >
+                    Following&nbsp;
+                    <i className="fa-solid fa-user-plus"></i>
+                  </span>
+                </div>
+                {/* posts , followers , following  */}
+                <div className="d-flex my-3 my-sm-0 justify-content-center justify-content-sm-end text-center py-1 text-white" >
+                  <div className="px-1">
+                    <p className="mb-1 h5">{`${user.about.length}`}</p>
+                    <p className="small mb-0">Posts</p>
+                  </div>
+                  <div className="px-1">
+                    <p className="mb-1 h5">{`${user.followers.length}`}</p>
+                    <p className="small mb-0">Followers</p>
+                  </div>
+                  <div className="px-1">
+                    <p className="mb-1 h5">{`${user.followings.length}`}</p>
+                    <p className="small mb-0">Following</p>
+                  </div>
+                </div>
+              </div>
 
-                    {/* about post  */}
-                    <div
-                      className="about py-2 px-3 fw-semibold text-white"
-                      style={{ fontSize:"1.2rem"}}
-                    >
-                      {about.about}
-                    </div>
+              {/* user name , email and other details  */}
 
-                    {/* post main body  */}
-                    <div
-                      name={about._id}
-                      className="postBody overflow-hidden position-relative"
+
+              <div className="card-body">
+                <div className=" g-4">
+                  {user.about.map((about, index) => {
+                    return (<div
+                      key={about._id}
+                      id="post"
+                      className="mb-5 rounded-3"
                       style={{
-                        height: `${Math.max(window.innerHeight*0.65 , 400)}px`,
-                        backgroundColor:"#22222a"
+                        transform: "translateZ(15px)",
+                        backgroundColor: "#25252f"
                       }}
                     >
-                      {/* access notes   */}
-                      <div
-                        className={`${user.user._id === value.userId ? "d-none" : ""} ${allViewReq.some(view => view.aboutId === about._id && view.isaccept === true) ? "d-none" : ""} accessNotesNormal position-absolute top-0 start-0 w-100 h-100 z-1`}
-                        style={{ backgroundColor: "#4d4d4d9c" }}
-                      >
-                        <div className="glow position-relative w-100 h-100 d-flex align-items-center justify-content-center">
-                          <button
-                            className={`req  ${allViewReq.some(view => view.aboutId === about._id && view.isRejected === false) ? "d-none" : ""} glowbtn position-relative  fw-semibold fs-5`}
-                            onClick={(e) => {
-                              e.preventDefault()
-                              handelViewReq(about._id, user.user._id, true, e.currentTarget.parentElement)
-                            }}>
-                            <span  >
-                              Request{` ${user.user.firstName} `}to see notes
-                            </span>
-                          </button>
-                          <button
-                            className={`req  ${allViewReq.some(view => view.aboutId === about._id && view.isRejected === false) ? "" : "d-none"} glowbtn position-relative  fw-semibold fs-5 `} onClick={(e) => {
-                              e.preventDefault()
-                              handelViewReq(about._id, user.user._id, false, e.currentTarget.parentElement)
-                            }}
-                          >
-                            <span >
-                              Request Sent
-                            </span>
-                          </button>
+                      {/* post header  */}
+                      <div className="header d-flex justify-content-between py-2 ">
+                        <div className="profileImgAndName px-2 d-flex justify-content-between  w-auto py-2 align-items-center">
+                          <div className="profileImg mx-2">
+                            <img
+                              className=" rounded-circle"
+                              src={user.user.profileimg === "undefined" ? defaultUserImg : user.user.profileimg}
+                              style={{
+                                width: "40px",
+                                height: "40px",
+                                objectFit: "cover",
+                                objectPosition: "center",
+                              }}
+                            />
+                          </div>
+                          <div className="posterName fw-semibold fs-5 text-white">
+                            {`${user.user.firstName} ${user.user.lastName}`}
+                          </div>
                         </div>
                       </div>
 
-                      <div className="notesection overflow-auto w-100 h-100" style={{ scrollbarWidth: "thin" }}>
-                        {folderPath.length !== 0 ?
-                          folderPath.map((path) => {
-                            return <div className="folderPathforNotesection" path={path} name={about._id}>
-                              <div
-                                className=" px-2 py-1 text-white"
-                                key={uuid()}
-                                style={{
-                                  backgroundColor: "rgb(74 77 94 / 62%)",
-                                  fontStyle: "italic",
-                                  fontWeight:"400"
-                                }}
-                              >
-                                {path}
-                              </div>
-                              <div path={path} className="filecards d-flex flex-wrap justify-content-center py-3">
-                                {allFiles.length !== 0 && allFiles.length === user.about.length ? allFiles[index].map((file) => {
-                                  if (file.folderPath === path) {
-                                    return <div
-                                      key={file.file._id}
-                                      className=" m-md-3 m-1 cardSize noteDiv position-relative"
-                                    >
-                                      <div onClick={(e) => {
-                                        e.preventDefault()
-                                        showFiles(file.file.url, file.file.desc)
-                                      }}
-                                        className="card h-auto"
-                                        style={{ cursor: "pointer" }}
-                                      >
-                                        <div
-                                          className="card-img-top mx-auto pt-2 cradImg "
-                                          style={{ width: "65%" }}
-                                        >
-                                          <FileIconComponent
-                                            extention={file.file.extention}
-                                          />
-                                        </div>
+                      {/* about post  */}
+                      <div
+                        className="about py-2 px-3 fw-semibold text-white"
+                        style={{ fontSize: "1.2rem" }}
+                      >
+                        {about.about}
+                      </div>
 
-                                        <div className="card-body p-0">
-                                          <p
-                                            className=" w-100 cardName fw-bold card-title text-center mb-0 fs-6 overflow-auto p-2 "
-                                            style={{
-                                              scrollbarWidth: "thin",
-                                            }}
+                      {/* post main body  */}
+                      <div
+                        name={about._id}
+                        className="postBody overflow-hidden position-relative"
+                        style={{
+                          height: `${Math.max(window.innerHeight * 0.65, 400)}px`,
+                          backgroundColor: "#22222a"
+                        }}
+                      >
+                        {/* access notes   */}
+                        <div
+                          className={`${user.user._id === value.userId ? "d-none" : ""} ${allViewReq.some(view => view.aboutId === about._id && view.isaccept === true) ? "d-none" : ""} accessNotesNormal position-absolute top-0 start-0 w-100 h-100 z-1`}
+                          style={{ backgroundColor: "#4d4d4d9c" }}
+                        >
+                          <div className="glow position-relative w-100 h-100 d-flex align-items-center justify-content-center">
+                            <button
+                              className={`req  ${allViewReq.some(view => view.aboutId === about._id && view.isRejected === false) ? "d-none" : ""} glowbtn position-relative  fw-semibold fs-5`}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                handelViewReq(about._id, user.user._id, true, e.currentTarget.parentElement)
+                              }}>
+                              <span  >
+                                Request{` ${user.user.firstName} `}to see notes
+                              </span>
+                            </button>
+                            <button
+                              className={`req  ${allViewReq.some(view => view.aboutId === about._id && view.isRejected === false) ? "" : "d-none"} glowbtn position-relative  fw-semibold fs-5 `} onClick={(e) => {
+                                e.preventDefault()
+                                handelViewReq(about._id, user.user._id, false, e.currentTarget.parentElement)
+                              }}
+                            >
+                              <span >
+                                Request Sent
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="notesection overflow-auto w-100 h-100" style={{ scrollbarWidth: "thin" }}>
+                          {folderPath.length !== 0 ?
+                            folderPath.map((path) => {
+                              return <div className="folderPathforNotesection" path={path} name={about._id}>
+                                <div
+                                  className=" px-2 py-1 text-white"
+                                  key={uuid()}
+                                  style={{
+                                    backgroundColor: "rgb(74 77 94 / 62%)",
+                                    fontStyle: "italic",
+                                    fontWeight: "400"
+                                  }}
+                                >
+                                  {path}
+                                </div>
+                                <div path={path} className="filecards d-flex flex-wrap justify-content-center py-3">
+                                  {allFiles.length !== 0 && allFiles.length === user.about.length ? allFiles[index].map((file) => {
+                                    if (file.folderPath === path) {
+                                      return <div
+                                        key={file.file._id}
+                                        className=" m-md-3 m-1 cardSize noteDiv position-relative"
+                                      >
+                                        <div onClick={(e) => {
+                                          e.preventDefault()
+                                          showFiles(file.file.url, file.file.desc)
+                                        }}
+                                          className="card h-auto"
+                                          style={{ cursor: "pointer" }}
+                                        >
+                                          <div
+                                            className="card-img-top mx-auto pt-2 cradImg "
+                                            style={{ width: "65%" }}
                                           >
-                                            {file.file.originalname}
-                                          </p>
+                                            <FileIconComponent
+                                              extention={file.file.extention}
+                                            />
+                                          </div>
+
+                                          <div className="card-body p-0">
+                                            <p
+                                              className=" text-white w-100 cardName fw-bold card-title text-center mb-0 fs-6 overflow-auto p-2 "
+                                              style={{
+                                                scrollbarWidth: "thin",
+                                              }}
+                                            >
+                                              {file.file.originalname}
+                                            </p>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  }
-                                }) : ""}
+                                    }
+                                  }) : ""}
+                                </div>
+                                <div className={`cardloader w-100 h-100 ${isLoaded === true ? "d-none" : ""} `} ><CardLoading /></div>
                               </div>
-                              <div className={`cardloader w-100 h-100 ${isLoaded === true ? "d-none" : ""} `} ><CardLoading /></div>
-                            </div>
-                          })
-                          : ""}
-                      </div>
-                    </div>
-
-                    {/* post footer  */}
-                    <div className="postFooter d-flex justify-content-between align-items-center fs-3 pt-2 ">
-                      <div
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Like Post"
-                        className="likePost mx-3 "
-                        style={{ cursor: "pointer" }}
-                      > <i
-                        className={`fa-regular fa-heart text-danger ${user.likes.length !== 0 ? user.likes.some(item => item.aboutId === about._id && item.user === value.userId) ? "d-none" : "" : ""}`}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          handellike(about._id, user.user._id, true)
-                        }}
-                        style={{ cursor: "pointer" }}
-                      ></i>
-                        {user.likes.length !== 0 ?
-                          user.likes.map((like) => {
-                            if (like.aboutId === about._id && like.user === value.userId) {
-
-                              return <i
-                                className={`fa-solid fa-heart text-danger ${like.isLiked === true ? "" : "d-none"}`}
-                                onClick={(e) => {
-                                  e.preventDefault()
-                                  handellike(about._id, user.user._id, false)
-                                }}
-                              ></i>
-                            }
-                          }) : ""}
+                            })
+                            : ""}
+                        </div>
                       </div>
 
-                      <div
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Comment"
-                        className="commentPost mx-3"
-                        style={{ cursor: "pointer" }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          const ind = Array.from(
-                            document.getElementsByClassName("commentPost")
-                          ).indexOf(e.currentTarget);
-                          handelComment(about._id, ind);
-                        }}
-                      >
-                        <i className=" fa-regular fa-comment text-primary"></i>
-                      </div>
-                      <div
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Share"
-                        className="sharePost mx-3"
-                        style={{ cursor: "pointer" }}
-                      >
-                        <i className=" fa-regular fa-share-from-square text-primary-emphasis"></i>
-                      </div>
-                    </div>
+                      {/* post footer  */}
+                      <div className="postFooter d-flex justify-content-between align-items-center fs-3 pt-2 ">
+                        <div
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Like Post"
+                          className="likePost mx-3 "
+                          style={{ cursor: "pointer" }}
+                        > <i
+                          className={`fa-regular fa-heart text-danger ${user.likes.length !== 0 ? user.likes.some(item => item.aboutId === about._id && item.user === value.userId) ? "d-none" : "" : ""}`}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            handellike(about._id, user.user._id, true)
+                          }}
+                          style={{ cursor: "pointer" }}
+                        ></i>
+                          {user.likes.length !== 0 ?
+                            user.likes.map((like) => {
+                              if (like.aboutId === about._id && like.user === value.userId) {
 
-                    {/* comment section  */}
-                    <div
-                      className="comments my-3 d-none"
-                      name={about._id}
-                      id="comments"
-                    >
-                      <div className="commentForm py-3">
-                        <form
-                          className="formcomments d-flex justify-content-center align-items-center"
-                          onSubmit={async (e) => {
+                                return <i
+                                  className={`fa-solid fa-heart text-danger ${like.isLiked === true ? "" : "d-none"}`}
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    handellike(about._id, user.user._id, false)
+                                  }}
+                                ></i>
+                              }
+                            }) : ""}
+                        </div>
+
+                        <div
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Comment"
+                          className="commentPost mx-3"
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
                             e.preventDefault();
-                            const i = Array.from(
-                              document.getElementsByClassName("formcomments")
+                            const ind = Array.from(
+                              document.getElementsByClassName("commentPost")
                             ).indexOf(e.currentTarget);
-                            const inputValue =
-                              document.getElementsByClassName("commentInput")[i]
-                                .value;
-                            submitCom(about._id, inputValue, userId);
-                            document.getElementsByClassName("commentInput")[
-                              i
-                            ].value = "";
-                            fetchUserDetails(userId)
+                            handelComment(about._id, ind);
                           }}
                         >
-                          <div className="profileImgOfComment mx-2">
-                            <img
-                              className=" rounded-circle"
-                              src={originalUser != {} ? originalUser.profileimg : defaultUserImg}
-                              style={{ width: "30px", height: "30px" }}
-                            />
-                          </div>
-                          <div className="name fw-semibold">{`${originalUser != {} ? originalUser.firstName : ""} `}</div>
-                          <input
-                            required
-                            className="commentInput w-75 mx-3"
-                            placeholder="Write Your Comment"
-                            style={{
-                              outline: "none",
-                              border: "none",
-                              borderBottom: "2px solid black",
-                              backgroundColor: "transparent",
-                            }}
-                          />
-                          <button
-                            type="submit"
-                            className=" commentSubmit btn btn-primary rounded-5 px-2 py-1"
-                          >
-                            Post
-                          </button>
-                        </form>
+                          <i className=" fa-regular fa-comment text-primary"></i>
+                        </div>
+                        <div
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Share"
+                          className="sharePost mx-3"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <i className=" fa-regular fa-share-from-square text-primary-emphasis"></i>
+                        </div>
                       </div>
-                      {/* others comments  */}
-                      {commentUsers.length !== 0 && commentUsers.length === user.comment.length ? user.comment.map((com) => {
-                        if (com.aboutId === about._id) {
-                          let comUser
-                          for (let index = 0; index < commentUsers.length; index++) {
-                            if (commentUsers[index]._id === com.user) {
-                              comUser = commentUsers[index]
-                            }
-                          }
-                          if (comUser) {
-                            return <div className="otherComments p-3 d-flex align-items-center">
-                              <div className="commentHeader">
-                                <div className="profileImgOfComment mx-2">
-                                  <img
-                                    className=" rounded-circle"
-                                    src={comUser.profileimg}
-                                    style={{ width: "40px", height: "40px" }}
-                                  />
-                                </div>
-                              </div>
-                              <div className="commentBody">
-                                <div className="userName fw-light">{`${comUser.firstName} ${comUser.lastName}`}</div>
-                                <div className="commentContent fw-medium">
-                                  {com.comment}
-                                </div>
-                              </div>
+
+                      {/* comment section  */}
+                      <div
+                        className="comments my-3 d-none"
+                        name={about._id}
+                        id="comments"
+                      >
+                        <div className="commentForm py-3">
+                          <form
+                            className="formcomments d-flex justify-content-center align-items-center"
+                            onSubmit={async (e) => {
+                              e.preventDefault();
+                              const i = Array.from(
+                                document.getElementsByClassName("formcomments")
+                              ).indexOf(e.currentTarget);
+                              const inputValue =
+                                document.getElementsByClassName("commentInput")[i]
+                                  .value;
+                              submitCom(about._id, inputValue, userId);
+                              document.getElementsByClassName("commentInput")[
+                                i
+                              ].value = "";
+                              fetchUserDetails(userId)
+                            }}
+                          >
+                            <div className="profileImgOfComment mx-2">
+                              <img
+                                className=" rounded-circle"
+                                src={originalUser != {} ? originalUser.profileimg : defaultUserImg}
+                                style={{ width: "30px", height: "30px" }}
+                              />
                             </div>
+                            <div className="name fw-semibold">{`${originalUser != {} ? originalUser.firstName : ""} `}</div>
+                            <input
+                              required
+                              className="commentInput w-75 mx-3"
+                              placeholder="Write Your Comment"
+                              style={{
+                                outline: "none",
+                                border: "none",
+                                borderBottom: "2px solid black",
+                                backgroundColor: "transparent",
+                              }}
+                            />
+                            <button
+                              type="submit"
+                              className=" commentSubmit btn btn-primary rounded-5 px-2 py-1"
+                            >
+                              Post
+                            </button>
+                          </form>
+                        </div>
+                        {/* others comments  */}
+                        {commentUsers.length !== 0 && commentUsers.length === user.comment.length ? user.comment.map((com) => {
+                          if (com.aboutId === about._id) {
+                            let comUser
+                            for (let index = 0; index < commentUsers.length; index++) {
+                              if (commentUsers[index]._id === com.user) {
+                                comUser = commentUsers[index]
+                              }
+                            }
+                            if (comUser) {
+                              return <div className="otherComments p-3 d-flex align-items-center">
+                                <div className="commentHeader">
+                                  <div className="profileImgOfComment mx-2">
+                                    <img
+                                      className=" rounded-circle"
+                                      src={comUser.profileimg}
+                                      style={{ width: "40px", height: "40px" }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="commentBody">
+                                  <div className="userName fw-light">{`${comUser.firstName} ${comUser.lastName}`}</div>
+                                  <div className="commentContent fw-medium">
+                                    {com.comment}
+                                  </div>
+                                </div>
+                              </div>
+                            }
+
                           }
-
+                        }) : ""
                         }
-                      }) : ""
-                      }
 
-                    </div>
-                  </div>)
-                })}
+                      </div>
+                    </div>)
+                  })}
+                </div>
               </div>
+
             </div>
-
           </div>
-        </div>
-        // </div>
-        // </div>
-      })
-      }
+          // </div>
+          // </div>
+        })
+        }
 
-    </section>
+      </section>
+    </>
   );
 };
 

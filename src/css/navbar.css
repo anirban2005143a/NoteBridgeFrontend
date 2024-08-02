@@ -9,10 +9,10 @@
     position: absolute;
     top: calc(100% + 10px);
     left:  calc(-100% - 50px);
-    background-color: #36454F;
+    background-color: #253038;
     z-index: 5;
     padding: 20px 50px;
-    border-radius: 15px 85px / 100px;
+    border-radius: 1.2rem;
 }
 #navbar .slidingMenu.slideDivtoRight{
     left: 20px;
@@ -30,6 +30,9 @@
     cursor: pointer;
     margin: 5px 7px;
     padding: 5px 7px;
+}
+#navbar .slidingMenu ul li:hover{
+    font-weight: bold;
 }
 #navbar div form{
     width: 50%;

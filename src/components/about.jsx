@@ -56,8 +56,9 @@ const about = () => {
 
     return (
         <>
-            
-            <div className="container-fluid " id="about" style={{height:`${window.innerHeight}px`}}>
+        <div className="navbar position-fixed top-0 w-100 start-0"> </div>
+           
+            <div className="container-fluid h-100" id="about">
                 <div className="w-100">
                     <div className="w-100">
                         <div className="text-center mb-5">

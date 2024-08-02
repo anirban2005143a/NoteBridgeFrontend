@@ -30,7 +30,7 @@ color: #ffffffd3;
 #about .card2 .heading,#about .card3 .heading,#about .card4 .heading{
   font-weight: 700;
   font-size: 30px;
-  background: linear-gradient(74deg,#4751ff, #cb63ff  );
+  background: linear-gradient(90deg,#75b3ff, #db94ff 20%   );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;

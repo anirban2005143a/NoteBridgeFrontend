@@ -199,8 +199,25 @@ const notifications = () => {
     localStorage.removeItem("tempDelete");
   });
 
+  window.addEventListener('resize', () => {
+    document.querySelector("#notification") ?
+      window.innerWidth <= 625 ?
+        document.querySelector("#notification .allNotification").classList.remove("me-3") :
+        document.querySelector("#notification .allNotification").classList.add("me-3")
+      : ''
+    document.querySelector("#notification") ?
+      document.querySelector("#notification").style.height = `${window.innerHeight}px` : ''
+  })
+
+  useEffect(() => {
+    window.innerWidth <= 625 ?
+      document.querySelector("#notification .allNotification").classList.remove("me-3") :
+      document.querySelector("#notification .allNotification").classList.add("me-3")
+  }, [])
+
+
   return (
-    <div className="" id='notification'>
+    <div className=" overflow-auto h-100" id='notification' >
 
       <div className={`${isLoaded === true ? "d-none" : ""} contentLoader d-flex justify-content-center mt-5 pt-5`}>
         <ContentLoader
@@ -226,7 +243,7 @@ const notifications = () => {
       {/* empty notification  */}
       <div
         className={`${allNotification.length === 0 &&
-           tempNotification.length === 0 && isLoaded === true ? "" : "d-none"} mt-5`}
+          tempNotification.length === 0 && isLoaded === true ? "" : "d-none"} mt-5`}
       >
         <div className="svg h-auto mx-auto my-4" style={{ width: "30%" }}>
           <svg className=' h-auto' version="1.1" viewBox="0 0 2048 1706" xmlns="http://www.w3.org/2000/svg">
@@ -482,10 +499,10 @@ const notifications = () => {
         <RotatingBorder message="You do not have any notification" />
       </div>
 
-      <div className={` d-flex justify-content-center  ${allNotification.length === 0 && tempNotification.length === 0 ? 'd-none' : ''}`}>
-        <div className=" allNotification rounded-2 my-3 me-3 overflow-hidden p-sm-3 p-2 osahan-post-header" style={{ backgroundColor: "rgba(31, 31, 42, 0.72)" }}>
+      <div className={` d-flex w-100 justify-content-center  ${allNotification.length === 0 && tempNotification.length === 0 ? 'd-none' : ''}`}>
+        <div className=" allNotification w-100 rounded-2 my-3 me-3 overflow-hidden p-sm-3 p-2 osahan-post-header" style={{ backgroundColor: "rgba(31, 31, 42, 0.72)" }}>
 
-            {/* notifications after refresh  */}
+          {/* notifications after refresh  */}
           {allNotification.map((notification) => {
             let isShow = false;
             if (notification.notification.isLiked) {

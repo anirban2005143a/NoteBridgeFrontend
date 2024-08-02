@@ -732,7 +732,6 @@ const post = () => {
     }
   }, [value.urlPath, about])
 
-
   return (
     <div className=" w-100 overflow-auto">
       <ShareModal url={shareUrl} seturl={setshareUrl} />

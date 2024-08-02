@@ -10,7 +10,8 @@ const folderPath = (props) => {
   //function to handel path
   const handelPath = async (e) => {
     const index = Array.from(document.getElementsByClassName("handelPath")).indexOf(e.currentTarget)
-    const folderName = document.getElementsByClassName("folderNamePath")[index].innerHTML
+    console.log(document.getElementsByClassName("handelPath"))
+    const folderName = document.getElementsByClassName("handelPath")[index].querySelector('p').innerHTML
     const newPath = localStorage.getItem("folderPath").split(",").slice(0, index + 1)
     localStorage.setItem("folderPath", newPath)
     //set values for alert

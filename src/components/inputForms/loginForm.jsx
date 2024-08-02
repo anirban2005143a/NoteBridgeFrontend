@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext , useEffect } from "react";
 import Alert from "../alert";
 import { Link, useNavigate } from "react-router-dom";
 import NoteContext from "../../context/notes/noteContext";
+import Navbar from '../navbar'
 import '../../css/form.css'
 
 const LoginForm = () => {
@@ -62,6 +63,7 @@ const LoginForm = () => {
     }
   };
 
+
   return (
     <>{/* alert for any change */}
       <Alert
@@ -69,28 +71,21 @@ const LoginForm = () => {
         mode={`${value.isOK === true ? "success" : "danger"}`}
         message={value.message}
       />
+      
+      <Navbar search={()=>{}} />
+
       <div className="Content bg-black overflow-hidden" id="Content">
-        <div className="heading fw-bold text-center mt-4 " style={{ color: "wheat", fontSize: "4rem" }}>Welcome!</div>
+        <div className="heading fw-bold text-center mt-4 " style={{ color: "#fff6e4", fontSize: "3.5rem" }}>Welcome!</div>
         <div className="form position-relative">
           <form
-            className=" p-3 w-50 mx-auto"
+              autoComplete="off"
+            className=" p-3 w-50 mx-auto "
             onSubmit={(e) => {
               e.preventDefault();
               loginUser();
             }}
           >
-            {/* close button to go to previous page  */}
-            <div className="close position-relative" style={{ height: "20px" }}>
-              <button
-                type="button"
-                className="btn-close position-absolute top-0 end-0"
-                aria-label="Close"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(-1);
-                }}
-              ></button>
-            </div>
+           
             {/* user email  */}
             <div className="formcontrol">
               <input
@@ -131,16 +126,13 @@ const LoginForm = () => {
               </label>
             </div>
 
-            <button type="submit" className="btn btn-primary mt-3" id="submit">
-              Log-in
-            </button>
-            <button type="submit" id="submit" className="animated-button">
+            <button type="submit" className="btn btn-primary mt-3 animated-button mx-auto" id="submit" >
               <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
                 ></path>
               </svg>
-              <span className="text">Modern Button</span>
+              <span className="text">Log-in</span>
               <span className="circle"></span>
               <svg viewBox="0 0 24 24" className="arr-1" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -149,11 +141,11 @@ const LoginForm = () => {
               </svg>
             </button>
 
-            <p className=" fw-light mt-2 text-warning">
-              does not have any account?{" "}
+            <p className=" fw-light text-white text-center my-3" style={{letterSpacing:"1px"}}>
+              does not have any account ?
               <Link
                 to="/user/signup"
-                className=" fw-medium text-danger link-underline-danger"
+                className=" fw-medium text-primary link-underline mx-2"
               >
                 creat one
               </Link>

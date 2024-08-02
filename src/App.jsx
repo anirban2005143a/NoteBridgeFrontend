@@ -84,12 +84,20 @@ function App() {
     }, 2000);
   }, [isOK]);
 
+  window.addEventListener("resize", () => {
+    document.getElementsByClassName("fixedHeight").length !== 0 ?
+      Array.from(document.getElementsByClassName("fixedHeight")).forEach((item) => {
+        item.style.height = `${window.innerHeight - 20}px`
+      }) : ''
+  })
+
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
         <>
-             <div className=" w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 10}px` }}>
+          <div className="fixedHeight w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
             <SideNavbar />
             <Post />
           </div>
@@ -100,7 +108,10 @@ function App() {
       path: "/post/:id",
       element: (
         <>
-      
+          <div className="fixedHeight w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
+            <SideNavbar />
+            <Post />
+          </div>
         </>
       ),
     },
@@ -111,7 +122,6 @@ function App() {
           <div className=" d-flex overflow-hidden" >
             <SideNavbar />
             <div className=" w-100 overflow-auto">
-
               <UserNotes />
             </div>
           </div>
@@ -122,8 +132,7 @@ function App() {
       path: "/about",
       element: (
         <>
-          <Navbar />
-          <div className="d-flex w-100 overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
+          <div className="fixedHeight d-flex w-100 overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
             <SideNavbar />
             <About />
           </div>
@@ -160,11 +169,9 @@ function App() {
       path: "/social/notifications",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" >
+          <div className="fixedHeight  w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
             <SideNavbar />
-            <div className=" w-100 overflow-auto">
-              <Notifications />
-            </div>
+            <Notifications />
           </div>
         </>
       ),
@@ -173,11 +180,16 @@ function App() {
       path: "/social/profile/:id",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" >
+          {/* <div className=" d-flex overflow-hidden" >
             <SideNavbar />
             <div className=" w-100 overflow-auto">
               <UserProfile />
             </div>
+          </div> */}
+
+          <div className="fixedHeight w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
+            <SideNavbar />
+            <UserProfile />
           </div>
         </>
       ),

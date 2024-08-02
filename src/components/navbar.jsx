@@ -85,9 +85,11 @@ const navbar = (props) => {
 
 
   return (
-    <nav className="d-flex justify-content-between w-auto my-sm-2  mx-sm-2 align-items-end" id='navbar'>
+    <nav className="d-flex justify-content-between w-auto my-sm-3 mx-sm-2 align-items-end" id='navbar'>
 
-      {isVisible && <div className="slidingMenu " >
+      {(isVisible || 
+        window.location.pathname.includes("/user")
+      ) && <div className="slidingMenu " >
         <ul
           className="w-100 list-unstyled flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-5"
           id="menu"
@@ -161,11 +163,16 @@ const navbar = (props) => {
         </ul>
       </div>}
 
-      {isVisible && <div className="menuBar mb-1">
+      {(isVisible || 
+         window.location.pathname.includes("/user")
+      ) && <div className="menuBar mb-1">
         <i className="fs-3 fa-solid fa-bars text-white" style={{ cursor: "pointer" }} onClick={slideMenu}></i>
       </div>}
 
-      {!(window.location.pathname.includes("/about") || window.location.pathname.includes("/your/files")) &&
+      {!(window.location.pathname.includes("/about") ||
+       window.location.pathname.includes("/your/files") || 
+       window.location.pathname.includes("/user") 
+      ) &&
         <div className="searchBar mx-auto d-flex justify-content-center align-items-center rounded-3 w-100">
           <form className=" d-flex justify-content-center align-items-end" onSubmit={(e) => {
             e.preventDefault()

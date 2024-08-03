@@ -203,10 +203,10 @@ const fileUpload = () => {
           mode={`${value.isOK === true ? "success" : "danger"}`}
           message={value.message}
         />
-        <div className="form position-relative overflow-auto mx-auto  rounded-3" style={{marginTop : `${window.innerHeight * 0.2}px` , width:"60%" , backgroundColor:"rgb(49 60 69)"}}>
+        <div className="form position-relative overflow-auto mx-auto width-adjust  rounded-3" style={{marginTop : `${window.innerHeight * 0.2}px` , backgroundColor:"rgb(49 60 69)"}}>
           {/* input forms for adding files */}
           <form
-            className=" p-3 z-2 animate-from-top position-relative width-adjust "
+            className=" p-3 z-2 animate-from-top position-relative "
             onSubmit={(e) => {
               e.preventDefault();
               let totalSize = 0;

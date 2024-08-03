@@ -22,6 +22,8 @@ const UserNotes = () => {
 
   const [isloaded, setisloaded] = useState(null)
   const [isNavbarVisible, setisNavbarVisible] = useState(false)
+  const [isUploadModalClose, setisUploadModalClose] = useState(false)
+  const [isDeleteModalClosed, setisDeleteModalClosed] = useState(false)
 
   const [notes, setnotes] = useState([]); //state to save all notes in a array
   const [notesId, setnotesId] = useState([]); //state to save all selected note id in an array , by default all notes are selected
@@ -457,15 +459,16 @@ const UserNotes = () => {
 
       <ShareModal url={shareurl} seturl={setshareurl} />
 
-      <UploadModal createPost={createPost} setnotesId={setnotesId} setfolderId={setfolderId} />
+      {!isUploadModalClose && <UploadModal setisUploadModalClose={setisUploadModalClose} createPost={createPost} setnotesId={setnotesId} setfolderId={setfolderId} />}
 
-      <DeleteModal
+      {!isDeleteModalClosed && <DeleteModal
         deleteNoteById={deleteNoteById}
         setisDelete={setisDelete}
         isDelete={isDelete}
         setdeleteMessage={setdeleteMessage}
         deleteMessage={deleteMessage}
-      />
+        setisDeleteModalClosed={setisDeleteModalClosed}
+      />}
 
       {isNavbarVisible && <Navbar search={()=>{}}/>}
 

@@ -16,7 +16,7 @@ const about = () => {
     const [view, setview] = useState(false)
     const [follow, setfollow] = useState(false)
     const [comments, setcomments] = useState([])
-
+    const [isNavbaeShow, setisNavbaeShow] = useState(false)
 
     useEffect(() => {
         socket.emit("userConnected", `${value.userId}`); //connect to io
@@ -53,12 +53,21 @@ const about = () => {
         value.fetchNotificationToRead()
     }, [follow, comments, like, view])
 
+    useEffect(() => {
+        window.innerWidth <= 625 ? setisNavbaeShow(true) : setisNavbaeShow(false)
+    }, [])
+
+    window.addEventListener('resize', () => {
+        window.innerWidth <= 625 ? setisNavbaeShow(true) : setisNavbaeShow(false)
+    })
 
     return (
         <>
-        <div className="navbar position-fixed top-0 w-100 start-0"> </div>
-           
+
             <div className="container-fluid h-100" id="about">
+
+                {isNavbaeShow && <Navbar search={() => { }} />}
+                    
                 <div className="w-100">
                     <div className="w-100">
                         <div className="text-center mb-5">

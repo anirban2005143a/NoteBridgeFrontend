@@ -92,7 +92,7 @@ const modal = (props) => {
               <textarea
                 id="aboutPost"
                 required
-                className="w-100 ps-2 rounded-3 fs-6"
+                className="w-100 ps-2 rounded-3 fs-6 text-white"
                 placeholder="Write something about your post..."
                 style={{
                   border: "2px solid #242424",

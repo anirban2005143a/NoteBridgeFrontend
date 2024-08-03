@@ -410,7 +410,7 @@ const userProfile = () => {
       <section className="h-100 gradient-custom-2 user-select-none" id="userProfile" >
         <div className="profileLoader w-100 h-100"><LoadingProfile /></div>
         {user.map((user) => {
-          return <div key={user.user._id} className="userDetails h-100 w-100 overflow-auto rounded-3">
+          return <div key={user.user._id} className="userDetails h-100 w-100 overflow-auto rounded-3" style={{paddingBottom:"5rem"}}>
             <div className=" rounded-3">
               <div
                 className="rounded-top position-relative text-white d-flex flex-row background"
@@ -439,9 +439,9 @@ const userProfile = () => {
               <div className={`mt-5 mb-3 p-2 text-black d-sm-flex justify-content-between  align-items-center`} >
 
                 {/* user about  */}
-                <div className={`userabout text-white ${user.user._id !== value.userId ? "d-none" : ""}  px-2 `} style={{ maxWidth: "50%" }}>
+                <div className={`userabout text-white px-2 `} style={{ maxWidth: "50%" }}>
                   <p className=" m-0" style={{ fontSize: "1.1rem" }}>
-                    {user.user.about}
+                   {user.user.about}
                   </p>
                 </div>
                 {/* posts , followers , following  */}

@@ -169,12 +169,7 @@ const navbar = (props) => {
         <i className="fs-3 fa-solid fa-bars text-white" style={{ cursor: "pointer" }} onClick={slideMenu}></i>
       </div>}
 
-      {!(window.location.pathname.includes("/about") ||
-       window.location.pathname.includes("/your/files") || 
-       window.location.pathname.includes("/user") ||
-       window.location.pathname.includes("/notifications") ||
-       window.location.pathname.includes("/profile") 
-      ) &&
+      {(window.location.pathname === "/") &&
         <div className="searchBar mx-auto d-flex justify-content-center align-items-center rounded-3 w-100">
           <form className=" d-flex justify-content-center align-items-end" onSubmit={(e) => {
             e.preventDefault()

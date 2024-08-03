@@ -94,3 +94,8 @@ body{
     width: 85%;
   }
 }
+@media only screen and (max-width:400px){
+  .width-adjust{
+    width: 95%;
+  }
+}

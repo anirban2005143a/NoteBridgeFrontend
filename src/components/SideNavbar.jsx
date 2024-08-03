@@ -73,7 +73,7 @@ const sideNavbar = () => {
           id="menu"
         >
 
-          <Link to="/" className="p-0 nav-link align-middle my-2 px-0 w-100">
+          <Link to="/" className="p-0 nav-link align-middle my-2 w-100">
             <li className="w-100"
               style={{ cursor: "pointer" }}
               onClick={(e) => {
@@ -93,7 +93,7 @@ const sideNavbar = () => {
             </li>
           </Link>
 
-          <Link to="/about" className="p-0 nav-link align-middle my-2 px-0 w-100">
+          <Link to="/about" className="p-0 nav-link align-middle my-2 w-100">
             <li className="w-100"
               style={{ cursor: "pointer" }}
               onClick={(e) => {
@@ -113,7 +113,7 @@ const sideNavbar = () => {
             </li>
           </Link>
 
-          <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`} className="p-0 nav-link align-middle px-0 w-100">
+          <Link to={`${value.islogout === false ? `/your/files/${value.userId}` : ""}`} className="p-0 nav-link align-middle w-100">
             <li
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}
               data-bs-target={`${value.islogout === true ? "#exampleModalLogin" : ""}`}
@@ -133,7 +133,7 @@ const sideNavbar = () => {
             </li>
           </Link>
 
-          <Link to={`${value.islogout === false ? "/social/notifications" : ""}`} className="p-0 nav-link align-middle px-0 w-100">
+          <Link to={`${value.islogout === false ? "/social/notifications" : ""}`} className="p-0 nav-link align-middle w-100">
             <li
               className=" position-relative text-white nav-link px-0 align-middle"
               data-bs-toggle={`${value.islogout === true ? "modal" : ""}`}

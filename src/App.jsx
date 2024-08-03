@@ -156,11 +156,7 @@ function App() {
     {
       path: "/user/account",
       element: (
-        <>
-         
             <UserDetails />
-   
-        </>
       ),
     },
     {

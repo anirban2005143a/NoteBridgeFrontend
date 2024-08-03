@@ -12,6 +12,9 @@ const SignupForm = () => {
 
   const value = useContext(NoteContext)
   const navigate = useNavigate()
+  
+  const [alertMessage, setalertMessage] = useState("")
+  const [alertIsOk, setalertIsOk] = useState(null)
 
   const [tempimgurl, settempimgurl] = useState(value.userImg)
   const [profileImgfile, setprofileImgfile] = useState(null)
@@ -72,8 +75,8 @@ const SignupForm = () => {
           document.getElementById("submit").innerHTML = "Sign-up"
           await deleteFileFromFirebase(tempPath)
           profileImgUrl = undefined
-          value.setisOK(false)
-          value.setmessage(`${data.message}`)
+          setalertIsOk(false)
+          setalertMessage(`${data.message}`)
         } else {//if all is well
           //remake submit button text to said redirecting
           document.getElementById("submit").disabled = true
@@ -83,8 +86,8 @@ const SignupForm = () => {
           value.userId = data.userid
           value.setislogout(false)//make sure that he is loged in
           //setting for alert component
-          value.setisOK(true)
-          value.setmessage("User Created successfully!")
+          setalertIsOk(true)
+          setalertMessage("User Created successfully!")
           //save authtokena and userid in localstorage
           localStorage.setItem("authtoken", data.jwtToken)
           localStorage.setItem("userId", data.userid)
@@ -97,12 +100,12 @@ const SignupForm = () => {
         }
 
       } catch (error) {
-        value.setmessage("There was a problem with the upload. Please try again.")
+        setalertMessage("There was a problem with the upload. Please try again.")
       }
 
     } else {
-      value.setisOK(false)
-      value.setmessage("Passwords are different")
+      setalertIsOk(false)
+      setalertMessage("Passwords are different")
 
     }
 
@@ -117,24 +120,30 @@ const SignupForm = () => {
     }
   }, [])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setalertIsOk(null);
+      setalertMessage("");
+    }, 2000);
+  }, [alertIsOk]);
 
   return (
     <>
       {/* alert for any change */}
-      <Alert isdisplay={value.isOK == null ? false : true} mode={`${value.isOK === true ? "success" : "danger"}`} message={value.message} />
+      <Alert isdisplay={alertIsOk == null ? false : true} mode={`${alertIsOk === true ? "success" : "danger"}`} message={alertMessage} />
 
       {!isLoaded && <FormLoader />}
 
       <Navbar search={()=>{}} />
 
-      <div id="Content" className=" overflow-hidden h-100">
+      <div id="Content" className=" overflow-hidden h-100 signupForm">
         <div className="heading fw-bold text-center mt-4 " style={{ color: "#fff6e4", fontSize: "2.5rem" }}>Create Account
 
         </div>
 
         {isLoaded && <div className="form position-relative overflow-auto mt-5">
           <form
-            className=" p-3 w-50 mx-auto"
+            className=" p-3 mx-auto"
             autoComplete="off"
             onSubmit={(e) => {
               e.preventDefault()

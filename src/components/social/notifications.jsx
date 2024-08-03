@@ -5,9 +5,9 @@ import defaultUserImg from "../../assets/defaultUserImg.png";
 import postImg from "../../assets/postImg.jpg";
 import io from "socket.io-client";
 import RotatingBorder from "../rotatingBorder";
-import { v4 as uuid } from "uuid";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
+import Navbar from "../navbar";
 
 const notifications = () => {
   const value = useContext(NoteContext);
@@ -19,6 +19,7 @@ const notifications = () => {
   const [deleteSocket, setdeleteSocket] = useState([]);
   const [tempDelete, settempDelete] = useState([]);
   const [isLoaded, setisLoaded] = useState(false)
+  const [isNavbarVisible, setisNavbarVisible] = useState(false)
 
 
   useEffect(() => {
@@ -207,17 +208,24 @@ const notifications = () => {
       : ''
     document.querySelector("#notification") ?
       document.querySelector("#notification").style.height = `${window.innerHeight}px` : ''
+
+    window.innerWidth <= 625 ? setisNavbarVisible(true) : setisNavbarVisible(false)
   })
 
   useEffect(() => {
     window.innerWidth <= 625 ?
       document.querySelector("#notification .allNotification").classList.remove("me-3") :
       document.querySelector("#notification .allNotification").classList.add("me-3")
+    window.innerWidth <= 625 ? setisNavbarVisible(true) : setisNavbarVisible(false)
   }, [])
+
+
 
 
   return (
     <div className=" overflow-auto h-100" id='notification' >
+
+      {isNavbarVisible && <Navbar search={() => { }} />}
 
       <div className={`${isLoaded === true ? "d-none" : ""} contentLoader d-flex justify-content-center mt-5 pt-5`}>
         <ContentLoader

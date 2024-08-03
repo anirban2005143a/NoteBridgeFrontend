@@ -72,24 +72,25 @@ const addNotes = (props) => {
 
   return (
     <>
-      <div className="Content background overflow-hidden">
+      <div className="Content background overflow-hidden py-4">
         {/* alert for any change */}
         <Alert
           isdisplay={value.isOK == null ? false : true}
           mode={`${value.isOK === true ? "success" : "danger"}`}
           message={value.message}
         />
-        <div className="form overflow-auto w-100 h-100">
+        <div className="form overflow-auto h-100 mx-auto rounded-3"  style={{marginTop : `${window.innerHeight * 0.2}px` , width:"60%" , backgroundColor:"rgb(49 60 69)"}}>
           {/* input forms for adding text notes  */}
           <form
-            className=" p-3 z-2 position-relative animate-from-top width-adjust"
+            className=" p-3 z-2 position-relative animate-from-top width-adjust text-white"
             onSubmit={(e) => {
               e.preventDefault();
               addNotes();
             }}
+            style={{backgroundColor:"transparent"}}
           >
-            <div className="close position-relative" style={{ height: "20px" }}>
               {/* close button to close form  */}
+            <div className="close position-relative" style={{ height: "20px" }}>
               <button
                 type="button"
                 className="btn-close position-absolute top-0 end-0"
@@ -101,8 +102,8 @@ const addNotes = (props) => {
               ></button>
             </div>
             {/* input for title  */}
-            <div className="form-group">
-              <label htmlFor="exampleFormControlInput" className=" fw-semibold">
+            <div className="form-group my-3">
+              <label htmlFor="exampleFormControlInput" className=" my-1 fw-semibold">
                 Title
               </label>
               <input
@@ -113,10 +114,10 @@ const addNotes = (props) => {
               />
             </div>
             {/* input for description  */}
-            <div className="form-group">
+            <div className="form-group my-3">
               <label
                 htmlFor="exampleFormControlTextarea"
-                className=" fw-semibold"
+                className=" my-1 fw-semibold"
               >
                 Description
               </label>
@@ -130,8 +131,8 @@ const addNotes = (props) => {
               ></textarea>
             </div>
             {/* input for tag  */}
-            <div className="form-group">
-              <label htmlFor="exampleFormControlTag" className=" fw-semibold">
+            <div className="form-group my-3">
+              <label htmlFor="exampleFormControlTag" className=" my-1 fw-semibold">
                 Tag
               </label>
               <input

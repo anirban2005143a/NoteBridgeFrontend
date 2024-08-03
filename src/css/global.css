@@ -26,9 +26,10 @@ body{
     }
   }
 .animate-from-center{
-  background-color: rgb(136 202 255);
+  background-color: rgb(101, 112, 133);
   transform: translate(50%,30%);
-  position: absolute;
+  position: fixed;
+  color: aliceblue;
   /* top: -200px; Initial position above the viewport */
   animation: slideFromCenter 1s ease forwards; /* Animation properties */
 }
@@ -54,7 +55,9 @@ body{
 .cradImg{
   height: 150px;
 }
-
+.width-adjust{
+  width: 55%;
+}
 
 @media only screen and (max-width:625px){
  
@@ -83,13 +86,11 @@ body{
 @media only screen and (max-width:900px){
   .width-adjust{
     width: 75%;
-    transform: translate(17%,20%);
   }
 }
 
 @media only screen and (max-width:550px){
   .width-adjust{
     width: 85%;
-    transform: translate(10%,20%);
   }
 }

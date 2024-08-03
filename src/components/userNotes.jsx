@@ -14,13 +14,14 @@ import CreateFolder from "./inputForms/createFolder";
 import ShareModal from "./modals/shareModal";
 import Alert from "./alert";
 import PageLoader from "./pageLoader";
-import RotatingBorder from "./rotatingBorder";
+import Navbar from './navbar'
 
 const UserNotes = () => {
   const value = useContext(NoteContext);
   const socket = io(`${value.host}`);
 
   const [isloaded, setisloaded] = useState(null)
+  const [isNavbarVisible, setisNavbarVisible] = useState(false)
 
   const [notes, setnotes] = useState([]); //state to save all notes in a array
   const [notesId, setnotesId] = useState([]); //state to save all selected note id in an array , by default all notes are selected
@@ -441,10 +442,18 @@ const UserNotes = () => {
     }
   }, [value.isOK]);
 
+  useEffect(() => {
+    window.innerWidth<=625 ? setisNavbarVisible(true) : setisNavbarVisible(false)
+  }, [])
+  
+
+  window.addEventListener('resize' , ()=>{
+    window.innerWidth<=625 ? setisNavbarVisible(true) : setisNavbarVisible(false)
+  })
 
   return (
 
-    <div className="mt-3 h-100 position-relative ">
+    <div className="mt-3 h-100 overflow-auto" id="userNotes">
 
       <ShareModal url={shareurl} seturl={setshareurl} />
 
@@ -458,6 +467,8 @@ const UserNotes = () => {
         deleteMessage={deleteMessage}
       />
 
+      {isNavbarVisible && <Navbar search={()=>{}}/>}
+
       {/* alert for any change */}
       <Alert
         isdisplay={value.isOK === null ? false : true}
@@ -466,7 +477,7 @@ const UserNotes = () => {
       />
 
       {<div
-        className={`mainContent w-100 position-absolute rounded-3 top-0 pt-4`}
+        className={`mainContent rounded-3 pt-4 mt-3`}
         style={{ backgroundColor: "#1f1f2ab8" }}
       >
         {/* headers and options */}

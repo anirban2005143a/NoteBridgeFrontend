@@ -9,6 +9,9 @@ const LoginForm = () => {
   const value = useContext(NoteContext);
   const navigate = useNavigate();
 
+  const [alertMessage, setalertMessage] = useState("")
+  const [alertIsOk, setalertIsOk] = useState(null)
+
   //function for login a existing user
   const loginUser = async () => {
     //change login button text to show the uploading process
@@ -35,8 +38,8 @@ const LoginForm = () => {
       if (data.error) {
         //if error ocured due to short inputs
         document.getElementById("submit").innerHTML = "Log-in";
-        value.setisOK(false);
-        value.setmessage(`${data.message}`);
+        setalertIsOk(false);
+        setalertMessage(`${data.message}`);
       } else {
         //if all is well
         localStorage.removeItem("baseFolderPath"); //remove previous foldering paths
@@ -46,8 +49,8 @@ const LoginForm = () => {
         value.userId = data.userid;
         document.getElementById("submit").innerHTML = "Redirecting ..."; //to show redirecting to home page
         setTimeout(() => {
-          value.setisOK(true);
-          value.setmessage("User LogIn successfully!");
+          setalertIsOk(true);
+          setalertMessage("User LogIn successfully!");
         }, 500);
         //save authtokena and userid in localstorage
         localStorage.setItem("authtoken", data.jwtToken);
@@ -57,29 +60,35 @@ const LoginForm = () => {
       }
     } catch (error) {
       //catches error
-      value.setmessage(
+      setalertMessage(
         "There was a problem with the upload. Please try again."
       );
     }
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setalertIsOk(null);
+      setalertMessage("");
+    }, 2000);
+  }, [alertIsOk]);
 
   return (
     <>{/* alert for any change */}
       <Alert
-        isdisplay={value.isOK == null ? false : true}
-        mode={`${value.isOK === true ? "success" : "danger"}`}
-        message={value.message}
+        isdisplay={alertIsOk == null ? false : true}
+        mode={`${alertIsOk === true ? "success" : "danger"}`}
+        message={alertMessage}
       />
       
       <Navbar search={()=>{}} />
 
-      <div className="Content bg-black overflow-hidden" id="Content">
+      <div className="Content bg-black overflow-hidden loginForm" id="Content">
         <div className="heading fw-bold text-center mt-4 " style={{ color: "#fff6e4", fontSize: "3.5rem" }}>Welcome!</div>
         <div className="form position-relative">
           <form
               autoComplete="off"
-            className=" p-3 w-50 mx-auto "
+            className=" p-3  mx-auto "
             onSubmit={(e) => {
               e.preventDefault();
               loginUser();

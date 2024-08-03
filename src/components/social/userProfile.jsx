@@ -394,7 +394,7 @@ const userProfile = () => {
   useEffect(() => {
     window.innerWidth <= 625 ? setnavbarVisible(true) : setnavbarVisible(false)
   }, [])
-  
+
   window.addEventListener('resize', () => {
     window.innerWidth <= 625 ? setnavbarVisible(true) : setnavbarVisible(false)
   })
@@ -402,10 +402,11 @@ const userProfile = () => {
 
   return (
     <>
-      {/* {navbarVisible && <Navbar search={() => { }} />} */}
-     {navbarVisible && <div className=" position-absolute w-100 top-0">
-      <Navbar search={() => { }} />
+     
+      {navbarVisible && <div className=" position-absolute w-100 top-0">
+          <Navbar search={() => { }} />
       </div>}
+   
       <section className="h-100 gradient-custom-2 user-select-none" id="userProfile" >
         <div className="profileLoader w-100 h-100"><LoadingProfile /></div>
         {user.map((user) => {
@@ -435,47 +436,16 @@ const userProfile = () => {
                 </div>
               </div>
 
-              <div className={`my-3 my-sm-0 p-4 text-black d-sm-flex justify-content-between  align-items-center`} >
+              <div className={`mt-5 mb-3 p-2 text-black d-sm-flex justify-content-between  align-items-center`} >
 
-                {/* more info  */}
-
+                {/* user about  */}
                 <div className={`userabout text-white ${user.user._id !== value.userId ? "d-none" : ""}  px-2 `} style={{ maxWidth: "50%" }}>
                   <p className=" m-0" style={{ fontSize: "1.1rem" }}>
                     {user.user.about}
                   </p>
                 </div>
-
-                {/* follow section  */}
-                <div style={{ cursor: "pointer" }} className={`user-select-none text-white ${user.user._id === value.userId ? "d-none" : ""} mx-2 followSection d-flex justify-content-center align-items-center fw-bolder fs-4`}>
-                  <span
-                    className={`${user.followers.some(men => men.followerId === value.userId) ? "d-none" : ""} ${user.pendding.some(men => men.followerId === value.userId) ? "d-none" : ""}  followText follow`}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, true)
-                    }}
-                  >
-                    Follow<i className="fa-solid fa-plus mx-2"></i>
-                  </span>
-                  <span
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, false)
-                    }}
-                    className={`${user.pendding.some(men => men.followerId === value.userId) ? "" : "d-none"} followText request follow  `}
-                    style={{ color: "orange" }}
-                  >
-                    Request
-                    <i className="fa-solid fa-circle-check mx-2"></i>
-                  </span>
-                  <span
-                    className={`${user.followers.some(men => men.followerId === value.userId) ? "" : "d-none"} followed user-select-none`}
-                  >
-                    Following&nbsp;
-                    <i className="fa-solid fa-user-plus"></i>
-                  </span>
-                </div>
                 {/* posts , followers , following  */}
-                <div className="d-flex my-3 my-sm-0 justify-content-center justify-content-sm-end text-center py-1 text-white" >
+                <div className="d-flex justify-content-center justify-content-end text-center text-white" >
                   <div className="px-1">
                     <p className="mb-1 h5">{`${user.about.length}`}</p>
                     <p className="small mb-0">Posts</p>
@@ -491,6 +461,35 @@ const userProfile = () => {
                 </div>
               </div>
 
+              {/* follow section  */}
+              <div style={{ cursor: "pointer" }} className={` m-3 user-select-none ${user.user._id === value.userId ? "d-none" : ""} mx-2 followSection d-flex justify-content-end align-items-center fw-bolder fs-4`}>
+                <span
+                  className={`${user.followers.some(men => men.followerId === value.userId) ? "d-none" : ""} ${user.pendding.some(men => men.followerId === value.userId) ? "d-none" : ""} text-primary followText follow`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, true)
+                  }}
+                >
+                  Follow<i className="fa-solid fa-plus mx-2"></i>
+                </span>
+                <span
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handelFollow(user.about._id, user.user._id, e.currentTarget.parentElement, false)
+                  }}
+                  className={`${user.pendding.some(men => men.followerId === value.userId) ? "" : "d-none"} followText request follow  `}
+                  style={{ color: "orange" }}
+                >
+                  Request
+                  <i className="fa-solid fa-circle-check mx-2"></i>
+                </span>
+                <span
+                  className={` text-success ${user.followers.some(men => men.followerId === value.userId) ? "" : "d-none"} followed user-select-none`}
+                >
+                  Following&nbsp;
+                  <i className="fa-solid fa-user-plus"></i>
+                </span>
+              </div>
               {/* user name , email and other details  */}
 
 

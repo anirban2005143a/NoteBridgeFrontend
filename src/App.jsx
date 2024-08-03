@@ -119,11 +119,9 @@ function App() {
       path: "/your/files/:id",
       element: (
         <>
-          <div className=" d-flex overflow-hidden" >
+          <div className="fixedHeight w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
             <SideNavbar />
-            <div className=" w-100 overflow-auto">
-              <UserNotes />
-            </div>
+            <UserNotes />
           </div>
         </>
       ),
@@ -159,9 +157,9 @@ function App() {
       path: "/user/account",
       element: (
         <>
-          <div className="background">
+         
             <UserDetails />
-          </div>
+   
         </>
       ),
     },
@@ -180,13 +178,6 @@ function App() {
       path: "/social/profile/:id",
       element: (
         <>
-          {/* <div className=" d-flex overflow-hidden" >
-            <SideNavbar />
-            <div className=" w-100 overflow-auto">
-              <UserProfile />
-            </div>
-          </div> */}
-
           <div className="fixedHeight w-100 d-flex overflow-hidden" style={{ height: `${window.innerHeight - 20}px` }}>
             <SideNavbar />
             <UserProfile />

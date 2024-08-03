@@ -196,17 +196,17 @@ const fileUpload = () => {
 
   return (
     <>
-      <div className="Content background overflow-hidden">
+      <div className="Content background overflow-hidden py-4">
         {/* alert for any change */}
         <Alert
           isdisplay={value.isOK == null ? false : true}
           mode={`${value.isOK === true ? "success" : "danger"}`}
           message={value.message}
         />
-        <div className="form position-relative overflow-auto w-100 h-100">
+        <div className="form position-relative overflow-auto mx-auto  rounded-3" style={{marginTop : `${window.innerHeight * 0.2}px` , width:"60%" , backgroundColor:"rgb(49 60 69)"}}>
           {/* input forms for adding files */}
           <form
-            className=" p-3 z-2 animate-from-top position-relative width-adjust"
+            className=" p-3 z-2 animate-from-top position-relative width-adjust "
             onSubmit={(e) => {
               e.preventDefault();
               let totalSize = 0;
@@ -241,9 +241,10 @@ const fileUpload = () => {
               }
             }}
             encType="multipart/form-data"
+            style={{backgroundColor:"transparent"}}
           >
             {/* close button to close form  */}
-            <div className="close position-relative" style={{ height: "20px" }}>
+            <div className="close position-relative text-white" style={{ height: "20px" }}>
               <button
                 type="button"
                 className="btn-close position-absolute top-0 end-0"
@@ -256,7 +257,7 @@ const fileUpload = () => {
             </div>
 
             {/* file input area  */}
-            <div className="mb-3">
+            <div className="mb-3 px-3 text-white">
               <label
                 htmlFor="formFileMultiple"
                 className="form-label fw-bolder"
@@ -290,18 +291,18 @@ const fileUpload = () => {
                 required
               />
               {/* progress bar fro uploading files  */}
-              <div className="progress mb-1" style={{ height: "5px" }}>
+              <div className="progress my-3" style={{ height: "5px" }}>
                 <div
-                  className="progress-bar progress-bar-striped progress-bar-animated  bg-danger"
+                  className="progress-bar progress-bar-striped progress-bar-animated "
                   role="progressbar"
                   aria-valuenow={progress}
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${progress}%` , backgroundColor:"rgb(87 101 165)" }}
                 ></div>
               </div>
               {/* tag input area  */}
-              <label htmlFor="exampleInputText" className=" fw-semibold">
+              <label htmlFor="exampleInputText" className=" fw-semibold mb-2">
                 Tag
               </label>
               <input
@@ -314,7 +315,7 @@ const fileUpload = () => {
               />
             </div>
             {/* submit button  */}
-            <button className="btn btn-primary" type="submit" id="submit">
+            <button className="btn btn-primary mx-3 my-3" type="submit" id="submit">
               Upload
             </button>
           </form>

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation , useNavigate } from "react-router-dom";
 import NoteContext from "../context/notes/noteContext";
 import { logout } from "../functions/logout";
 import defaultUserImg from "../assets/defaultUserImg.png";
@@ -8,6 +8,9 @@ import AlertSound from "../assets/notification.mp3"
 import '../css/sidenavbar.css'
 
 const sideNavbar = () => {
+
+  const navigate = useNavigate()
+
   const location = useLocation();
   const value = useContext(NoteContext);
   const [originalUser, setoriginalUser] = useState(null); //state for original user details
@@ -203,7 +206,8 @@ const sideNavbar = () => {
                   e.preventDefault();
                   logout();
                   value.setislogout(true); //make sure he is loged out
-                  window.location.href = "/"
+                  // window.location.href = "/"
+                  navigate("/")
                 }}
               >
                 Sign out

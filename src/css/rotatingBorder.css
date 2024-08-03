@@ -1,5 +1,5 @@
 .importedcard {
-  width: 50%;
+  width: 55%;
   height: auto;
   border-radius: 20px;
   background: transparent;
@@ -17,4 +17,20 @@
 }
 .importedcard h2{
   color: beige;
+}
+
+@media (max-width:850px){
+  .importedcard {
+    width: 60%;
+  }
+}
+@media (max-width:650px){
+  .importedcard {
+    width: 75%;
+  }
+}
+@media (max-width:450px){
+  .importedcard {
+    width: 85%;
+  }
 }

@@ -12,7 +12,7 @@
     padding: 15px 0;
     font-size: 18px;
     color: #fff;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   }
   
   #Content .formcontrol input:focus,
@@ -650,4 +650,29 @@
   
     #formLoader.banter-loader .banter-loader__box:nth-child(9) {
     animation: moveBox-9 4s infinite;
+  }
+
+
+  .signupForm form , .loginForm form{
+    width: 55%;
+  }
+  @media (max-width:900px){
+    .signupForm form , .loginForm form{
+      width: 65%;
+    }
+  }
+  @media (max-width:750px){
+    .signupForm form , .loginForm form{
+      width: 75%;
+    }
+  }
+  @media (max-width:600px){
+    .signupForm form , .loginForm form{
+      width: 85%;
+    }
+  }
+  @media (max-width:450px){
+    .signupForm form , .loginForm form{
+      width: 100%;
+    }
   }

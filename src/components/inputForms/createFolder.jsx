@@ -54,14 +54,14 @@ const CreateFolder = (props) => {
   }
 
   return (
-    <div className={`cardSize ${props.firstCreate===true ? "d-block" : "d-none"} m-md-3 m-2`}  style={{cursor:'pointer'}} >
+    <div className={`cardSize ${props.firstCreate===true ? "d-block" : "d-none"} m-md-3 m-2`}   >
     <div className=" position-relative" style={{ cursor: "pointer" }}>
-      <div className="card h-auto w-100" >
-        <div className=" cradImg card-img-top mx-auto pt-2 w-100 d-flex justify-content-center" >
+      <div className="card h-auto w-100 rounded-3 " style={{cursor:'pointer' , backgroundColor:"rgba(54, 58, 80, 0.665)"}} >
+        <div className=" cradImg card-img-top mx-auto pt-2 w-100  d-flex justify-content-center" >
             <img src={folderIcon} className=" w-75 mx-auto "/>
         </div>
       
-        <div className="cardName p-2 p-sm-3" >
+        <div className="cardName p-1 p-sm-2 mt-2 d-flex align-items-center" >
             <form onSubmit={(e)=>{
                 e.preventDefault()
                 value.setisOK(true);
@@ -69,11 +69,11 @@ const CreateFolder = (props) => {
                 setcreating(true)
                 createFolder()
             }}> <div className={`${creating === false ? "d-none" : ""} loading w-100  d-flex justify-content-center`}><i className="fa-solid fa-spinner fa-spin fs"></i></div>
-                <input placeholder='enter name '  className={`${creating===true ? "d-none" : ""} folderNameInput ${props.firstCreate === true ?  "d-block": "d-none"} w-100 fs-6`} value={props.tempFolderName} onChange={(e)=>{
+                <input placeholder='enter name'  className={`${creating===true ? "d-none" : ""} text-white px-1 rounded-1 folderNameInput ${props.firstCreate === true ?  "d-block": "d-none"} w-100 fs-6`} value={props.tempFolderName} onChange={(e)=>{
                     e.preventDefault()
                     props.settempFolderName(e.target.value)
                 }}
-                style={{outline:"none"}} required/>
+                style={{outline:"none" , backgroundColor:"transparent" , border:"1px solid grey"}} required/>
             </form>
         </div>
       </div>

@@ -13,7 +13,7 @@ const share = (props) => {
 
     <div className="modal fade" id="exampleModalshare" tabIndex="-1" aria-labelledby="exampleModalshareLabel" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered" >
-        <div className="modal-content">
+        <div className="modal-content" style={{backgroundColor:"#34343f"}}>
           <div className="modal-header">
 
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

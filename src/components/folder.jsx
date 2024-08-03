@@ -42,7 +42,7 @@ const folder = (props) => {
 
   return (
     <div  className={`position-relative m-md-3  m-2 cardSize ${props.isItem === "true" ? "d-block" : "d-none"} `}  >
-     <div className={`overlayer position-absolute w-100 h-100 top-0 start-0 z-1 rounded-2 ${value.isSelect === false ? "d-none" : "d-block"}`} style={{backgroundColor:"rgb(85 85 85 / 40%)"}}>
+     <div className={`overlayer position-absolute w-100 h-100 top-0 start-0 z-1 rounded-2 ${value.isSelect === false ? "d-none" : "d-block"}`} style={{backgroundColor:"rgba(54, 58, 80, 0.665)"}}>
         <div className=" p-2">
           <input
             className="form-check-input checkboxNoLabel"
@@ -51,13 +51,13 @@ const folder = (props) => {
           />
         </div>
       </div> 
-    <div className=" position-relative w-100 folderDiv" style={{ cursor: "pointer" }} onClick={handleFolder} >
-      <div className="card h-auto w-100" >
+    <div className=" position-relative w-100 folderDiv rounded-3" style={{backgroundColor:"rgba(54, 58, 80, 0.665)" , cursor:"pointer"}} onClick={handleFolder} >
+      <div className="card h-auto w-100" style={{backgroundColor:"transparent"}} >
         <div className="cradImg card-img-top mx-auto pt-2 w-100 d-flex justify-content-center " >
             <img src={folderIcon} className=" w-75 mx-auto "/>
         </div>
       
-        <div className="overflow-auto cardName p-2 p-sm-3" >
+        <div className="overflow-auto cardName p-1 p-sm-2 mt-2 text-white" >
             
             <p className={`${props.isItem === "true" ? "d-block" : "d-none"} text-center fw-semibold fs-5 folderName mb-0 `} >{props.name}</p>
         </div>

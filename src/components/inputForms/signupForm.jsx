@@ -153,7 +153,7 @@ const SignupForm = () => {
             {/* user profile image  */}
             <div className="image overflow-hidden " >
               <div className="image mx-auto position-relative" style={{ width: "75px" }}>
-                <img className="w-100 " src={tempimgurl} style={{ borderRadius: "50%", objectFit: "cover", objectPosition: "center" }} />
+                <img className="w-100 h-100" src={tempimgurl} style={{ borderRadius: "50%", objectFit: "cover", objectPosition: "center" }} />
                 {/* input for choosing profile image  */}
                 <label htmlFor="setProfileImage" className=" bg-black position-absolute bottom-0 end-0 px-1 rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Set Profile Image"><i className="fa-solid fa-camera" style={{ color: "#c7c7c7" }}></i></label>
                 <input id="setProfileImage" accept="image/*" type="file" className=" d-none" onChange={handleimage} />
